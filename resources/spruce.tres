@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="TaskTemplate" load_steps=3 format=3 uid="uid://dfcdu1wmnihl2"]
+
+[ext_resource type="Texture2D" uid="uid://gwqu36helyu2" path="res://addons/marathon/icons/ActionCut.svg" id="1_h2lvv"]
+[ext_resource type="Script" uid="uid://cl81t2vbdaklc" path="res://addons/marathon/resources/TaskTemplate.gd" id="2_cntci"]
+
+[resource]
+script = ExtResource("2_cntci")
+name = "Spruce"
+icon = ExtResource("1_h2lvv")
+metadata/_custom_type_script = "uid://cl81t2vbdaklc"

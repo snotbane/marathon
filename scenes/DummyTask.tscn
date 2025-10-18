@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://cefgrwj8dg2a0"]
+
+[ext_resource type="PackedScene" uid="uid://cpw2roduamin5" path="res://addons/marathon/scenes/Task.tscn" id="1_6ve1d"]
+[ext_resource type="Script" uid="uid://ctjqb4bxdah7e" path="res://addons/marathon/scenes/DummyTask.gd" id="2_0eh56"]
+
+[node name="task" instance=ExtResource("1_6ve1d")]
+script = ExtResource("2_0eh56")
+wait_time = 1.0
+
+[node name="center_container" type="CenterContainer" parent="v_box_container/contents" index="0"]
+layout_mode = 2
+
+[node name="label" type="Label" parent="v_box_container/contents/center_container" index="0"]
+layout_mode = 2
+
+[node name="timer" type="Timer" parent="." index="1"]
+one_shot = true

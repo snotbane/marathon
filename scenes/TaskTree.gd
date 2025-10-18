@@ -1,0 +1,348 @@
+
+@tool class_name TaskTree extends Tree
+
+enum {
+	TEMPLATE,
+	COMMENT,
+	STATUS,
+	BUTTONS,
+}
+
+enum {
+	EXECUTE,
+	COPY,
+	REMOVE,
+}
+
+const STATUS_TEXTS : PackedStringArray = [
+	"Queued",
+	"0%",
+	"Stopping",
+	"Completed",
+	"Failed"
+]
+
+const TEMP_JSON_PATH : String = "user://temp_queue.json"
+const PLAY_ICON : Texture2D = preload("uid://clac2ow8ahs4r")
+const STOP_ICON : Texture2D = preload("uid://cu07nwotdlchh")
+const RESET_ICON : Texture2D = preload("uid://ct7p1qh0ybn05")
+const OPEN_ICON : Texture2D = preload("uid://dtxcom0expqpo")
+const COPY_ICON : Texture2D = preload("uid://cqjx2fyt0kmb3")
+const REMOVE_ICON : Texture2D = preload("uid://cmhgkxhl65v0q")
+
+static var inst : TaskTree
+
+
+signal started
+signal stop_requested
+signal stopped
+
+
+var root : TreeItem
+var tasks : Array[Node] :
+	get: return TaskContainer.inst.get_children()
+var task_count : int :
+	get: return TaskContainer.inst.get_child_count() if TaskContainer.inst else 0
+var task_items : Dictionary
+var buttons : Dictionary
+var dragged_item : TreeItem
+var running : bool
+
+var selected_task : Task :
+	get: return find_task(get_selected())
+
+
+# func _enter_tree() -> void:
+	# load_json()
+
+
+# func _exit_tree() -> void:
+	# save_json()
+
+
+func _ready() -> void:
+	inst = self
+	set_drag_forwarding(_get_drag_data, _can_drop_data, _drop_data)
+
+	for i in columns:
+		set_column_title_alignment(i, HORIZONTAL_ALIGNMENT_LEFT)
+
+	set_column_expand(BUTTONS, false)
+	set_column_expand_ratio(COMMENT, 6)
+
+	set_column_title(TEMPLATE, "Type")
+	set_column_title(COMMENT, "Comment")
+	set_column_title(STATUS, "Status")
+
+	refresh_items.call_deferred()
+
+func _process(delta: float) -> void:
+	var color := lerp(Color.DARK_SLATE_GRAY, Color.SLATE_GRAY, remap(sin(float(Time.get_ticks_msec()) * PI / 1000.0), -1.0, 1.0, 0.0, 1.0))
+	for task in task_items:
+		if task == null or not task.running: continue
+		var item : TreeItem = task_items[task]
+		for i in columns:
+			item.set_custom_bg_color(i, color)
+
+
+
+#region Drag and Drop
+
+func _can_drop_data(at_position: Vector2, data: Variant) -> bool:
+	return true
+
+func _drop_data(at_position: Vector2, data: Variant) -> void:
+	var target := get_item_at_position(at_position)
+	if not target: return
+
+	var target_index := get_item_index(target)
+	if target_index == -1: return
+
+	var section := get_drop_section_at_position(at_position)
+	var delta : int = target_index - data
+	if delta != 0:
+		reorder_item(dragged_item, delta + (mini(section, 0) if signi(delta) > 0 else maxi(section, 0)))
+		if dragged_item: dragged_item.free()
+	drop_mode_flags = DROP_MODE_DISABLED
+
+func _get_drag_data(at_position: Vector2) -> Variant:
+	dragged_item = get_item_at_position(at_position)
+	if not dragged_item: return null
+
+	drop_mode_flags = DROP_MODE_INBETWEEN
+
+	var drag_preview = Label.new()
+	drag_preview.text = dragged_item.get_text(COMMENT)
+	set_drag_preview(drag_preview)
+
+	return get_item_index(dragged_item)
+
+#endregion
+#region Queue Flow
+
+func start_queue() -> void:
+	if running: return
+	running = true
+	started.emit()
+	for task in tasks:
+		if not running: break
+		await task.run()
+		# await task.run(get_tree(), true)
+	running = false
+	stopped.emit()
+
+
+func stop_queue():
+	if not running: return
+	running = false
+	for task in tasks:
+		await task.abort(true)
+	stopped.emit()
+
+#endregion
+#region Item Querying
+
+func get_item_index(item: TreeItem) -> int:
+	var parent = item.get_parent()
+	var i = 0
+	var child = parent.get_first_child()
+	while child:
+		if child == item:
+			return i
+		i += 1
+		child = child.get_next()
+	return -1
+
+func refresh_items() -> void:
+	clear()
+	task_items.clear()
+	root = create_item()
+	for task in tasks:
+		if task.is_queued_for_deletion(): continue
+		add_task_item(task)
+
+func find_task(item: TreeItem) -> Task:
+	if item == null: return null
+	for i in tasks: if task_items[i] == item: return i
+	return null
+
+#endregion
+#region Item Manipulation
+
+func add_task(task: Task) -> TreeItem:
+	# task.tree_exited.connect(task_items.erase.bind(task))
+	task.comment_changed.connect(refresh_task_comment.bind(task))
+	task.status_changed.connect(refresh_task_status.bind(task))
+	task.progress_changed.connect(refresh_task_progress.bind(task))
+	var result := add_task_item(task)
+
+	if task.visible:
+		set_selected(result, 0)
+
+	return result
+
+func add_task_item(task: Task) -> TreeItem:
+	var result := create_item(root)
+	task_items[task] = result
+
+	for i in columns:
+		if i >= BUTTONS: break
+		result.set_selectable(i, true)
+
+	result.set_text(TEMPLATE, task.template.name)
+
+	result.add_button(BUTTONS, PLAY_ICON, EXECUTE)
+	result.add_button(BUTTONS, COPY_ICON, COPY)
+	result.set_button_tooltip_text(BUTTONS, COPY, "Duplicate")
+	result.add_button(BUTTONS, REMOVE_ICON, REMOVE)
+	result.set_button_tooltip_text(BUTTONS, REMOVE, "Remove")
+
+	refresh_task_comment(task)
+	refresh_task_status(task)
+
+	return result
+
+func remove_task(task: Task) -> void:
+	if task.running: return
+
+	if TaskContainer.inst.current_task == task:
+		TaskContainer.inst.current_task = null
+	task.queue_free()
+	refresh_items()
+func remove_item(item: TreeItem) -> void:
+	remove_task(find_task(item))
+
+
+func remove_all() -> void:
+	for task in tasks:
+		task.queue_free()
+	refresh_items()
+
+
+func reorder_task(task: Task, amount: int) -> void:
+	var idx := tasks.find(task)
+	# tasks.remove_at(idx)
+	idx = clampi(idx + amount, 0, task_count)
+	# tasks.insert(idx, task)
+	TaskContainer.inst.move_child(task, idx)
+
+	refresh_items()
+func reorder_item(item: TreeItem, amount: int) -> void:
+	reorder_task(find_task(item), amount)
+
+
+func copy_task(task: Task) -> void:
+	var copy := task.duplicate()
+	task.add_sibling(copy)
+	open_task(copy)
+func copy_item(item: TreeItem) -> void:
+	copy_task(find_task(item))
+
+
+func open_task(task: Task) -> void:
+	if task:	task.visible = true
+	else:		TaskContainer.inst.current_tab = -1
+func open_item(item: TreeItem) -> void:
+	open_task(find_task(item))
+
+
+func reset_all() -> void:
+	for task in tasks:
+		task.reset()
+
+
+func execute_task(task: Task) -> void:
+	match task.status:
+		Task.QUEUED:
+			task.start()
+		Task.RUNNING:
+			if running:
+				stop_queue()
+			else:
+				task.abort(true)
+		Task.SUCCEEDED, Task.FAILED:
+			task.reset()
+func execute_item(item: TreeItem) -> void:
+	execute_task(find_task(item))
+
+
+func refresh_task_status(task: Task) -> void:
+	var item : TreeItem = task_items[task]
+	item.set_text(STATUS, STATUS_TEXTS[task.status])
+
+	var icon : Texture2D = null
+	var tooltip : String
+	match task.status:
+		Task.QUEUED:
+			icon = PLAY_ICON
+			tooltip = "Run"
+		Task.RUNNING:
+			icon = STOP_ICON
+			tooltip = "Stop"
+		Task.ABORTING:
+			icon = STOP_ICON
+			tooltip = "Stopping. Please wait..."
+		Task.SUCCEEDED, Task.FAILED:
+			icon = RESET_ICON
+			tooltip = "Reset"
+	item.set_button(BUTTONS, EXECUTE, icon)
+	item.set_button_tooltip_text(BUTTONS, EXECUTE, tooltip)
+
+	for i in columns:
+		match task.status:
+			Task.QUEUED:
+				item.clear_custom_color(i)
+				item.clear_custom_bg_color(i)
+			Task.RUNNING:
+				item.set_custom_color(i, Color.WHITE)
+				item.set_custom_bg_color(i, Color.SEA_GREEN)
+			Task.SUCCEEDED:
+				item.set_custom_color(i, Color.DIM_GRAY)
+				item.clear_custom_bg_color(i)
+			Task.FAILED:
+				item.set_custom_color(i, Color.WHITE)
+				item.set_custom_bg_color(i, Color.CORAL)
+
+	item.set_button_disabled(BUTTONS, REMOVE, task.status == Task.RUNNING)
+
+	refresh_task_progress(task)
+
+
+func refresh_task_progress(task: Task) -> void:
+	if task.status != Task.RUNNING: return
+	var item : TreeItem = task_items[task]
+	var progress := floori(task.progress * 100.0)
+	item.set_text(STATUS, "%s%%" % progress)
+
+
+func refresh_task_comment(task: Task) -> void:
+	var item : TreeItem = task_items[task]
+	item.set_text(COMMENT, task.comment)
+
+#endregion
+#region Signal Events
+
+func _on_button_clicked(item:TreeItem, column:int, id:int, mouse_button_index:int) -> void:
+	match id:
+		EXECUTE: execute_item(item)
+		# OPEN: open_item(item)
+		COPY: copy_item(item)
+		REMOVE: remove_item(item)
+
+
+func _on_run_stop_toggled(toggled_on: bool) -> void:
+	if toggled_on:	start_queue()
+	else:			stop_queue()
+
+
+func _on_item_selected() -> void:
+	open_task(selected_task)
+
+
+func _on_empty_clicked(click_position: Vector2, mouse_button_index: int) -> void:
+	open_task(null)
+	deselect_all()
+
+#endregion
+
+

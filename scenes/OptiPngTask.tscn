@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://br8nucwf4oc6e"]
+
+[ext_resource type="PackedScene" uid="uid://cpw2roduamin5" path="res://addons/marathon/scenes/Task.tscn" id="1_g2ipj"]
+[ext_resource type="Script" uid="uid://dg6hphx77kahi" path="res://addons/marathon/scenes/OptiPngTask.gd" id="2_g1gwt"]
+[ext_resource type="PackedScene" uid="uid://3djnsrgpqbb1" path="res://addons/marathon/scenes/ImagePreview.tscn" id="3_fsoj2"]
+
+[node name="task" node_paths=PackedStringArray("progress_elements") instance=ExtResource("1_g2ipj")]
+script = ExtResource("2_g1gwt")
+target_dir = ""
+identifier = &"program"
+print_output = false
+python_script_path = ""
+progress_elements = []
+
+[node name="preview" parent="v_box_container/content" index="0" instance=ExtResource("3_fsoj2")]
+layout_mode = 2
+
+[node name="stats" parent="v_box_container/results/progress_bar/margin_container" index="1"]
+visible = true
+
+[node name="bytes_reduced" type="Label" parent="v_box_container/results/progress_bar/margin_container/stats" index="1"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "So and so bytes reduced"

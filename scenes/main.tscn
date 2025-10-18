@@ -1,0 +1,227 @@
+[gd_scene load_steps=20 format=3 uid="uid://ef5hvftp4smh"]
+
+[ext_resource type="Script" uid="uid://chfpoyapyy2r5" path="res://addons/marathon/scenes/ManagerButtons.gd" id="1_lpup6"]
+[ext_resource type="LabelSettings" uid="uid://dsqyt6bjimr17" path="res://addons/marathon/theme/label/no_info.tres" id="6_ssyn3"]
+[ext_resource type="Texture2D" uid="uid://5v03m2veuxsh" path="res://addons/marathon/icons/Save.svg" id="7_a2pxq"]
+[ext_resource type="Texture2D" uid="uid://cgt6ejtfsi5x8" path="res://addons/marathon/icons/Tools.svg" id="7_fcrtg"]
+[ext_resource type="Texture2D" uid="uid://clac2ow8ahs4r" path="res://addons/marathon/icons/Play.svg" id="8_lpup6"]
+[ext_resource type="Script" uid="uid://clwedgk260yyt" path="res://addons/marathon/scenes/TaskTree.gd" id="8_ngh7l"]
+[ext_resource type="Script" uid="uid://rgm460q6oiyv" path="res://addons/marathon/scenes/CreateTaskList.gd" id="8_wm4sp"]
+[ext_resource type="Script" uid="uid://cl81t2vbdaklc" path="res://addons/marathon/resources/TaskTemplate.gd" id="9_f0w4w"]
+[ext_resource type="Texture2D" uid="uid://cmhgkxhl65v0q" path="res://addons/marathon/icons/Remove.svg" id="9_pwrs4"]
+[ext_resource type="Texture2D" uid="uid://dcacnkbcou6rn" path="res://addons/marathon/icons/Load.svg" id="10_4tcaj"]
+[ext_resource type="Resource" uid="uid://d3tc0qk53facv" path="res://addons/marathon/resources/dummy.tres" id="10_ssyn3"]
+[ext_resource type="Resource" uid="uid://dfcdu1wmnihl2" path="res://addons/marathon/resources/spruce.tres" id="11_f0w4w"]
+[ext_resource type="Texture2D" uid="uid://ct7p1qh0ybn05" path="res://addons/marathon/icons/Reload.svg" id="11_n8iiw"]
+[ext_resource type="Resource" uid="uid://b8o7rpmif1hy8" path="res://addons/marathon/resources/laigter.tres" id="12_ssyn3"]
+[ext_resource type="Resource" uid="uid://f2w8bttuc4oc" path="res://addons/marathon/resources/fatlas.tres" id="13_a2pxq"]
+[ext_resource type="Texture2D" uid="uid://cavf6x14o8ns1" path="res://addons/marathon/icons/Back.svg" id="13_ci4ln"]
+[ext_resource type="Resource" uid="uid://bdrvf6blp42h2" path="res://addons/marathon/resources/optipng.tres" id="14_lpup6"]
+[ext_resource type="Script" uid="uid://6eldrawh61aa" path="res://addons/marathon/scenes/TaskContainer.gd" id="17_pwrs4"]
+
+[sub_resource type="GDScript" id="GDScript_a2pxq"]
+resource_name = "RunStopButton"
+script/source = "
+@tool extends Button
+
+func _toggled(toggled_on: bool) -> void:
+	icon = TaskTree.STOP_ICON if toggled_on else TaskTree.PLAY_ICON
+	text = \"Stop\" if toggled_on else \"Run\"
+"
+
+[node name="main" type="Control"]
+clip_contents = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="tab_container" type="TabContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 0
+tabs_visible = false
+
+[node name="main_split" type="HSplitContainer" parent="tab_container"]
+layout_mode = 2
+split_offset = 360
+metadata/_tab_index = 0
+
+[node name="manager_split" type="Control" parent="tab_container/main_split"]
+layout_mode = 2
+
+[node name="panel_container" type="PanelContainer" parent="tab_container/main_split/manager_split"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="v_box_container" type="VBoxContainer" parent="tab_container/main_split/manager_split/panel_container"]
+layout_mode = 2
+
+[node name="manager_buttons" type="GridContainer" parent="tab_container/main_split/manager_split/panel_container/v_box_container" node_paths=PackedStringArray("buttons_disabled_while_running")]
+layout_mode = 2
+columns = 3
+script = ExtResource("1_lpup6")
+buttons_disabled_while_running = [NodePath("settings"), NodePath("clear"), NodePath("load"), NodePath("reset")]
+
+[node name="settings" type="Button" parent="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Settings"
+icon = ExtResource("7_fcrtg")
+
+[node name="save" type="Button" parent="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Export..."
+icon = ExtResource("7_a2pxq")
+
+[node name="run_stop" type="Button" parent="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+text = "Run"
+icon = ExtResource("8_lpup6")
+script = SubResource("GDScript_a2pxq")
+
+[node name="clear" type="Button" parent="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Clear"
+icon = ExtResource("9_pwrs4")
+
+[node name="confirmation_dialog" type="ConfirmationDialog" parent="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/clear"]
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(391, 100)
+dialog_text = "This will remove all tasks and cannot be undone!"
+dialog_autowrap = true
+
+[node name="load" type="Button" parent="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Import..."
+icon = ExtResource("10_4tcaj")
+
+[node name="reset" type="Button" parent="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Reset"
+icon = ExtResource("11_n8iiw")
+
+[node name="task_tree_container" type="Control" parent="tab_container/main_split/manager_split/panel_container/v_box_container"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="no_info" type="CenterContainer" parent="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container"]
+visible = false
+z_index = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="label" type="Label" parent="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/no_info"]
+layout_mode = 2
+text = "No Tasks"
+label_settings = ExtResource("6_ssyn3")
+
+[node name="task_tree" type="Tree" parent="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+columns = 4
+column_titles_visible = true
+hide_folding = true
+enable_recursive_folding = false
+hide_root = true
+select_mode = 1
+scroll_horizontal_enabled = false
+auto_tooltip = false
+script = ExtResource("8_ngh7l")
+
+[node name="create_task_list" type="HFlowContainer" parent="tab_container/main_split/manager_split/panel_container/v_box_container"]
+layout_mode = 2
+alignment = 1
+script = ExtResource("8_wm4sp")
+templates = Array[ExtResource("9_f0w4w")]([ExtResource("10_ssyn3"), ExtResource("11_f0w4w"), ExtResource("12_ssyn3"), ExtResource("13_a2pxq"), ExtResource("14_lpup6")])
+
+[node name="task_split" type="Control" parent="tab_container/main_split"]
+layout_mode = 2
+
+[node name="no_info" type="CenterContainer" parent="tab_container/main_split/task_split"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="label" type="Label" parent="tab_container/main_split/task_split/no_info"]
+layout_mode = 2
+text = "No Task Selected"
+label_settings = ExtResource("6_ssyn3")
+
+[node name="task_container" type="TabContainer" parent="tab_container/main_split/task_split"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 6
+tab_focus_mode = 0
+deselect_enabled = true
+script = ExtResource("17_pwrs4")
+
+[node name="settings" type="Control" parent="tab_container"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="panel_container" type="PanelContainer" parent="tab_container/settings"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="v_box_container" type="VBoxContainer" parent="tab_container/settings/panel_container"]
+layout_mode = 2
+
+[node name="controls" type="HFlowContainer" parent="tab_container/settings/panel_container/v_box_container"]
+layout_mode = 2
+
+[node name="back" type="Button" parent="tab_container/settings/panel_container/v_box_container/controls"]
+layout_mode = 2
+text = "Back"
+icon = ExtResource("13_ci4ln")
+
+[connection signal="pressed" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/settings" to="tab_container" method="set_current_tab" binds= [1]]
+[connection signal="toggled" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/run_stop" to="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" method="_on_run_stop_toggled"]
+[connection signal="pressed" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/clear" to="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/clear/confirmation_dialog" method="show"]
+[connection signal="confirmed" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/clear/confirmation_dialog" to="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" method="remove_all"]
+[connection signal="pressed" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/reset" to="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" method="reset_all"]
+[connection signal="button_clicked" from="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" to="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" method="_on_button_clicked"]
+[connection signal="empty_clicked" from="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" to="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" method="_on_empty_clicked"]
+[connection signal="item_selected" from="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" to="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" method="_on_item_selected"]
+[connection signal="started" from="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" to="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons" method="_on_task_tree_started"]
+[connection signal="stopped" from="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" to="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons" method="_on_task_tree_stopped"]
+[connection signal="stopped" from="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" to="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/run_stop" method="set_disabled" binds= [false]]
+[connection signal="pressed" from="tab_container/settings/panel_container/v_box_container/controls/back" to="tab_container" method="set_current_tab" binds= [0]]

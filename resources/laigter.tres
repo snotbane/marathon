@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="TaskTemplate" load_steps=3 format=3 uid="uid://b8o7rpmif1hy8"]
+
+[ext_resource type="Texture2D" uid="uid://d3kfqfo6034yk" path="res://addons/marathon/icons/ImageTexture3D.svg" id="1_les4c"]
+[ext_resource type="Script" uid="uid://cl81t2vbdaklc" path="res://addons/marathon/resources/TaskTemplate.gd" id="2_72xmk"]
+
+[resource]
+script = ExtResource("2_72xmk")
+name = "Laigter"
+icon = ExtResource("1_les4c")
+metadata/_custom_type_script = "uid://cl81t2vbdaklc"
