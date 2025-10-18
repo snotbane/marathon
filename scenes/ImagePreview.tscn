@@ -1,10 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://3djnsrgpqbb1"]
+[gd_scene load_steps=3 format=3 uid="uid://3djnsrgpqbb1"]
 
 [ext_resource type="Script" uid="uid://51xgcpo7hw0k" path="res://addons/marathon/scenes/ImagePreview.gd" id="1_vve5r"]
 [ext_resource type="PackedScene" uid="uid://dyvw87nkq8tsl" path="res://addons/marathon/scenes/ZoomableImage.tscn" id="2_3e428"]
-[ext_resource type="Texture2D" uid="uid://b04bjwfrcpqyc" path="res://abraham-a.png" id="3_to02b"]
 
 [node name="preview" type="Control"]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,9 +12,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_vve5r")
-value = "path"
 
-[node name="v_box_container" type="VBoxContainer" parent="."]
+[node name="main" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -22,15 +21,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="image" parent="v_box_container" instance=ExtResource("2_3e428")]
+[node name="zoomable_image" parent="main" instance=ExtResource("2_3e428")]
 layout_mode = 2
 size_flags_horizontal = 4
-texture = ExtResource("3_to02b")
 
-[node name="path_label" type="Label" parent="v_box_container"]
+[node name="path_label" type="Label" parent="main"]
+self_modulate = Color(0.8039216, 0.36078432, 0.36078432, 1)
 layout_mode = 2
-tooltip_text = "somethingn"
 mouse_filter = 1
-text = "path"
+mouse_default_cursor_shape = 2
 horizontal_alignment = 1
 text_overrun_behavior = 4
+
+[connection signal="gui_input" from="main/path_label" to="." method="_on_path_label_gui_input"]

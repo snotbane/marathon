@@ -52,7 +52,7 @@ var _comment : String
 		comment_changed.emit()
 
 func _get_default_comment() -> String:
-	return template.name
+	return template.name if template else ""
 
 func refresh_comment_if_default() -> void:
 	if _comment != _get_default_comment(): return
@@ -63,7 +63,6 @@ func _refresh_comment_if_default_deferred() -> void:
 
 @export_tool_button("Start") var start_tool_button := start
 @export_tool_button("Stop") var abort_tool_button := abort
-
 
 var _status : int = QUEUED
 var status : int = QUEUED :
@@ -83,16 +82,15 @@ var status : int = QUEUED :
 		status_changed.emit()
 
 var running : bool :
-	get: return _status == RUNNING
+	get: return _status == RUNNING or _status == ABORTING
 	set(value):
 		if running == value: return
 		if value:	start()
 		else:		abort()
 
 var progress : float :
-	get: return _get_progress() if running else 0.0
-func _get_progress() -> float:
-	return 0.0
+	get: return clampf(inverse_lerp(progress_bar.min_value, progress_bar.max_value, progress_bar.value), 0.0, 1.0)
+
 
 func _ready() -> void:
 	if comment.is_empty():
@@ -106,12 +104,11 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if not running: return
 
-	_process_running(delta)
-func _process_running(delta: float) -> void:
-	progress_bar.value = progress
 	time_elapsed_label.text = stopwatch.time_elapsed_string_auto
 
-	progress_changed.emit()
+	_process_running(delta)
+func _process_running(delta: float) -> void: pass
+
 
 
 
@@ -175,5 +172,5 @@ func _on_comment_editor_text_changed(new_text: String) -> void:
 	_comment = new_text
 	comment_changed.emit()
 
-
-
+func _on_progress_bar_value_changed() -> void:
+	progress_changed.emit()

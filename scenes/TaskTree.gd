@@ -14,14 +14,6 @@ enum {
 	REMOVE,
 }
 
-const STATUS_TEXTS : PackedStringArray = [
-	"Queued",
-	"0%",
-	"Stopping",
-	"Completed",
-	"Failed"
-]
-
 const TEMP_JSON_PATH : String = "user://temp_queue.json"
 const PLAY_ICON : Texture2D = preload("uid://clac2ow8ahs4r")
 const STOP_ICON : Texture2D = preload("uid://cu07nwotdlchh")
@@ -189,7 +181,8 @@ func add_task_item(task: Task) -> TreeItem:
 		if i >= BUTTONS: break
 		result.set_selectable(i, true)
 
-	result.set_text(TEMPLATE, task.template.name)
+	if task.template:
+		result.set_text(TEMPLATE, task.template.name)
 
 	result.add_button(BUTTONS, PLAY_ICON, EXECUTE)
 	result.add_button(BUTTONS, COPY_ICON, COPY)
@@ -268,32 +261,42 @@ func execute_item(item: TreeItem) -> void:
 
 func refresh_task_status(task: Task) -> void:
 	var item : TreeItem = task_items[task]
-	item.set_text(STATUS, STATUS_TEXTS[task.status])
 
-	var icon : Texture2D = null
+	var text : String
 	var tooltip : String
+	var icon : Texture2D = null
 	match task.status:
 		Task.QUEUED:
-			icon = PLAY_ICON
+			text = "Ready"
 			tooltip = "Run"
+			icon = PLAY_ICON
 		Task.RUNNING:
-			icon = STOP_ICON
+			text = ""
 			tooltip = "Stop"
-		Task.ABORTING:
 			icon = STOP_ICON
+		Task.ABORTING:
+			text = "Stopping"
 			tooltip = "Stopping. Please wait..."
-		Task.SUCCEEDED, Task.FAILED:
-			icon = RESET_ICON
+			icon = STOP_ICON
+		Task.SUCCEEDED:
+			text = "Completed"
 			tooltip = "Reset"
-	item.set_button(BUTTONS, EXECUTE, icon)
+			icon = RESET_ICON
+		Task.FAILED:
+			text = "Failed"
+			tooltip = "Reset"
+			icon = RESET_ICON
+
+	item.set_text(STATUS, text)
 	item.set_button_tooltip_text(BUTTONS, EXECUTE, tooltip)
+	item.set_button(BUTTONS, EXECUTE, icon)
 
 	for i in columns:
 		match task.status:
 			Task.QUEUED:
 				item.clear_custom_color(i)
 				item.clear_custom_bg_color(i)
-			Task.RUNNING:
+			Task.RUNNING, Task.ABORTING:
 				item.set_custom_color(i, Color.WHITE)
 				item.set_custom_bg_color(i, Color.SEA_GREEN)
 			Task.SUCCEEDED:
@@ -301,7 +304,7 @@ func refresh_task_status(task: Task) -> void:
 				item.clear_custom_bg_color(i)
 			Task.FAILED:
 				item.set_custom_color(i, Color.WHITE)
-				item.set_custom_bg_color(i, Color.CORAL)
+				item.set_custom_bg_color(i, Color.INDIAN_RED)
 
 	item.set_button_disabled(BUTTONS, REMOVE, task.status == Task.RUNNING)
 

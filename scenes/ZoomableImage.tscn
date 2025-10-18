@@ -17,11 +17,8 @@ script = ExtResource("2_plfch")
 expand_speed = 30.0
 
 [node name="zoom_control" type="Control" parent="."]
-z_index = 10
 clip_contents = true
 anchors_preset = 0
-offset_right = 256.0
-offset_bottom = 256.0
 mouse_filter = 2
 mouse_behavior_recursive = 1
 

@@ -31,6 +31,7 @@ custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 size_flags_horizontal = 3
 max_value = 1.0
+step = 0.0
 
 [node name="margin_container" type="MarginContainer" parent="v_box_container/results/progress_bar"]
 custom_minimum_size = Vector2(0, 27)
@@ -62,4 +63,4 @@ layout_mode = 2
 size_flags_horizontal = 10
 tooltip_text = "Number of items completed in this task."
 mouse_filter = 1
-text = "0 of 0"
+text = "0 of 0 completed"

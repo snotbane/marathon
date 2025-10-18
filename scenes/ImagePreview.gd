@@ -1,7 +1,7 @@
 @tool class_name ImagePreview extends Control
 
-@onready var image_rect : TextureRect = $v_box_container/image
-@onready var path_label : Label = $v_box_container/path_label
+@onready var image_rect : TextureRect = $main/zoomable_image
+@onready var path_label : Label = $main/path_label
 
 @export var show_path : bool = true :
 	get: return path_label.visible if path_label else true
@@ -10,12 +10,11 @@
 		path_label.visible = value
 
 
-@export var value : String :
+@export_storage var value : String :
 	get: return path_label.text if path_label else ""
 	set(val):
 		if not path_label or value == val: return
 		path_label.text = val
-		path_label.tooltip_text = val
 
 		refresh()
 func set_value(val: String) -> void:
@@ -28,7 +27,14 @@ var texture : Texture2D :
 
 
 func refresh() -> void:
-	if not FileAccess.file_exists(value): texture = null; return
+	var file_exists := FileAccess.file_exists(value)
+
+	visible = not value.is_empty()
+
+	path_label.tooltip_text = value
+	path_label.self_modulate = Color.WHITE if file_exists else Color.INDIAN_RED
+
+	if not file_exists: texture = null; return
 
 	var image := Image.new()
 	var error := image.load(value)
@@ -39,7 +45,11 @@ func clear() -> void:
 	value = ""
 
 
+func _ready() -> void:
+	refresh()
 
 
-func _on_image_mouse_entered() -> void:
-	pass # Replace with function body.
+func _on_path_label_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
+			OS.shell_open(ProjectSettings.globalize_path(value))

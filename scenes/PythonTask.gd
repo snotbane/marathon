@@ -34,7 +34,6 @@ static func value_as_python_argument(value: Variant) -> String:
 @export_file("*.py") var python_script_path : String
 @export var progress_elements : Array[Control]
 
-
 var bus : ConfigFile
 var bus_path : String
 var thread : Thread
@@ -75,7 +74,7 @@ func _process_running(delta: float) -> void:
 	super._process_running(delta)
 
 	if thread.is_alive():
-		pass
+		refresh_elements()
 	else:
 		_thread_stopped()
 

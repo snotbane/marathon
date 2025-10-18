@@ -7,10 +7,10 @@
 script = ExtResource("2_0eh56")
 wait_time = 1.0
 
-[node name="center_container" type="CenterContainer" parent="v_box_container/contents" index="0"]
+[node name="center_container" type="CenterContainer" parent="v_box_container/content" index="0"]
 layout_mode = 2
 
-[node name="label" type="Label" parent="v_box_container/contents/center_container" index="0"]
+[node name="label" type="Label" parent="v_box_container/content/center_container" index="0"]
 layout_mode = 2
 
 [node name="timer" type="Timer" parent="." index="1"]

@@ -7,12 +7,13 @@
 [node name="task" node_paths=PackedStringArray("progress_elements") instance=ExtResource("1_g2ipj")]
 script = ExtResource("2_g1gwt")
 target_dir = ""
-identifier = &"program"
+identifier = &"optipng"
 print_output = false
 python_script_path = ""
-progress_elements = []
+progress_elements = [NodePath("v_box_container/content/preview"), NodePath("v_box_container/results/progress_bar")]
 
 [node name="preview" parent="v_box_container/content" index="0" instance=ExtResource("3_fsoj2")]
+visible = true
 layout_mode = 2
 
 [node name="stats" parent="v_box_container/results/progress_bar/margin_container" index="1"]
