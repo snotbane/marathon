@@ -42,6 +42,7 @@ signal finished(code: int)
 @onready var stopwatch := Stopwatch.new()
 @onready var progress_bar : ProgressBar = $v_box_container/results/progress_bar
 @onready var time_elapsed_label : Label = $v_box_container/results/progress_bar/margin_container/time_elapsed
+@onready var items_completed_label : Label = $v_box_container/results/progress_bar/margin_container/stats/items_completed
 
 var _comment : String
 @export var comment : String :

@@ -4,14 +4,12 @@
 [ext_resource type="Script" uid="uid://dg6hphx77kahi" path="res://addons/marathon/tasks/optipng/OptiPngTask.gd" id="2_g1gwt"]
 [ext_resource type="PackedScene" uid="uid://3djnsrgpqbb1" path="res://addons/marathon/scenes/ImagePreview.tscn" id="3_fsoj2"]
 
-[node name="task" node_paths=PackedStringArray("progress_elements") instance=ExtResource("1_g2ipj")]
+[node name="task" instance=ExtResource("1_g2ipj")]
 script = ExtResource("2_g1gwt")
-optipng_path = ""
+optipng_path = "/usr/bin/optipng"
 target_dir = ""
-identifier = &"optipng"
 print_output = false
-python_script_path = ""
-progress_elements = [NodePath("v_box_container/content/preview"), NodePath("v_box_container/results/progress_bar")]
+python_script_path = "res://addons/marathon/tasks/optipng/optipng.py"
 
 [node name="preview" parent="v_box_container/content" index="0" instance=ExtResource("3_fsoj2")]
 layout_mode = 2

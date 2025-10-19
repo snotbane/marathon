@@ -1,12 +1,28 @@
 
 @tool extends PythonTask
 
-static var _optipng_path : String
-@export_global_file var optipng_path : String :
-	get: return _optipng_path
+
+static func bytes_to_string(bytes: int) -> String:
+	const SIZE_KB := 1024
+	const SIZE_MB := 1024 * 1024
+	const SIZE_GB := 1024 * 1024 * 1024
+
+	if bytes < SIZE_KB:
+		return str(bytes) + " B"
+	if bytes < SIZE_MB:
+		return "%.2f KB" % (float(bytes) / SIZE_KB)
+	if bytes < SIZE_GB:
+		return "%.2f MB" % (float(bytes) / SIZE_MB)
+	return "%.2f GB" % (float(bytes) / SIZE_GB)
+
+@export var optipng_path : String :
+	get:
+		if not MarathonGlobalSettings.inst: return ""
+		return MarathonGlobalSettings.inst.get_meta(&"optipng_path", "")
 	set(value):
-		if _optipng_path == value: return
-		_optipng_path = value
+		if not MarathonGlobalSettings.inst: return
+		MarathonGlobalSettings.inst.set_meta(&"optipng_path", value)
+		MarathonGlobalSettings.inst.save_settings()
 
 var _target_dir : String
 @export_global_dir var target_dir : String :
@@ -20,3 +36,19 @@ var _target_dir : String
 func _get_default_comment() -> String:
 	return target_dir
 
+
+func _save_args(result: Dictionary) -> void:
+	result.merge({
+		&"optipng_path": optipng_path,
+		&"target_dir": target_dir,
+	})
+
+func _load_args(data: Dictionary) -> void:
+	target_dir = data[&"target_dir"]
+
+
+func _bus_poll() -> void:
+	super._bus_poll()
+
+	$v_box_container/content/preview.value = bus.get_value("output", "image_preview", "")
+	$v_box_container/results/progress_bar/margin_container/stats/bytes_reduced.text = "%s reduced" % [ bytes_to_string(bus.get_value("output", "bytes", 0)) ]

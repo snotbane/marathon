@@ -93,7 +93,8 @@ script = SubResource("GDScript_lpup6")
 
 [node name="access" type="Node" parent="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/settings"]
 script = ExtResource("3_pwrs4")
-python_path = ""
+metadata/python_path = "res://addons/marathon/.venv/bin/python3"
+metadata/optipng_path = "/usr/bin/optipng"
 
 [node name="save" type="Button" parent="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons"]
 layout_mode = 2
@@ -201,6 +202,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+tabs_visible = false
 tab_focus_mode = 0
 deselect_enabled = true
 script = ExtResource("17_pwrs4")

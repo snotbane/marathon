@@ -15,7 +15,6 @@ expand_margin_right = 1.0
 expand_margin_bottom = 1.0
 
 [node name="zoomable_image" type="TextureRect"]
-texture_filter = 2
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -36,6 +35,7 @@ mouse_filter = 2
 mouse_behavior_recursive = 1
 
 [node name="clip" type="Control" parent="zoom_control"]
+modulate = Color(1, 1, 1, 0.5019608)
 clip_contents = true
 layout_mode = 1
 anchors_preset = 15

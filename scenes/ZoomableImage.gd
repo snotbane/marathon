@@ -8,7 +8,7 @@
 @export var expand_speed := 100.0
 @export var focused_z_index : int = 10
 
-var relative_mouse_position : Vector2i
+var relative_mouse_position : Vector2
 var mouse_inside := false
 
 func _gui_input(event: InputEvent) -> void:
@@ -20,19 +20,22 @@ func _process(delta: float) -> void:
 
 	zoom_control.size = zoom_control.size.lerp(sub_window_size if mouse_inside else Vector2.ZERO, minf(expand_speed * delta, 1.0))
 
-	var offset_center : Vector2i = zoom_control.size / 2
-	zoom_control.position = Vector2i(relative_mouse_position) - offset_center
+	var viewport_center : Vector2 = zoom_control.size / 2
+	zoom_control.position = relative_mouse_position - viewport_center
 	zoom_image.texture = texture
 
 	if not texture: return
 	var texture_size := texture.get_size()
 
-	var aspect_modifier := Vector2(size.y / size.x, size.x / size.y).min(Vector2.ONE)
-	var offset_modifier := Vector2((size.x / size.y - texture_size.x / texture_size.y), size.y / size.x - texture_size.y / texture_size.x).max(Vector2.ZERO) * 0.5
+	var offset_in_rect := Vector2(size.x / size.y - texture_size.x / texture_size.y, size.y / size.x - texture_size.y / texture_size.x).max(Vector2.ZERO) * 0.5
 
-	# var offset_percent := Vector2(relative_mouse_position) / size
-	var offset_percent := Vector2(relative_mouse_position) / (size * aspect_modifier)
-	zoom_image.position = (offset_modifier - offset_percent) * texture_size + Vector2(offset_center)
+	var offset_percent := -Vector2(
+		remap(relative_mouse_position.x, 0.0, size.x, -offset_in_rect.x, 1.0 + offset_in_rect.x),
+		remap(relative_mouse_position.y, 0.0, size.y, -offset_in_rect.y, 1.0 + offset_in_rect.y)
+	)
+
+	zoom_image.position = offset_percent * texture_size
+	zoom_image.position += viewport_center
 
 func _on_mouse_entered() -> void:
 	# zoom_control.visible = texture != null
