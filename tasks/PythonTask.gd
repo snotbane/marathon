@@ -8,9 +8,6 @@ static var BUS_DIR_ACCESS : DirAccess
 static var TEMP_DIR_PATH : String :
 	get: return ProjectSettings.globalize_path("user://tmp/")
 
-static var PYTHON_PATH : String :
-	get: return "python3" # TODO: replace with global user settings
-
 static func _static_init() -> void:
 	BUS_DIR_ACCESS = DirAccess.open("user://")
 
@@ -97,7 +94,7 @@ func _start() -> void:
 		bus.set_value("output", element.name, element.value)
 	bus.save(bus_path)
 
-	thread.start(python.bind(PYTHON_PATH, get_python_arguments()))
+	thread.start(python.bind(MarathonGlobalSettings.inst.python_path_global, get_python_arguments()))
 
 func _abort() -> bool:
 	bus.set_value("input", ABORT_KEY, true)

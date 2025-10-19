@@ -1,23 +1,32 @@
-[gd_scene load_steps=20 format=3 uid="uid://ef5hvftp4smh"]
+[gd_scene load_steps=22 format=3 uid="uid://ef5hvftp4smh"]
 
 [ext_resource type="Script" uid="uid://chfpoyapyy2r5" path="res://addons/marathon/scenes/ManagerButtons.gd" id="1_lpup6"]
+[ext_resource type="Script" uid="uid://doilwux674cck" path="res://addons/marathon/tasks/MarathonGlobalSettings.gd" id="3_pwrs4"]
 [ext_resource type="LabelSettings" uid="uid://dsqyt6bjimr17" path="res://addons/marathon/theme/label/no_info.tres" id="6_ssyn3"]
 [ext_resource type="Texture2D" uid="uid://5v03m2veuxsh" path="res://addons/marathon/icons/Save.svg" id="7_a2pxq"]
 [ext_resource type="Texture2D" uid="uid://cgt6ejtfsi5x8" path="res://addons/marathon/icons/Tools.svg" id="7_fcrtg"]
 [ext_resource type="Texture2D" uid="uid://clac2ow8ahs4r" path="res://addons/marathon/icons/Play.svg" id="8_lpup6"]
-[ext_resource type="Script" uid="uid://clwedgk260yyt" path="res://addons/marathon/scenes/TaskTree.gd" id="8_ngh7l"]
+[ext_resource type="Script" uid="uid://clwedgk260yyt" path="res://addons/marathon/tasks/TaskTree.gd" id="8_ngh7l"]
 [ext_resource type="Script" uid="uid://rgm460q6oiyv" path="res://addons/marathon/scenes/CreateTaskList.gd" id="8_wm4sp"]
-[ext_resource type="Script" uid="uid://cl81t2vbdaklc" path="res://addons/marathon/resources/TaskTemplate.gd" id="9_f0w4w"]
+[ext_resource type="Script" uid="uid://cl81t2vbdaklc" path="res://addons/marathon/tasks/TaskTemplate.gd" id="9_f0w4w"]
 [ext_resource type="Texture2D" uid="uid://cmhgkxhl65v0q" path="res://addons/marathon/icons/Remove.svg" id="9_pwrs4"]
 [ext_resource type="Texture2D" uid="uid://dcacnkbcou6rn" path="res://addons/marathon/icons/Load.svg" id="10_4tcaj"]
-[ext_resource type="Resource" uid="uid://d3tc0qk53facv" path="res://addons/marathon/resources/dummy.tres" id="10_ssyn3"]
-[ext_resource type="Resource" uid="uid://dfcdu1wmnihl2" path="res://addons/marathon/resources/spruce.tres" id="11_f0w4w"]
+[ext_resource type="Resource" uid="uid://d3tc0qk53facv" path="res://addons/marathon/tasks/dummy/dummy.tres" id="10_ssyn3"]
+[ext_resource type="Resource" uid="uid://dfcdu1wmnihl2" path="res://addons/marathon/tasks/spruce/spruce.tres" id="11_f0w4w"]
 [ext_resource type="Texture2D" uid="uid://ct7p1qh0ybn05" path="res://addons/marathon/icons/Reload.svg" id="11_n8iiw"]
-[ext_resource type="Resource" uid="uid://b8o7rpmif1hy8" path="res://addons/marathon/resources/laigter.tres" id="12_ssyn3"]
-[ext_resource type="Resource" uid="uid://f2w8bttuc4oc" path="res://addons/marathon/resources/fatlas.tres" id="13_a2pxq"]
+[ext_resource type="Resource" uid="uid://b8o7rpmif1hy8" path="res://addons/marathon/tasks/laigter/laigter.tres" id="12_ssyn3"]
+[ext_resource type="Resource" uid="uid://f2w8bttuc4oc" path="res://addons/marathon/tasks/fatlas/fatlas.tres" id="13_a2pxq"]
 [ext_resource type="Texture2D" uid="uid://cavf6x14o8ns1" path="res://addons/marathon/icons/Back.svg" id="13_ci4ln"]
-[ext_resource type="Resource" uid="uid://bdrvf6blp42h2" path="res://addons/marathon/resources/optipng.tres" id="14_lpup6"]
+[ext_resource type="Resource" uid="uid://bdrvf6blp42h2" path="res://addons/marathon/tasks/optipng/optipng.tres" id="14_lpup6"]
 [ext_resource type="Script" uid="uid://6eldrawh61aa" path="res://addons/marathon/scenes/TaskContainer.gd" id="17_pwrs4"]
+
+[sub_resource type="GDScript" id="GDScript_lpup6"]
+resource_name = "GlobalSettingsButton"
+script/source = "@tool extends Button
+
+func _pressed() -> void:
+	EditorInterface.edit_node(get_child(0))
+"
 
 [sub_resource type="GDScript" id="GDScript_a2pxq"]
 resource_name = "RunStopButton"
@@ -80,6 +89,11 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Settings"
 icon = ExtResource("7_fcrtg")
+script = SubResource("GDScript_lpup6")
+
+[node name="access" type="Node" parent="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/settings"]
+script = ExtResource("3_pwrs4")
+python_path = ""
 
 [node name="save" type="Button" parent="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons"]
 layout_mode = 2
@@ -187,7 +201,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-current_tab = 2
 tab_focus_mode = 0
 deselect_enabled = true
 script = ExtResource("17_pwrs4")
@@ -213,7 +226,6 @@ layout_mode = 2
 text = "Back"
 icon = ExtResource("13_ci4ln")
 
-[connection signal="pressed" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/settings" to="tab_container" method="set_current_tab" binds= [1]]
 [connection signal="toggled" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/run_stop" to="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" method="_on_run_stop_toggled"]
 [connection signal="pressed" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/clear" to="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/clear/confirmation_dialog" method="show"]
 [connection signal="confirmed" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/clear/confirmation_dialog" to="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" method="remove_all"]

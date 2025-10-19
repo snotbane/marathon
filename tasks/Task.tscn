@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cpw2roduamin5"]
 
-[ext_resource type="Script" uid="uid://p4c2mgi3kd3r" path="res://addons/marathon/scenes/Task.gd" id="1_v46v0"]
+[ext_resource type="Script" uid="uid://p4c2mgi3kd3r" path="res://addons/marathon/tasks/Task.gd" id="1_v46v0"]
 
 [node name="task" type="Control"]
 layout_mode = 3

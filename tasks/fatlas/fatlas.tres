@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="TaskTemplate" load_steps=3 format=3 uid="uid://f2w8bttuc4oc"]
 
 [ext_resource type="Texture2D" uid="uid://c6ce1apyobiax" path="res://addons/marathon/icons/AtlasTexture.svg" id="1_38wo0"]
-[ext_resource type="Script" uid="uid://cl81t2vbdaklc" path="res://addons/marathon/resources/TaskTemplate.gd" id="2_kds1v"]
+[ext_resource type="Script" uid="uid://cl81t2vbdaklc" path="res://addons/marathon/tasks/TaskTemplate.gd" id="2_kds1v"]
 
 [resource]
 script = ExtResource("2_kds1v")
