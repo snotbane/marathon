@@ -31,10 +31,18 @@ var _target_dir : String
 		if _target_dir == value: return
 
 		refresh_comment_if_default()
-		_target_dir = value
+		_target_dir = Utils.get_project_preferred_path(value)
+		validate_args()
 
 func _get_default_comment() -> String:
 	return target_dir
+
+
+func _validate_args() -> void:
+	if target_dir.is_empty():
+		_errors.push_back("target_dir cannot be blank.")
+	elif not DirAccess.dir_exists_absolute(ProjectSettings.globalize_path(target_dir)):
+		_errors.push_back("target_dir does not exist.")
 
 
 func _save_args(result: Dictionary) -> void:

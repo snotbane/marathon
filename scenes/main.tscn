@@ -36,6 +36,15 @@ script/source = "
 func _toggled(toggled_on: bool) -> void:
 	icon = TaskTree.STOP_ICON if toggled_on else TaskTree.PLAY_ICON
 	text = \"Stop\" if toggled_on else \"Run\"
+
+
+func _on_task_tree_stop_requested() -> void:
+	disabled = true
+
+
+func _on_task_tree_stopped() -> void:
+	button_pressed = false
+	disabled = false
 "
 
 [node name="main" type="Control"]
@@ -202,6 +211,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+current_tab = 2
 tabs_visible = false
 tab_focus_mode = 0
 deselect_enabled = true
@@ -236,6 +246,9 @@ icon = ExtResource("13_ci4ln")
 [connection signal="empty_clicked" from="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" to="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" method="_on_empty_clicked"]
 [connection signal="item_selected" from="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" to="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" method="_on_item_selected"]
 [connection signal="started" from="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" to="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons" method="_on_task_tree_started"]
+[connection signal="started" from="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" to="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/run_stop" method="_on_task_tree_started"]
+[connection signal="stop_requested" from="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" to="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/run_stop" method="_on_task_tree_stop_requested"]
 [connection signal="stopped" from="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" to="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons" method="_on_task_tree_stopped"]
+[connection signal="stopped" from="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" to="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/run_stop" method="_on_task_tree_stopped"]
 [connection signal="stopped" from="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" to="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/run_stop" method="set_disabled" binds= [false]]
 [connection signal="pressed" from="tab_container/settings/panel_container/v_box_container/controls/back" to="tab_container" method="set_current_tab" binds= [0]]

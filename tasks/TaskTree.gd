@@ -128,7 +128,7 @@ func stop_queue():
 	if not running: return
 	running = false
 	for task in tasks:
-		await task.abort(true)
+		await task.abort()
 	stopped.emit()
 
 #endregion
@@ -270,6 +270,10 @@ func refresh_task_status(task: Task) -> void:
 			text = "Ready"
 			tooltip = "Run"
 			icon = PLAY_ICON
+		Task.INVALID:
+			text = "Invalid"
+			tooltip = "Can't run due to errors:\n" + task.error_tooltip_text
+			icon = PLAY_ICON
 		Task.RUNNING:
 			text = ""
 			tooltip = "Stop"
@@ -288,6 +292,7 @@ func refresh_task_status(task: Task) -> void:
 			icon = RESET_ICON
 
 	item.set_text(STATUS, text)
+	item.set_tooltip_text(STATUS, task.error_tooltip_text)
 	item.set_button_tooltip_text(BUTTONS, EXECUTE, tooltip)
 	item.set_button(BUTTONS, EXECUTE, icon)
 
@@ -302,11 +307,13 @@ func refresh_task_status(task: Task) -> void:
 			Task.SUCCEEDED:
 				item.set_custom_color(i, Color.DIM_GRAY)
 				item.clear_custom_bg_color(i)
-			Task.FAILED:
+			Task.FAILED, Task.INVALID:
 				item.set_custom_color(i, Color.WHITE)
 				item.set_custom_bg_color(i, Color.INDIAN_RED)
 
-	item.set_button_disabled(BUTTONS, REMOVE, task.status == Task.RUNNING)
+	item.set_button_disabled(BUTTONS, REMOVE, task.status == Task.RUNNING or task.status == Task.ABORTING)
+	item.set_button_disabled(BUTTONS, EXECUTE, task.status == Task.INVALID or task.status == Task.ABORTING)
+
 
 	refresh_task_progress(task)
 

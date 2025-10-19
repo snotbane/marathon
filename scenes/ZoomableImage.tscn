@@ -35,7 +35,6 @@ mouse_filter = 2
 mouse_behavior_recursive = 1
 
 [node name="clip" type="Control" parent="zoom_control"]
-modulate = Color(1, 1, 1, 0.5019608)
 clip_contents = true
 layout_mode = 1
 anchors_preset = 15

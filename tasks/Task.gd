@@ -3,6 +3,7 @@
 
 enum {
 	QUEUED,
+	INVALID,
 	RUNNING,
 	ABORTING,
 	SUCCEEDED,
@@ -82,6 +83,17 @@ var status : int = QUEUED :
 
 		status_changed.emit()
 
+var _errors : PackedStringArray
+var error_tooltip_text : String :
+	get:
+		var result := String()
+		for err in _errors :
+			result += "\n" + err
+		return result.substr(1)
+var arguments_valid : bool :
+	get: return _errors.is_empty()
+
+
 var running : bool :
 	get: return _status == RUNNING or _status == ABORTING
 	set(value):
@@ -158,6 +170,18 @@ func reset() -> void:
 	status = QUEUED
 
 
+func validate_args() -> void:
+	_errors.clear()
+	_validate_args()
+
+	match status:
+		QUEUED, INVALID:
+			status = QUEUED if arguments_valid else INVALID
+			status_changed.emit()
+
+func _validate_args() -> void: pass
+
+
 func save_args() -> Dictionary:
 	var result := Dictionary()
 	_save_args(result)
@@ -167,6 +191,8 @@ func _save_args(result: Dictionary) -> void: pass
 func load_args(data: Dictionary) -> void:
 	_load_args(data)
 func _load_args(data: Dictionary) -> void: pass
+
+
 
 
 func _on_comment_editor_text_changed(new_text: String) -> void:

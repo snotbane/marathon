@@ -96,12 +96,12 @@ func _abort() -> bool:
 	return true
 
 
-func python(python_path: String, args: PackedStringArray) -> int:
+func python(exe_thread_safe: String, args: PackedStringArray) -> int:
 	if print_output:
 		print("%s args: %s" % [template.name, args])
 
 	var output : Array
-	var result : int = OS.execute(python_path, args, output, print_output)
+	var result : int = OS.execute(exe_thread_safe, args, output, print_output)
 	if print_output: for e in output:
 		if result == OK:	print(e)
 		else:				printerr(e)
