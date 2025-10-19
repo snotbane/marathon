@@ -23,7 +23,6 @@ grow_vertical = 2
 
 [node name="zoomable_image" parent="main" instance=ExtResource("2_3e428")]
 layout_mode = 2
-size_flags_horizontal = 4
 
 [node name="path_label" type="Label" parent="main"]
 self_modulate = Color(0.8039216, 0.36078432, 0.36078432, 1)

@@ -1,7 +1,8 @@
 @tool extends TextureRect
 
 @onready var zoom_control : Control = $zoom_control
-@onready var zoom_image : Sprite2D = $zoom_control/zoom_image
+@onready var zoom_image : Sprite2D = $zoom_control/clip/zoom_image
+@onready var border : Panel = $zoom_control/border
 
 @export var sub_window_size := Vector2i(256, 256)
 @export var expand_speed := 100.0
@@ -24,16 +25,23 @@ func _process(delta: float) -> void:
 	zoom_image.texture = texture
 
 	if not texture: return
+	var texture_size := texture.get_size()
 
-	var offset_percent := Vector2(relative_mouse_position) / size
-	zoom_image.position = -offset_percent * texture.get_size() + Vector2(offset_center)
+	var aspect_modifier := Vector2(size.y / size.x, size.x / size.y).min(Vector2.ONE)
+	var offset_modifier := Vector2((size.x / size.y - texture_size.x / texture_size.y), size.y / size.x - texture_size.y / texture_size.x).max(Vector2.ZERO) * 0.5
+
+	# var offset_percent := Vector2(relative_mouse_position) / size
+	var offset_percent := Vector2(relative_mouse_position) / (size * aspect_modifier)
+	zoom_image.position = (offset_modifier - offset_percent) * texture_size + Vector2(offset_center)
 
 func _on_mouse_entered() -> void:
 	# zoom_control.visible = texture != null
 	mouse_inside = true
+	border.visible = mouse_inside
 	zoom_control.z_index = focused_z_index
 
 func _on_mouse_exited() -> void:
 	# zoom_control.hide()
 	mouse_inside = false
+	border.visible = mouse_inside
 	zoom_control.z_index = 0
