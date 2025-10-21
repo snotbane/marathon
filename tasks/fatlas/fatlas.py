@@ -7,8 +7,8 @@ import sys
 import time
 from PIL import Image, ImageOps
 
-progress_display = 0
-
+SUPPORTED_EXTS = [".png", ".jpg", ".jpeg"]
+progress: int = 0
 
 def str2bool(value: str) -> bool:
     if isinstance(value, bool):
@@ -292,6 +292,8 @@ def assign_image_sources():
 	exclude = re.compile(args.filter_exclude)
 	for root, _, files, in os.walk(args.source):
 		for file in files:
+			name, ext = os.path.splitext(file)
+			if not ext.lower() in SUPPORTED_EXTS: continue
 			if args.filter_include != "" and re.search(include, file) == None: continue
 			if args.filter_exclude != "" and re.search(exclude, file) != None: continue
 			try:
@@ -308,7 +310,7 @@ def assign_image_targets(sources):
 		match_string = re.search(pattern, source.name).group()
 		if targets_dict.get(match_string) == None:
 			path = f"{args.project_name}{match_string}.png"
-			targets_dict[match_string] = TargetImage(os.path.join(args.target, "textures"), path, args.image_format, args.island_margin)
+			targets_dict[match_string] = TargetImage(os.path.join(args.target, "textures"), path, args.target_format, args.island_margin)
 		source.target_match = match_string
 	return (sources, targets_dict)
 
@@ -377,7 +379,7 @@ def assign_compo_data(atlas: dict) -> dict:
 
 
 def main():
-	global progress_display
+	global progress
 
 	if not (
 		args.project_name != "" and
@@ -386,12 +388,13 @@ def main():
 	):
 		sys.exit(1)
 
-	bus_set("output", "progress_display", 0)
-	bus_set("output", "progress_display_max", 0)
+	progress = 0
+	bus_set("output", "progress", progress)
+	bus_set("output", "progress_max", 1)
 
 	sources = assign_image_sources()
 	sources, targets = assign_image_targets(sources)
-	bus_set("output", "progress_display_max", len(sources))
+	bus_set("output", "progress_max", len(sources))
 
 	project_json_ext = ".json" if args.data_format == 0 else ".fat"
 	project_json_path = os.path.join(args.target, args.project_name + project_json_ext)
@@ -413,8 +416,8 @@ def main():
 			atlas_data[target.file] = dict()
 		atlas_data[target.file][source.name] = source.json_data
 
-		progress_display += 1
-		bus_set("output", "progress_display", progress_display)
+		progress += 1
+		bus_set("output", "progress", progress)
 
 	json_data = {"atlas": atlas_data, "compo": assign_compo_data(atlas_data)}
 
@@ -425,22 +428,28 @@ def main():
 	for k in targets.keys():
 		targets[k].save()
 
+
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser()
 	parser.add_argument("bus_path", type=str)
 	parser.add_argument("project_name", type=str)
 	parser.add_argument("source", type=str)
 	parser.add_argument("target", type=str)
+	parser.add_argument("target_size_limit", type=int) ## TODO: implement
+	parser.add_argument("target_format", type=str)
 	parser.add_argument("data_format", type=int)
 	parser.add_argument("filter_include", type=str)
 	parser.add_argument("filter_exclude", type=str)
 	parser.add_argument("filter_separate", type=str)
 	parser.add_argument("filter_composite", type=str)
-	parser.add_argument("image_format", type=str)
-	parser.add_argument("image_size_limit", type=int)
 	parser.add_argument("island_crop", type=str2bool)
 	parser.add_argument("island_margin", type=int)
 	args = parser.parse_args()
+
+	args.filter_include = args.filter_include[1:-1]
+	args.filter_exclude = args.filter_exclude[1:-1]
+	args.filter_separate = args.filter_separate[1:-1]
+	args.filter_composite = args.filter_composite[1:-1]
 
 	bus_path = args.bus_path
 	bus = configparser.ConfigParser()

@@ -7,4 +7,5 @@
 script = ExtResource("2_kds1v")
 name = "Fatlas"
 icon = ExtResource("1_38wo0")
+_scene_uid = "uid://d11essky3hr68"
 metadata/_custom_type_script = "uid://cl81t2vbdaklc"

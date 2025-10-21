@@ -24,3 +24,6 @@ static func is_node_in_editor(node: Node) -> bool:
 		editor = editor.get_parent()
 
 	return editor.name.contains("CanvasItemEditor") if editor else false
+
+static func is_folder_inside_other(a: String, b: String) -> bool:
+	return ProjectSettings.globalize_path(b).begins_with(ProjectSettings.globalize_path(a))

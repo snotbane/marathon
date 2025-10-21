@@ -1,0 +1,46 @@
+[gd_scene load_steps=4 format=3 uid="uid://d11essky3hr68"]
+
+[ext_resource type="PackedScene" uid="uid://cpw2roduamin5" path="res://addons/marathon/tasks/Task.tscn" id="1_ryshl"]
+[ext_resource type="Script" uid="uid://c0u7gyo3167ny" path="res://addons/marathon/tasks/fatlas/FatlasTask.gd" id="2_xi30t"]
+[ext_resource type="PackedScene" uid="uid://3djnsrgpqbb1" path="res://addons/marathon/scenes/ImagePreview.tscn" id="3_xi30t"]
+
+[node name="FatlasTask" instance=ExtResource("1_ryshl")]
+script = ExtResource("2_xi30t")
+project_name = ""
+source_dir = ""
+target_dir = ""
+target_size_limit = 65536
+target_format = 5
+data_format = 1
+filter_include = ""
+filter_exclude = ""
+filter_separate = "^"
+filter_composite = "((.+?)(?:_(\\d+))?)_([lr])_(.)"
+island_crop = true
+island_margin = 2
+comment = ".json :  >> "
+
+[node name="previews" type="TabContainer" parent="v_box_container/content" index="0"]
+layout_mode = 2
+current_tab = 1
+tabs_visible = false
+
+[node name="source" parent="v_box_container/content/previews" index="1" instance=ExtResource("3_xi30t")]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="targets" type="GridContainer" parent="v_box_container/content/previews" index="2"]
+layout_mode = 2
+columns = 2
+metadata/_tab_index = 1
+
+[node name="execute" parent="v_box_container/results" index="0"]
+tooltip_text = "Can't run this task due to errors:
+'project_name' cannot be blank.
+Directory 'source_dir' cannot be blank.
+Directory 'target_dir' cannot be blank.
+The file or folder '' must NOT be contained inside directory ''."
+disabled = true
+
+[node name="stats" parent="v_box_container/results/progress_bar/margin_container" index="1"]
+visible = true

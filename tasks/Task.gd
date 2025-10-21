@@ -173,7 +173,9 @@ func finish(code: int) -> void:
 	if not running: return
 
 	status = SUCCEEDED if code == OK else FAILED
+	_finish(code)
 	finished.emit(code)
+func _finish(code: int) -> void: pass
 
 
 func reset() -> void:
@@ -210,6 +212,15 @@ func validate_regex_string(rx: String, required: bool, var_name: String) -> void
 		_errors.push_back("Regex '%s' cannot be blank." % var_name)
 	elif not RegEx.create_from_string(rx).is_valid():
 		_errors.push_back("RegEx '%s' is not valid." % var_name)
+
+func validate_non_empty_string(s: String, var_name: String) -> void:
+	if s.is_empty():
+		_errors.push_back("'%s' cannot be blank." % var_name)
+
+func validate_dir_contains(dir: String, path: String, require_inside: bool) -> void:
+	if Utils.is_folder_inside_other(dir, path) != require_inside:
+		_errors.push_back("The file or folder '%s' must %sbe contained inside directory '%s'." % [path, "" if require_inside else "NOT ", dir])
+
 
 func save_args() -> Dictionary:
 	var result := {

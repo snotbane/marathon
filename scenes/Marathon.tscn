@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://ef5hvftp4smh"]
+[gd_scene load_steps=36 format=3 uid="uid://ef5hvftp4smh"]
 
 [ext_resource type="Script" uid="uid://chfpoyapyy2r5" path="res://addons/marathon/scenes/ManagerButtons.gd" id="1_dkkd1"]
 [ext_resource type="Texture2D" uid="uid://cgt6ejtfsi5x8" path="res://addons/marathon/icons/Tools.svg" id="2_rangv"]
@@ -15,13 +15,21 @@
 [ext_resource type="Script" uid="uid://rgm460q6oiyv" path="res://addons/marathon/scenes/CreateTaskList.gd" id="11_br3bt"]
 [ext_resource type="Script" uid="uid://bpeqonbriegt2" path="res://addons/marathon/scenes/CurrentProject.gd" id="11_s6s3o"]
 [ext_resource type="Script" uid="uid://cl81t2vbdaklc" path="res://addons/marathon/tasks/TaskTemplate.gd" id="12_wroo2"]
-[ext_resource type="Resource" uid="uid://d3tc0qk53facv" path="res://addons/marathon/tasks/dummy/dummy.tres" id="13_4rm1t"]
 [ext_resource type="Resource" uid="uid://dfcdu1wmnihl2" path="res://addons/marathon/tasks/spruce/spruce.tres" id="14_0ugl0"]
 [ext_resource type="Resource" uid="uid://b8o7rpmif1hy8" path="res://addons/marathon/tasks/laigter/laigter.tres" id="15_eolsp"]
 [ext_resource type="Resource" uid="uid://f2w8bttuc4oc" path="res://addons/marathon/tasks/fatlas/fatlas.tres" id="16_n85t4"]
 [ext_resource type="Resource" uid="uid://bdrvf6blp42h2" path="res://addons/marathon/tasks/optipng/optipng.tres" id="17_af51x"]
 [ext_resource type="Script" uid="uid://6eldrawh61aa" path="res://addons/marathon/scenes/TaskContainer.gd" id="18_3u6c7"]
 [ext_resource type="Texture2D" uid="uid://cavf6x14o8ns1" path="res://addons/marathon/icons/Back.svg" id="19_e3acf"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_xs2sm"]
+device = -1
+command_or_control_autoremap = true
+keycode = 78
+unicode = 110
+
+[sub_resource type="Shortcut" id="Shortcut_y17js"]
+events = [SubResource("InputEventKey_xs2sm")]
 
 [sub_resource type="InputEventKey" id="InputEventKey_qtrbu"]
 device = -1
@@ -140,6 +148,7 @@ layout_mode = 2
 [node name="current_project" type="Label" parent="tab_container/main_split/manager_split/panel_container/v_box_container"]
 visible = false
 layout_mode = 2
+mouse_filter = 0
 horizontal_alignment = 1
 script = ExtResource("11_s6s3o")
 
@@ -156,6 +165,7 @@ size_flags_horizontal = 3
 [node name="new" type="Button" parent="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/save"]
 layout_mode = 2
 tooltip_text = "Create a new queue."
+shortcut = SubResource("Shortcut_y17js")
 icon = ExtResource("4_qtrbu")
 
 [node name="confirmation_dialog" type="ConfirmationDialog" parent="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/save/new"]
@@ -287,7 +297,7 @@ script = ExtResource("10_y17js")
 layout_mode = 2
 alignment = 1
 script = ExtResource("11_br3bt")
-templates = Array[ExtResource("12_wroo2")]([ExtResource("13_4rm1t"), ExtResource("14_0ugl0"), ExtResource("15_eolsp"), ExtResource("16_n85t4"), ExtResource("17_af51x")])
+templates = Array[ExtResource("12_wroo2")]([ExtResource("14_0ugl0"), ExtResource("15_eolsp"), ExtResource("16_n85t4"), ExtResource("17_af51x")])
 
 [node name="task_split" type="Control" parent="tab_container/main_split"]
 layout_mode = 2
@@ -340,15 +350,17 @@ text = "Back"
 icon = ExtResource("19_e3acf")
 
 [connection signal="current_save_requested" from="tab_container/main_split/manager_split/panel_container/v_box_container/current_project" to="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" method="save_json"]
+[connection signal="gui_input" from="tab_container/main_split/manager_split/panel_container/v_box_container/current_project" to="tab_container/main_split/manager_split/panel_container/v_box_container/current_project" method="_on_gui_input"]
 [connection signal="nothing_saved" from="tab_container/main_split/manager_split/panel_container/v_box_container/current_project" to="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/save/file_dialog" method="show"]
 [connection signal="pressed" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/save/new" to="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/save/new/confirmation_dialog" method="show"]
-[connection signal="confirmed" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/save/new/confirmation_dialog" to="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" method="remove_all"]
+[connection signal="confirmed" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/save/new/confirmation_dialog" to="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" method="remove_all_tasks"]
 [connection signal="confirmed" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/save/new/confirmation_dialog" to="tab_container/main_split/manager_split/panel_container/v_box_container/current_project" method="set_file_path" binds= [""]]
 [connection signal="pressed" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/save/current" to="tab_container/main_split/manager_split/panel_container/v_box_container/current_project" method="_on_save_current_pressed"]
 [connection signal="pressed" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/save/as_new" to="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/save/file_dialog" method="show"]
 [connection signal="file_selected" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/save/file_dialog" to="tab_container/main_split/manager_split/panel_container/v_box_container/current_project" method="set_file_path"]
 [connection signal="file_selected" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/save/file_dialog" to="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" method="save_json"]
 [connection signal="pressed" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/load/overwrite" to="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/load/overwrite/file_dialog" method="show"]
+[connection signal="file_selected" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/load/overwrite/file_dialog" to="tab_container/main_split/manager_split/panel_container/v_box_container/current_project" method="set_file_path"]
 [connection signal="file_selected" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/load/overwrite/file_dialog" to="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" method="load_json" binds= [false]]
 [connection signal="pressed" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/load/append" to="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/load/append/file_dialog" method="show"]
 [connection signal="file_selected" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/load/append/file_dialog" to="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" method="load_json" binds= [true]]

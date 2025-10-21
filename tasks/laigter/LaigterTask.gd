@@ -101,6 +101,10 @@ var _overwrite : bool = true
 	execute_static(MarathonGlobalSettings.inst.python_exe_path, ["-m", "pip", "install", "Pillow"])
 
 
+func _get_python_script_path() -> String:
+	return "res://addons/marathon/tasks/laigter/laigter.py"
+
+
 func _get_default_comment() -> String:
 	var result := "%s : %s >> %s" % [ _preset_path.get_file(), _source_dir.get_file(), _target_dir.get_file() ]
 
@@ -120,8 +124,6 @@ func _validate_args() -> void:
 	validate_regex_string(filter_include, false, "filter_include")
 	validate_regex_string(filter_exclude, false, "filter_exclude")
 
-func _get_python_script_path() -> String:
-	return "res://addons/marathon/tasks/laigter/laigter.py"
 
 func _get_python_arguments() -> Array:
 	return [

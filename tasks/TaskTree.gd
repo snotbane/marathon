@@ -147,7 +147,6 @@ func refresh_items() -> void:
 func find_task(item: TreeItem) -> Task:
 	if item == null: return null
 	for i in tasks:
-		if i is not Task: continue
 		if task_items[i] == item: return i
 	return null
 
@@ -199,7 +198,7 @@ func remove_item(item: TreeItem) -> void:
 	remove_task(find_task(item))
 
 
-func remove_all() -> void:
+func remove_all_tasks() -> void:
 	for task in tasks:
 		task.queue_free()
 	refresh_items()
@@ -340,7 +339,7 @@ func load_json(path: String = TEMP_JSON_PATH, append: bool = false) -> void:
 		return
 
 	if not append:
-		tasks.clear()
+		remove_all_tasks()
 
 	var json_file := FileAccess.open(path, FileAccess.READ)
 	var json : Dictionary = JSON.parse_string(json_file.get_as_text())
@@ -349,11 +348,10 @@ func load_json(path: String = TEMP_JSON_PATH, append: bool = false) -> void:
 		printerr("File at path '%s' cannot be loaded because it is not a Marathon task list.")
 		return
 
-	for e in json[&"data"]:
-		var template : TaskTemplate = load(e[&"template_uid"])
-		template.create_task(false)
-
-	refresh_items()
+	for data in json[&"data"]:
+		var template : TaskTemplate = load(data[&"template_uid"])
+		var task := template.create_task(false)
+		task.load_args(data)
 
 
 #endregion
