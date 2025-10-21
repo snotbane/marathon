@@ -1,7 +1,7 @@
 @tool extends Task
 
 var _wait_time : float = 1.0
-@export_range(0.5, 10.0, 0.5, "or_greater") var wait_time : float = 1.0 :
+@export_range(0.0, 10.0, 0.5, "or_greater") var wait_time : float = 1.0 :
 	get: return _wait_time
 	set(value):
 		if _wait_time == value: return
@@ -9,6 +9,7 @@ var _wait_time : float = 1.0
 		refresh_comment_if_default()
 		_wait_time = value
 
+		validate_args()
 		_refresh_wait_time()
 func _refresh_wait_time() -> void:
 	$timer.wait_time = _wait_time
@@ -17,6 +18,11 @@ func _refresh_wait_time() -> void:
 
 func _get_default_comment() -> String:
 	return "Waiting for %s seconds" % wait_time
+
+
+func _validate_args() -> void:
+	if wait_time <= 0.0:
+		_errors.push_back("wait_time must be greater than 0.0.")
 
 
 func _ready() -> void:

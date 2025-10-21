@@ -12,7 +12,7 @@ static func localize_script_path(path: String) -> String:
 		return ProjectSettings.globalize_path(path)
 	else:
 		var result : String = path.substr(path.rfind("/") + 1)
-		return OS.get_executable_path().get_base_dir().path_join("python").path_join(result)
+		return OS.get_executable_path().get_base_dir().path_join("execute").path_join(result)
 
 
 static func value_as_python_argument(value: Variant) -> String:
@@ -23,6 +23,10 @@ static func value_as_python_argument(value: Variant) -> String:
 
 @export var print_output : bool = true
 @export_file("*.py") var python_script_path : String
+
+@export_tool_button("Reveal Bus") var reveal_bus := func() -> void:
+	if not running: return
+	OS.shell_open(ProjectSettings.globalize_path(bus_path))
 
 var bus_dir : DirAccess
 var bus : ConfigFile
@@ -38,8 +42,9 @@ func get_python_arguments() -> PackedStringArray:
 	var result : PackedStringArray
 	result.push_back(PythonTask.localize_script_path(python_script_path))
 	result.push_back(ProjectSettings.globalize_path(bus_path))
-	for arg in save_args().values():
-		result.push_back(PythonTask.value_as_python_argument(arg))
+	result.append_array(save_args().values().map(func(e: Variant) -> String:
+		return PythonTask.value_as_python_argument(e)
+	))
 	return result
 
 func _exit_tree() -> void:
@@ -83,7 +88,7 @@ func _start() -> void:
 	_bus_init()
 	bus.save(bus_path)
 
-	var code : int = thread.start(python.bind(MarathonGlobalSettings.inst.python_path_global, get_python_arguments()))
+	var code : int = thread.start(execute.bind(MarathonGlobalSettings.inst.python_exe_path, get_python_arguments()))
 	if code == OK: return
 
 	finish(code)
@@ -96,12 +101,14 @@ func _abort() -> bool:
 	return true
 
 
-func python(exe_thread_safe: String, args: PackedStringArray) -> int:
+func execute(cmd: String, args: PackedStringArray) -> int:
 	if print_output:
 		print("%s args: %s" % [template.name, args])
 
+	return execute_static(cmd, args, print_output)
+static func execute_static(cmd: String, args: PackedStringArray, print_output: bool = true) -> int:
 	var output : Array
-	var result : int = OS.execute(exe_thread_safe, args, output, print_output)
+	var result : int = OS.execute(cmd, args, output, print_output)
 	if print_output: for e in output:
 		if result == OK:	print(e)
 		else:				printerr(e)

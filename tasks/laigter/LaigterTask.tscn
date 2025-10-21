@@ -1,0 +1,51 @@
+[gd_scene load_steps=4 format=3 uid="uid://bhay6qe36hb8n"]
+
+[ext_resource type="PackedScene" uid="uid://cpw2roduamin5" path="res://addons/marathon/tasks/Task.tscn" id="1_8wuje"]
+[ext_resource type="Script" uid="uid://pbokify1mr5k" path="res://addons/marathon/tasks/laigter/LaigterTask.gd" id="2_o230u"]
+[ext_resource type="PackedScene" uid="uid://3djnsrgpqbb1" path="res://addons/marathon/scenes/ImagePreview.tscn" id="3_niia0"]
+
+[node name="task" instance=ExtResource("1_8wuje")]
+script = ExtResource("2_o230u")
+laigter_path = "/home/snotbane/Desktop/Laigter-x86_64.AppImage"
+preset_path = ""
+source_dir = ""
+target_dir = ""
+target_suffix = null
+filter_include = ""
+filter_exclude = ""
+overwrite = true
+print_output = true
+python_script_path = "res://addons/marathon/tasks/laigter/laigter.py"
+comment = "Python task: "
+
+[node name="split" type="HSplitContainer" parent="v_box_container/content" index="0"]
+layout_mode = 2
+
+[node name="source" type="VBoxContainer" parent="v_box_container/content/split" index="0"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="label" type="Label" parent="v_box_container/content/split/source" index="0"]
+layout_mode = 2
+text = "Current"
+horizontal_alignment = 1
+
+[node name="preview" parent="v_box_container/content/split/source" index="1" instance=ExtResource("3_niia0")]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="target" type="VBoxContainer" parent="v_box_container/content/split" index="1"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="label" type="Label" parent="v_box_container/content/split/target" index="0"]
+layout_mode = 2
+text = "Previous Result"
+horizontal_alignment = 1
+
+[node name="preview" parent="v_box_container/content/split/target" index="1" instance=ExtResource("3_niia0")]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="stats" parent="v_box_container/results/progress_bar/margin_container" index="1"]
+visible = true

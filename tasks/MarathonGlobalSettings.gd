@@ -6,20 +6,35 @@ const CONFIG_PATH := "user://settings.cfg"
 static var inst : MarathonGlobalSettings
 static var config : ConfigFile
 
-@export_file var python_path : String = "res://addons/marathon/.venv/bin/python3" :
-	get: return get_meta(&"python_path", "")
-	set(value):
-		if python_path == value: return
-		set_meta(&"python_path", value)
-		save_settings()
-var python_path_global : String :
-	get: return ProjectSettings.globalize_path(python_path)
+var install_venv_dialog : ConfirmationDialog
 
-@export_tool_button("Reveal Config File") var reveal_tool_button := reveal_settings
+@export_global_dir var python_venv_path : String = "res://addons/marathon" :
+	get: return get_meta(&"python_venv_path", "")
+	set(value):
+		if python_venv_path == value: return
+		set_meta(&"python_venv_path", value)
+		save_settings()
+var python_exe_path : String :
+	get: return ProjectSettings.globalize_path(python_venv_path.path_join("bin").path_join("python3"))
+
+@export_tool_button("Install Python Venv") var install_venv_button := func() -> void:
+	install_venv_dialog.dialog_text = "This will install a python virtual environment at:\n%s" % Utils.get_project_preferred_path(python_venv_path)
+	install_venv_dialog.popup_centered()
+func install_venv() -> void:
+	PythonTask.execute_static("python3", ["-m", "venv", ProjectSettings.globalize_path(python_venv_path)])
+
+@export_tool_button("Reveal Config File") var reveal_settings := func() -> void:
+	OS.shell_open(ProjectSettings.globalize_path(CONFIG_PATH))
 
 
 func _ready() -> void:
 	inst = self
+
+	install_venv_dialog = ConfirmationDialog.new()
+	install_venv_dialog.title = "Installing Python Virtual Environment"
+	install_venv_dialog.confirmed.connect(install_venv)
+	add_child(install_venv_dialog)
+
 	config = ConfigFile.new()
 
 	if FileAccess.file_exists(CONFIG_PATH):
@@ -38,7 +53,4 @@ func save_settings() -> void:
 		config.set_value("default", meta, get_meta(meta))
 
 	config.save(CONFIG_PATH)
-
-func reveal_settings() -> void:
-	OS.shell_open(ProjectSettings.globalize_path(CONFIG_PATH))
 

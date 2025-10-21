@@ -113,6 +113,8 @@ func _ready() -> void:
 
 	TaskTree.inst.add_task(self)
 
+	validate_args()
+
 
 func _process(delta: float) -> void:
 	if not running: return
@@ -181,6 +183,23 @@ func validate_args() -> void:
 
 func _validate_args() -> void: pass
 
+func validate_file_path(path: String, var_name: String) -> void:
+	if path.is_empty():
+		_errors.push_back("Filepath '%s' cannot be blank." % var_name)
+	elif not FileAccess.file_exists(path):
+		_errors.push_back("Filepath '%s' does not exist." % var_name)
+
+func validate_dir_path(path: String, var_name: String) -> void:
+	if path.is_empty():
+		_errors.push_back("Directory '%s' cannot be blank." % var_name)
+	elif not DirAccess.dir_exists_absolute(ProjectSettings.globalize_path(path)):
+		_errors.push_back("Directory '%s' does not exist." % var_name)
+
+func validate_regex_string(rx: String, allow_empty: bool, var_name: String) -> void:
+	if rx.is_empty() and not allow_empty:
+		_errors.push_back("Regex '%s' cannot be blank." % var_name)
+	elif not RegEx.create_from_string(rx).is_valid():
+		_errors.push_back("RegEx '%s' is not valid." % var_name)
 
 func save_args() -> Dictionary:
 	var result := Dictionary()

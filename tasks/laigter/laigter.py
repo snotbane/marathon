@@ -7,8 +7,8 @@ import sys
 import time
 from PIL import Image
 
-progress_display = 0
-
+SUPPORTED_EXTS = [".png", ".jpg", ".jpeg"]
+progress: int = 0
 
 def str2bool(value: str) -> bool:
     if isinstance(value, bool):
@@ -44,35 +44,45 @@ def bus_set(section: str, key: str, value):
 
 
 class TargetImage:
-	def __init__(self, root, file, src_root, src_file):
-		self.root = root
-		self.file = file
-		self.full = os.path.join(root, file)
-		self.name, self.ext = os.path.splitext(file)
+	def __init__(self, name, dir_path_src, file_path_src, dir_path_tgt):
+		## Directory in which the source file belongs.
+		self.dir_path_src = dir_path_src
+		## Local filename of the source file.
+		self.file_path_src = file_path_src
+		## Full filepath of the source.
+		self.full_path_src = os.path.join(dir_path_src, file_path_src)
 
-		self.src_root = src_root
-		self.src_file = src_file
-		self.src_full = os.path.join(src_root, src_file)
+		## Name of both source and target without suffix.
+		self.name = name
+		## Ext of both source and target files.
+		_, self.ext = os.path.splitext(file_path_src)
 
-		self.src_name, self.src_ext = os.path.splitext(src_file)
-		self.extra_path = os.path.join(src_root, f"{self.src_name}_s{self.src_ext}")
+		## Directory in which this file belongs.
+		self.dir_path_tgt = dir_path_tgt
+		## Local filename.
+		self.file_path_tgt = f"{self.name}{args.target_suffix}{self.ext}"
+		## Full filepath.
+		self.full_path_tgt = os.path.join(dir_path_tgt, self.file_path_tgt)
+
+		## Full filepath of intermediate path 0. Located with the source.
+		self.inter_path_s = os.path.join(dir_path_src, f"{self.name}_s{self.ext}")
+		## Full filepath of intermediate path 1.
+		self.inter_path_n = os.path.join(dir_path_src, f"{self.name}_n{self.ext}")
 
 
 	def __str__(self):
-		return self.file
+		return self.file_path_tgt
 
 
 	def generate(self):
-		global progress_display
+		global progress
 		try:
-			bus_set("output", "source_preview", f"\"{self.src_full}\"")
-			os.makedirs(os.path.dirname(self.full), exist_ok=True)
+			bus_set("output", "source_preview", f"\"{self.full_path_src}\"")
+			os.makedirs(os.path.dirname(self.full_path_tgt), exist_ok=True)
 
-			result_path = os.path.join(self.src_root, f"{self.name}{self.ext}")
+			result_path = os.path.join(self.dir_path_src, f"{self.name}{self.ext}")
 
-			sub_args = ["--no-gui", "--diffuse", self.src_full, "--preset", args.laigter_preset, "--normal"]
-
-			process = subprocess.Popen(executable=args.laigter_path, args=sub_args, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True)
+			process = subprocess.Popen(executable=args.laigter_path, args=["--no-gui", "--diffuse", self.full_path_src, "--preset", args.laigter_preset, "--normal"], shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True)
 
 			while process.poll() is None:
 				if bus_get("input", "stop"):
@@ -80,63 +90,77 @@ class TargetImage:
 					sys.exit(2)
 				time.sleep(0.25)
 
-			if not os.path.exists(result_path): raise Exception(f"Normal file '{result_path}' does not exist and/or was not created.")
-			image = Image.open(result_path)
+			if not os.path.exists(self.inter_path_n): raise Exception(f"Normal file '{self.inter_path_n}' does not exist and/or was not created.")
+			image = Image.open(self.inter_path_n)
 
-			source : Image = Image.open(self.src_full).convert("RGBA")
+			source : Image = Image.open(self.full_path_src).convert("RGBA")
 			image.putalpha(source.getchannel("A"))
-			image.save(self.full)
-			if args.source_path != args.target_path:
-				os.remove(result_path)
-				bus_set("output", "target_preview", f"\"{self.full}\"")
-			else:
-				bus_set("output", "target_preview", f"\"{result_path}\"")
+			image.save(self.full_path_tgt)
+
+			bus_set("output", "target_preview", f"\"{self.full_path_tgt}\"")
+			progress += 1
+			bus_set("output", "progress", progress)
 		except Exception as e:
-			sys.stderr.write(f"Error processing {self.full}: {e}")
+			sys.stderr.write(f"Error processing {self.full_path_tgt}: {e}")
+			bus_set("output", "target_preview", f"\"\"")
 
-		if os.path.exists(self.extra_path): os.remove(self.extra_path)
-
-		progress_display += 1
-		bus_set("output", "progress_display", progress_display)
+		if os.path.exists(self.inter_path_s):
+			os.remove(self.inter_path_s)
+		if os.path.exists(self.inter_path_n) and self.inter_path_n != self.full_path_tgt:
+			os.remove(self.inter_path_n)
 
 
 def assign_image_targets():
 	result = []
-	include = re.compile(args.filter_include)
-	exclude = re.compile(args.filter_exclude)
-	for root, _, files in os.walk(args.source):
+	include_any = args.filter_include != ""
+	exclude_any = args.filter_exclude != ""
+	include_regex = re.compile(args.filter_include)
+	exclude_regex = re.compile(args.filter_exclude)
+	for sub_dir, _, files in os.walk(args.source):
 		for file in files:
-			if args.filter_include != "" and re.search(include, file) == None: continue
-			if args.filter_exclude != "" and re.search(exclude, file) != None: continue
 			name, ext = os.path.splitext(file)
-			target_file = f"{name}_n{ext}"
-			target = TargetImage(args.target, target_file, os.path.join(args.source, root), file)
-			if not args.overwrite and os.path.exists(target.full): continue
+			if not ext.lower() in SUPPORTED_EXTS: continue
+
+			if include_any and re.search(include_regex, name) == None: continue
+			if exclude_any and re.search(exclude_regex, name) != None: continue
+
+			target = TargetImage(name, os.path.join(args.source, sub_dir), file, args.target)
+			if not args.overwrite and os.path.exists(target.full_path_tgt): continue
+
 			result.append(target)
 	return result
 
 
 def main():
+	global progress
+	progress_max: int
+
 	if args.target == "": args.target = args.source
 
-	bus_set("output", "progress_display", 0)
+	bus_set("output", "progress", 0)
 	if os.path.isdir(args.source):
 		targets = assign_image_targets()
-		bus_set("output", "progress_display_max", len(targets))
+		progress_max = len(targets)
+		bus_set("output", "progress_max", progress_max)
 		for target in targets: target.generate()
 	elif os.path.isfile(args.source):
-		bus_set("output", "progress_display_max", 1)
+		progress_max = 1
+		bus_set("output", "progress_max", progress_max)
 		root = os.path.dirname(args.source)
 		file = os.path.basename(args.source)
-		name, ext = os.path.splitext(file)
-		target_file = f"{name}_n{ext}"
-		target = TargetImage(args.target, target_file, os.path.join(args.source, root), file)
-		if not args.overwrite and os.path.exists(target.full): return
+		name, _ = os.path.splitext(file)
+		target = TargetImage(name, root, file, args.target)
+		if not args.overwrite and os.path.exists(target.full_path_tgt): return
+
 		target.generate()
+
 	else:
 		sys.stderr.write("Input path is not a valid file nor directory.")
-		sys.exit(1)
+		sys.exit(7) ## ERR_FILE_NOT_FOUND
 
+	if progress < progress_max:
+		sys.stderr.write("Not all images were successfully processed.")
+		sys.exit(39) ## ERR_SCRIPT_FAILED
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser()
@@ -145,10 +169,13 @@ if __name__ == "__main__":
 	parser.add_argument("laigter_preset", type=str)
 	parser.add_argument("source", type=str)
 	parser.add_argument("target", type=str)
+	parser.add_argument("target_suffix", type=str)
 	parser.add_argument("filter_include", type=str)
 	parser.add_argument("filter_exclude", type=str)
 	parser.add_argument("overwrite", type=str2bool)
 	args = parser.parse_args()
+
+	args.target_suffix = args.target_suffix[1:-1]
 
 	bus_path = args.bus_path
 	bus = configparser.ConfigParser()
@@ -156,4 +183,4 @@ if __name__ == "__main__":
 
 	main()
 
-	sys.exit(0)
+	sys.exit(0) ## OK
