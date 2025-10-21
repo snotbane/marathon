@@ -14,4 +14,6 @@ var current_task : Task :
 
 
 func _ready() -> void:
+	if Utils.is_node_in_editor(self): return
+
 	inst = self

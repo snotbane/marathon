@@ -8,8 +8,8 @@ var _wait_time : float = 1.0
 
 		refresh_comment_if_default()
 		_wait_time = value
-
 		validate_args()
+
 		_refresh_wait_time()
 func _refresh_wait_time() -> void:
 	$timer.wait_time = _wait_time

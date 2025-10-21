@@ -51,10 +51,11 @@ func get_python_arguments() -> PackedStringArray:
 	var result : PackedStringArray
 	result.push_back(PythonTask.localize_script_path(python_script_path))
 	result.push_back(ProjectSettings.globalize_path(bus_path))
-	result.append_array(save_args().values().map(func(e: Variant) -> String:
+	result.append_array(_get_python_arguments().map(func(e: Variant) -> String:
 		return PythonTask.value_as_python_argument(e)
 	))
 	return result
+func _get_python_arguments() -> Array: return []
 
 func _exit_tree() -> void:
 	bus_dir.remove(bus_path)

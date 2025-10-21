@@ -50,8 +50,15 @@ func _get_default_comment() -> String:
 
 
 func _validate_args() -> void:
-	validate_file_path(optipng_path, "optipng_path")
-	validate_dir_path(target_dir, "target_dir")
+	validate_file_path(optipng_path, true, "optipng_path")
+	validate_dir_path(target_dir, true, "target_dir")
+
+
+func _get_python_arguments() -> Array:
+	return [
+		optipng_path,
+		target_dir,
+	]
 
 
 func _save_args(result: Dictionary) -> void:

@@ -53,11 +53,11 @@ var selected_task : Task :
 
 
 func _ready() -> void:
-	inst = self
-	set_drag_forwarding(_get_drag_data, _can_drop_data, _drop_data)
+	if Utils.is_node_in_editor(self): return
 
-	for i in columns:
-		set_column_title_alignment(i, HORIZONTAL_ALIGNMENT_LEFT)
+	inst = self
+
+	for i in columns: set_column_title_alignment(i, HORIZONTAL_ALIGNMENT_LEFT)
 
 	set_column_expand(BUTTONS, false)
 	set_column_expand_ratio(COMMENT, 6)
@@ -65,6 +65,8 @@ func _ready() -> void:
 	set_column_title(TEMPLATE, "Type")
 	set_column_title(COMMENT, "Comment")
 	set_column_title(STATUS, "Status")
+
+	set_drag_forwarding(_get_drag_data, _can_drop_data, _drop_data)
 
 	refresh_items.call_deferred()
 
@@ -155,7 +157,9 @@ func refresh_items() -> void:
 
 func find_task(item: TreeItem) -> Task:
 	if item == null: return null
-	for i in tasks: if task_items[i] == item: return i
+	for i in tasks:
+		if i is not Task: continue
+		if task_items[i] == item: return i
 	return null
 
 #endregion

@@ -176,6 +176,8 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 
 	args.target_suffix = args.target_suffix[1:-1]
+	args.filter_include = args.filter_include[1:-1]
+	args.filter_exclude = args.filter_exclude[1:-1]
 
 	bus_path = args.bus_path
 	bus = configparser.ConfigParser()

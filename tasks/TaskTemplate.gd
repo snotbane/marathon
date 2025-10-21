@@ -1,8 +1,6 @@
 
 @tool class_name TaskTemplate extends Resource
 
-const META_NAME := &"task_template"
-
 @export var name : String
 @export var icon : Texture2D
 @export var _scene_uid : String
@@ -20,12 +18,13 @@ func create_button() -> Button:
 	return result
 
 
-func create_task(focus: bool = true) -> Task:
+func create_task(become_selected: bool = true) -> Task:
 	var result : Task = scene.instantiate()
 	result.template = self
 
 	TaskContainer.inst.add_child(result)
-	result.visible = focus
+	TaskContainer.inst.visible = true
+	result.visible = become_selected
 
 	return result
 

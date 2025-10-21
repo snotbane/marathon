@@ -28,6 +28,8 @@ func install_venv() -> void:
 
 
 func _ready() -> void:
+	if Utils.is_node_in_editor(self): return
+
 	inst = self
 
 	install_venv_dialog = ConfirmationDialog.new()
@@ -35,20 +37,22 @@ func _ready() -> void:
 	install_venv_dialog.confirmed.connect(install_venv)
 	add_child(install_venv_dialog)
 
-	config = ConfigFile.new()
-
 	if FileAccess.file_exists(CONFIG_PATH):
 		load_settings()
 	else:
 		save_settings()
 
 func load_settings() -> void:
+	if not config: config = ConfigFile.new()
+
 	config.load(CONFIG_PATH)
 
 	for k in config.get_section_keys("default"):
 		set_meta(StringName(k), config.get_value("default", k))
 
 func save_settings() -> void:
+	if not config: config = ConfigFile.new()
+
 	for meta in get_meta_list():
 		config.set_value("default", meta, get_meta(meta))
 

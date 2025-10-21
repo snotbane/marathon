@@ -113,12 +113,25 @@ func _get_default_comment() -> String:
 
 
 func _validate_args() -> void:
-	validate_file_path(laigter_path, "laigter_path")
-	validate_file_path(preset_path, "preset_path")
-	validate_dir_path(source_dir, "source_dir")
-	validate_dir_path(target_dir, "target_dir")
-	validate_regex_string(filter_include, true, "filter_include")
-	validate_regex_string(filter_exclude, true, "filter_exclude")
+	validate_file_path(laigter_path, true, "laigter_path")
+	validate_file_path(preset_path, true, "preset_path")
+	validate_dir_path(source_dir, true, "source_dir")
+	validate_dir_path(target_dir, false, "target_dir")
+	validate_regex_string(filter_include, false, "filter_include")
+	validate_regex_string(filter_exclude, false, "filter_exclude")
+
+
+func _get_python_arguments() -> Array:
+	return [
+		laigter_path,
+		preset_path,
+		source_dir,
+		target_dir if target_dir else source_dir,
+		"/%s/" % target_suffix,
+		"/%s/" % filter_include,
+		"/%s/" % filter_exclude,
+		overwrite,
+	]
 
 
 func _save_args(result: Dictionary) -> void:
@@ -126,8 +139,8 @@ func _save_args(result: Dictionary) -> void:
 		&"laigter_path": laigter_path,
 		&"preset_path": preset_path,
 		&"source_dir": source_dir,
-		&"target_dir": target_dir if not target_dir.is_empty() else source_dir,
-		&"target_suffix": "'%s'" % target_suffix,
+		&"target_dir": target_dir,
+		&"target_suffix": target_suffix,
 		&"filter_include": filter_include,
 		&"filter_exclude": filter_exclude,
 		&"overwrite": overwrite,
@@ -137,7 +150,7 @@ func _load_args(data: Dictionary) -> void:
 	preset_path = data[&"preset_path"]
 	source_dir = data[&"source_dir"]
 	target_dir = data[&"target_dir"]
-	target_suffix = data[&"target_suffix"].substr(1, data[&"target_suffix"].length() - 1)
+	target_suffix = data[&"target_suffix"]
 	filter_include = data[&"filter_include"]
 	filter_exclude = data[&"filter_exclude"]
 	overwrite = data[&"overwrite"]

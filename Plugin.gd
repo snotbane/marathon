@@ -24,14 +24,12 @@ func _make_visible(visible: bool) -> void:
 
 func _enable_plugin() -> void:
 	# Add autoloads here.
-
 	_enter_tree()
 
 
 
 func _disable_plugin() -> void:
 	# Remove autoloads here.
-
 	_exit_tree()
 
 
