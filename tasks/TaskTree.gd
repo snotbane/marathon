@@ -15,12 +15,6 @@ enum {
 }
 
 const TEMP_JSON_PATH : String = "user://temp_queue.json"
-const PLAY_ICON : Texture2D = preload("uid://clac2ow8ahs4r")
-const STOP_ICON : Texture2D = preload("uid://cu07nwotdlchh")
-const RESET_ICON : Texture2D = preload("uid://ct7p1qh0ybn05")
-const OPEN_ICON : Texture2D = preload("uid://dtxcom0expqpo")
-const COPY_ICON : Texture2D = preload("uid://cqjx2fyt0kmb3")
-const REMOVE_ICON : Texture2D = preload("uid://cmhgkxhl65v0q")
 
 static var inst : TaskTree
 
@@ -188,10 +182,10 @@ func add_task_item(task: Task) -> TreeItem:
 	if task.template:
 		result.set_text(TEMPLATE, task.template.name)
 
-	result.add_button(BUTTONS, PLAY_ICON, EXECUTE)
-	result.add_button(BUTTONS, COPY_ICON, COPY)
+	result.add_button(BUTTONS, Task.PLAY_ICON, EXECUTE)
+	result.add_button(BUTTONS, Task.COPY_ICON, COPY)
 	result.set_button_tooltip_text(BUTTONS, COPY, "Duplicate")
-	result.add_button(BUTTONS, REMOVE_ICON, REMOVE)
+	result.add_button(BUTTONS, Task.REMOVE_ICON, REMOVE)
 	result.set_button_tooltip_text(BUTTONS, REMOVE, "Remove")
 
 	refresh_task_comment(task)
@@ -273,27 +267,27 @@ func refresh_task_status(task: Task) -> void:
 		Task.QUEUED:
 			text = "Ready"
 			tooltip = "Run"
-			icon = PLAY_ICON
+			icon = Task.PLAY_ICON
 		Task.INVALID:
 			text = "Invalid"
 			tooltip = "Can't run due to errors:\n" + task.error_tooltip_text
-			icon = PLAY_ICON
+			icon = Task.PLAY_ICON
 		Task.RUNNING:
 			text = ""
 			tooltip = "Stop"
-			icon = STOP_ICON
+			icon = Task.STOP_ICON
 		Task.ABORTING:
 			text = "Stopping"
 			tooltip = "Stopping. Please wait..."
-			icon = STOP_ICON
+			icon = Task.STOP_ICON
 		Task.SUCCEEDED:
 			text = "Completed"
 			tooltip = "Reset"
-			icon = RESET_ICON
+			icon = Task.RESET_ICON
 		Task.FAILED:
 			text = "Failed"
 			tooltip = "Reset"
-			icon = RESET_ICON
+			icon = Task.RESET_ICON
 
 	item.set_text(STATUS, text)
 	item.set_tooltip_text(STATUS, task.error_tooltip_text)

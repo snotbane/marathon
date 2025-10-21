@@ -214,6 +214,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+tabs_visible = false
 tab_focus_mode = 0
 deselect_enabled = true
 script = ExtResource("18_3u6c7")

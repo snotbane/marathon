@@ -11,6 +11,14 @@ enum {
 }
 
 
+const PLAY_ICON : Texture2D = preload("uid://clac2ow8ahs4r")
+const STOP_ICON : Texture2D = preload("uid://cu07nwotdlchh")
+const RESET_ICON : Texture2D = preload("uid://ct7p1qh0ybn05")
+const OPEN_ICON : Texture2D = preload("uid://dtxcom0expqpo")
+const COPY_ICON : Texture2D = preload("uid://cqjx2fyt0kmb3")
+const REMOVE_ICON : Texture2D = preload("uid://cmhgkxhl65v0q")
+
+
 static func get_source_target_diff_path(source: String, target: String) -> String:
 	if source == "": return target
 

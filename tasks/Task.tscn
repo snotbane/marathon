@@ -1,6 +1,42 @@
-[gd_scene load_steps=2 format=3 uid="uid://cpw2roduamin5"]
+[gd_scene load_steps=4 format=3 uid="uid://cpw2roduamin5"]
 
 [ext_resource type="Script" uid="uid://p4c2mgi3kd3r" path="res://addons/marathon/tasks/Task.gd" id="1_v46v0"]
+[ext_resource type="Texture2D" uid="uid://clac2ow8ahs4r" path="res://addons/marathon/icons/Play.svg" id="2_vaehq"]
+
+[sub_resource type="GDScript" id="GDScript_vaehq"]
+resource_name = "ExecuteButton"
+script/source = "
+@tool extends Button
+
+@export var task : Task
+
+func _pressed() -> void:
+	pass
+
+
+func _on_task_status_changed() -> void:
+	match task.status:
+		Task.QUEUED:
+			disabled = false
+			icon = Task.PLAY_ICON
+			tooltip_text = \"Run this task.\"
+		Task.INVALID:
+			disabled = true
+			icon = Task.PLAY_ICON
+			tooltip_text = \"Can't run this task due to errors:\\n%s\" % task.error_tooltip_text
+		Task.RUNNING:
+			disabled = false
+			icon = Task.STOP_ICON
+			tooltip_text = \"Stop running this task.\"
+		Task.ABORTING:
+			disabled = true
+			icon = Task.STOP_ICON
+			tooltip_text = \"Please wait...\"
+		Task.SUCCEEDED, Task.FAILED:
+			disabled = false
+			icon = Task.RESET_ICON
+			tooltip_text = \"Reset the task to be run again.\"
+"
 
 [node name="task" type="Control"]
 layout_mode = 3
@@ -26,8 +62,15 @@ size_flags_vertical = 3
 [node name="results" type="HBoxContainer" parent="v_box_container"]
 layout_mode = 2
 
+[node name="execute" type="Button" parent="v_box_container/results" node_paths=PackedStringArray("task")]
+layout_mode = 2
+tooltip_text = "Run this task."
+icon = ExtResource("2_vaehq")
+flat = true
+script = SubResource("GDScript_vaehq")
+task = NodePath("../../..")
+
 [node name="progress_bar" type="ProgressBar" parent="v_box_container/results"]
-custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 size_flags_horizontal = 3
 max_value = 1.0
@@ -64,3 +107,5 @@ size_flags_horizontal = 10
 tooltip_text = "Number of items completed in this task."
 mouse_filter = 1
 text = "0 of 0 completed"
+
+[connection signal="status_changed" from="." to="v_box_container/results/execute" method="_on_task_status_changed"]
