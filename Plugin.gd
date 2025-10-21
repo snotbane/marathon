@@ -34,15 +34,17 @@ func _disable_plugin() -> void:
 
 
 func _enter_tree() -> void:
-	# Initialization of the plugin goes here.
+	if main != null: return
 
 	main = MAIN_SCENE.instantiate()
 	EditorInterface.get_editor_main_screen().add_child(main)
 	_make_visible(false)
 
+	TaskTree.inst.load_json.call_deferred()
+
 
 func _exit_tree() -> void:
-	# Clean-up of the plugin goes here.
+	if main == null: return
 
-	if main:
-		main.queue_free()
+	TaskTree.inst.save_json()
+

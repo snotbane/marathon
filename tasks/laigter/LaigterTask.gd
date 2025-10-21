@@ -120,6 +120,8 @@ func _validate_args() -> void:
 	validate_regex_string(filter_include, false, "filter_include")
 	validate_regex_string(filter_exclude, false, "filter_exclude")
 
+func _get_python_script_path() -> String:
+	return "res://addons/marathon/tasks/laigter/laigter.py"
 
 func _get_python_arguments() -> Array:
 	return [

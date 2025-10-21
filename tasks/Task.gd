@@ -72,9 +72,6 @@ func _refresh_comment_if_default_deferred() -> void:
 	comment = _get_default_comment()
 
 
-@export_tool_button("Start") var start_tool_button := start
-@export_tool_button("Stop") var abort_tool_button := abort
-
 var _status : int = QUEUED
 var status : int = QUEUED :
 	get: return _status
@@ -138,9 +135,10 @@ func _process_running(delta: float) -> void: pass
 
 
 func try_inspect() -> void:
-	if not visible: return
-
-	EditorInterface.edit_node(self)
+	if visible:
+		EditorInterface.edit_node(self)
+	elif EditorInterface.get_inspector().get_edited_object() == self:
+		EditorInterface.edit_node(null)
 
 
 func run() -> void:
@@ -214,7 +212,9 @@ func validate_regex_string(rx: String, required: bool, var_name: String) -> void
 		_errors.push_back("RegEx '%s' is not valid." % var_name)
 
 func save_args() -> Dictionary:
-	var result := Dictionary()
+	var result := {
+		&"template_uid": ResourceUID.id_to_text(ResourceLoader.get_resource_uid(template.resource_path))
+	}
 	_save_args(result)
 	return result
 func _save_args(result: Dictionary) -> void: pass

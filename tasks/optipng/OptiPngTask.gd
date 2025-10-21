@@ -45,6 +45,9 @@ var bytes_reduced : int :
 		$v_box_container/results/progress_bar/margin_container/stats/bytes_reduced.text = "%s reduced" % [ bytes_to_string(_bytes_reduced) ]
 
 
+func _get_python_script_path() -> String:
+	return "res://addons/marathon/tasks/optipng/optipng.py"
+
 func _get_default_comment() -> String:
 	return Utils.get_project_preferred_path(target_dir)
 

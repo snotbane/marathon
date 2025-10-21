@@ -14,7 +14,8 @@ enum {
 	REMOVE,
 }
 
-const TEMP_JSON_PATH : String = "user://temp_queue.json"
+const JSON_IDENTIFIER := "Marathon"
+const TEMP_JSON_PATH := "user://temp_queue.json"
 
 static var inst : TaskTree
 
@@ -25,10 +26,13 @@ signal stopped
 
 
 var root : TreeItem
+var _tasks : Array[Node]
 var tasks : Array[Node] :
-	get: return TaskContainer.inst.get_children()
+	get:
+		if TaskContainer.inst: _tasks = TaskContainer.inst.get_children()
+		return _tasks
 var task_count : int :
-	get: return TaskContainer.inst.get_child_count() if TaskContainer.inst else 0
+	get: return _tasks.size()
 var task_items : Dictionary
 var buttons : Dictionary
 var dragged_item : TreeItem
@@ -36,14 +40,6 @@ var running : bool
 
 var selected_task : Task :
 	get: return find_task(get_selected())
-
-
-# func _enter_tree() -> void:
-	# load_json()
-
-
-# func _exit_tree() -> void:
-	# save_json()
 
 
 func _ready() -> void:
@@ -59,10 +55,10 @@ func _ready() -> void:
 	set_column_title(TEMPLATE, "Type")
 	set_column_title(COMMENT, "Comment")
 	set_column_title(STATUS, "Status")
+	set_column_title(BUTTONS, "Actions")
 
 	set_drag_forwarding(_get_drag_data, _can_drop_data, _drop_data)
 
-	refresh_items.call_deferred()
 
 func _process(delta: float) -> void:
 	var color := lerp(Color.DARK_SLATE_GRAY, Color.SLATE_GRAY, remap(sin(float(Time.get_ticks_msec()) * PI / 1000.0), -1.0, 1.0, 0.0, 1.0))
@@ -115,7 +111,6 @@ func start_queue() -> void:
 	for task in tasks:
 		if not running: break
 		await task.run()
-		# await task.run(get_tree(), true)
 	running = false
 	stopped.emit()
 
@@ -329,6 +324,39 @@ func refresh_task_comment(task: Task) -> void:
 	item.set_tooltip_text(COMMENT, task.comment)
 
 #endregion
+#region Save/Load
+
+func save_json(path: String = TEMP_JSON_PATH) -> void:
+	var json_file := FileAccess.open(path, FileAccess.WRITE)
+	var json := {
+		&"type": JSON_IDENTIFIER,
+		&"data": tasks.map(func(e: Task): return e.save_args())
+	}
+	json_file.store_string(JSON.stringify(json))
+
+func load_json(path: String = TEMP_JSON_PATH, append: bool = false) -> void:
+	if not FileAccess.file_exists(path):
+		printerr("File at path '%s' does not exist." % path)
+		return
+
+	if not append:
+		tasks.clear()
+
+	var json_file := FileAccess.open(path, FileAccess.READ)
+	var json : Dictionary = JSON.parse_string(json_file.get_as_text())
+
+	if json.get(&"type") != JSON_IDENTIFIER:
+		printerr("File at path '%s' cannot be loaded because it is not a Marathon task list.")
+		return
+
+	for e in json[&"data"]:
+		var template : TaskTemplate = load(e[&"template_uid"])
+		template.create_task(false)
+
+	refresh_items()
+
+
+#endregion
 #region Signal Events
 
 func _on_button_clicked(item:TreeItem, column:int, id:int, mouse_button_index:int) -> void:
@@ -353,5 +381,6 @@ func _on_empty_clicked(click_position: Vector2, mouse_button_index: int) -> void
 	deselect_all()
 
 #endregion
+
 
 
