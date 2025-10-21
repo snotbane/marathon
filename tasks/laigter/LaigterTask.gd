@@ -102,7 +102,14 @@ var _overwrite : bool = true
 
 
 func _get_default_comment() -> String:
-	return "%s : %s -> %s" % [ _preset_path.get_file(), _source_dir.get_file(), _target_dir.get_file() ]
+	var result := "%s : %s >> %s" % [ _preset_path.get_file(), _source_dir.get_file(), _target_dir.get_file() ]
+
+	if filter_include:
+		result += " (include: %s)" % filter_include
+	if filter_exclude:
+		result += " (exclude: %s)" % filter_exclude
+
+	return result
 
 
 func _validate_args() -> void:
@@ -134,6 +141,11 @@ func _load_args(data: Dictionary) -> void:
 	filter_include = data[&"filter_include"]
 	filter_exclude = data[&"filter_exclude"]
 	overwrite = data[&"overwrite"]
+
+
+func _reset() -> void:
+	$v_box_container/content/split/source/preview.clear()
+	$v_box_container/content/split/target/preview.clear()
 
 
 func _bus_poll() -> void:

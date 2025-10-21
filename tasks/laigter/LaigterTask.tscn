@@ -10,16 +10,17 @@ laigter_path = "/home/snotbane/Desktop/Laigter-x86_64.AppImage"
 preset_path = ""
 source_dir = ""
 target_dir = ""
-target_suffix = null
+target_suffix = "_n"
 filter_include = ""
 filter_exclude = ""
 overwrite = true
-print_output = true
 python_script_path = "res://addons/marathon/tasks/laigter/laigter.py"
 comment = "Python task: "
 
 [node name="split" type="HSplitContainer" parent="v_box_container/content" index="0"]
 layout_mode = 2
+dragging_enabled = false
+dragger_visibility = 2
 
 [node name="source" type="VBoxContainer" parent="v_box_container/content/split" index="0"]
 layout_mode = 2

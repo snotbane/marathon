@@ -34,6 +34,17 @@ var _target_dir : String
 		_target_dir = value
 		validate_args()
 
+
+var _bytes_reduced : int
+var bytes_reduced : int :
+	get: return _bytes_reduced
+	set(value):
+		if _bytes_reduced == value: return
+		_bytes_reduced = value
+
+		$v_box_container/results/progress_bar/margin_container/stats/bytes_reduced.text = "%s reduced" % [ bytes_to_string(_bytes_reduced) ]
+
+
 func _get_default_comment() -> String:
 	return Utils.get_project_preferred_path(target_dir)
 
@@ -53,8 +64,13 @@ func _load_args(data: Dictionary) -> void:
 	target_dir = data[&"target_dir"]
 
 
+func _reset() -> void:
+	bytes_reduced = 0
+	$v_box_container/content/preview.clear()
+
+
 func _bus_poll() -> void:
 	super._bus_poll()
 
+	bytes_reduced = bus.get_value("output", "bytes", 0)
 	$v_box_container/content/preview.value = bus.get_value("output", "image_preview", "")
-	$v_box_container/results/progress_bar/margin_container/stats/bytes_reduced.text = "%s reduced" % [ bytes_to_string(bus.get_value("output", "bytes", 0)) ]

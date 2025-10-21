@@ -45,19 +45,20 @@ signal finished(code: int)
 @onready var time_elapsed_label : Label = $v_box_container/results/progress_bar/margin_container/time_elapsed
 @onready var items_completed_label : Label = $v_box_container/results/progress_bar/margin_container/stats/items_completed
 
-var _comment : String
-@export var comment : String :
+var _comment : String = ""
+## Custom comment to label this [Task]. Resets to a default value determined by the type of [Task] being called.
+@export var comment : String = "" :
 	get: return _comment
 	set(value):
 		if _comment == value: return
-		_comment = value
+		_comment = value if value else _get_default_comment()
 		comment_changed.emit()
 
 func _get_default_comment() -> String:
 	return template.name if template else ""
 
 func refresh_comment_if_default() -> void:
-	if _comment != _get_default_comment(): return
+	if not _comment.is_empty() and _comment != _get_default_comment(): return
 	_refresh_comment_if_default_deferred.call_deferred()
 func _refresh_comment_if_default_deferred() -> void:
 	comment = _get_default_comment()
@@ -106,8 +107,7 @@ var progress : float :
 
 
 func _ready() -> void:
-	if comment.is_empty():
-		comment = _get_default_comment()
+	comment = _get_default_comment()
 
 	visibility_changed.connect(try_inspect)
 
@@ -170,6 +170,8 @@ func finish(code: int) -> void:
 
 func reset() -> void:
 	status = QUEUED
+	_reset()
+func _reset() -> void: pass
 
 
 func validate_args() -> void:

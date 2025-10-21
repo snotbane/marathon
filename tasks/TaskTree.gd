@@ -328,6 +328,7 @@ func refresh_task_progress(task: Task) -> void:
 func refresh_task_comment(task: Task) -> void:
 	var item : TreeItem = task_items[task]
 	item.set_text(COMMENT, task.comment)
+	item.set_tooltip_text(COMMENT, task.comment)
 
 #endregion
 #region Signal Events

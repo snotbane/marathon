@@ -21,12 +21,21 @@ static func value_as_python_argument(value: Variant) -> String:
 	return str(value)
 
 
-@export var print_output : bool = true
 @export_file("*.py") var python_script_path : String
 
 @export_tool_button("Reveal Bus") var reveal_bus := func() -> void:
-	if not running: return
-	OS.shell_open(ProjectSettings.globalize_path(bus_path))
+	if running:
+		OS.shell_open(ProjectSettings.globalize_path(bus_path))
+	else:
+		var dialog := AcceptDialog.new()
+		dialog.popup_window = true
+		dialog.transient = true
+		dialog.transient_to_focused = true
+		dialog.dialog_text = "Python bus can only be revealed while the script is running."
+		dialog.close_requested.connect(dialog.queue_free)
+		add_child(dialog)
+		dialog.popup_centered()
+
 
 var bus_dir : DirAccess
 var bus : ConfigFile
@@ -84,15 +93,13 @@ func _thread_stopped() -> void:
 
 func _start() -> void:
 	bus = ConfigFile.new()
-
-	_bus_init()
 	bus.save(bus_path)
 
 	var code : int = thread.start(execute.bind(MarathonGlobalSettings.inst.python_exe_path, get_python_arguments()))
 	if code == OK: return
 
 	finish(code)
-func _bus_init() -> void: pass
+
 
 func _abort() -> bool:
 	bus.set_value("input", ABORT_KEY, true)
@@ -102,10 +109,7 @@ func _abort() -> bool:
 
 
 func execute(cmd: String, args: PackedStringArray) -> int:
-	if print_output:
-		print("%s args: %s" % [template.name, args])
-
-	return execute_static(cmd, args, print_output)
+	return execute_static(cmd, args)
 static func execute_static(cmd: String, args: PackedStringArray, print_output: bool = true) -> int:
 	var output : Array
 	var result : int = OS.execute(cmd, args, output, print_output)
