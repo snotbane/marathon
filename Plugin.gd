@@ -40,7 +40,10 @@ func _enter_tree() -> void:
 	EditorInterface.get_editor_main_screen().add_child(main)
 	_make_visible(false)
 
-	TaskTree.inst.load_json.call_deferred()
+	if FileAccess.file_exists(TaskTree.TEMP_JSON_PATH):
+		TaskTree.inst.load_json.call_deferred()
+	else:
+		TaskTree.inst.save_json.call_deferred()
 
 
 func _exit_tree() -> void:
