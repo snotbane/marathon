@@ -18,4 +18,4 @@ visible = true
 [node name="bytes_reduced" type="Label" parent="v_box_container/results/progress_bar/margin_container/stats" index="1"]
 layout_mode = 2
 size_flags_horizontal = 4
-text = "So and so bytes reduced"
+text = "0 B reduced"

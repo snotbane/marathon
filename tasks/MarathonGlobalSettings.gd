@@ -8,7 +8,7 @@ static var config : ConfigFile
 
 var install_venv_dialog : ConfirmationDialog
 
-@export_global_dir var python_venv_path : String = "res://addons/marathon" :
+@export_global_dir var python_venv_path : String = "res://addons/marathon/.venv" :
 	get: return get_meta(&"python_venv_path", "")
 	set(value):
 		if python_venv_path == value: return

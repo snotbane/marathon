@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://ef5hvftp4smh"]
+[gd_scene load_steps=34 format=3 uid="uid://ef5hvftp4smh"]
 
 [ext_resource type="Script" uid="uid://chfpoyapyy2r5" path="res://addons/marathon/scenes/ManagerButtons.gd" id="1_dkkd1"]
 [ext_resource type="Texture2D" uid="uid://cgt6ejtfsi5x8" path="res://addons/marathon/icons/Tools.svg" id="2_rangv"]
@@ -10,7 +10,6 @@
 [ext_resource type="Texture2D" uid="uid://dcacnkbcou6rn" path="res://addons/marathon/icons/Load.svg" id="7_f2ono"]
 [ext_resource type="Texture2D" uid="uid://ct7p1qh0ybn05" path="res://addons/marathon/icons/Reload.svg" id="8_iuqo7"]
 [ext_resource type="Texture2D" uid="uid://bcd3eg8vjlgin" path="res://addons/marathon/icons/Add.svg" id="9_s6s3o"]
-[ext_resource type="LabelSettings" uid="uid://dsqyt6bjimr17" path="res://addons/marathon/theme/label/no_info.tres" id="9_xs2sm"]
 [ext_resource type="Script" uid="uid://clwedgk260yyt" path="res://addons/marathon/tasks/TaskTree.gd" id="10_y17js"]
 [ext_resource type="Script" uid="uid://rgm460q6oiyv" path="res://addons/marathon/scenes/CreateTaskList.gd" id="11_br3bt"]
 [ext_resource type="Script" uid="uid://bpeqonbriegt2" path="res://addons/marathon/scenes/CurrentProject.gd" id="11_s6s3o"]
@@ -20,7 +19,6 @@
 [ext_resource type="Resource" uid="uid://f2w8bttuc4oc" path="res://addons/marathon/tasks/fatlas/fatlas.tres" id="16_n85t4"]
 [ext_resource type="Resource" uid="uid://bdrvf6blp42h2" path="res://addons/marathon/tasks/optipng/optipng.tres" id="17_af51x"]
 [ext_resource type="Script" uid="uid://6eldrawh61aa" path="res://addons/marathon/scenes/TaskContainer.gd" id="18_3u6c7"]
-[ext_resource type="Texture2D" uid="uid://cavf6x14o8ns1" path="res://addons/marathon/icons/Back.svg" id="19_e3acf"]
 
 [sub_resource type="InputEventKey" id="InputEventKey_xs2sm"]
 device = -1
@@ -131,51 +129,43 @@ layout_mode = 2
 split_offset = 360
 metadata/_tab_index = 0
 
-[node name="manager_split" type="Control" parent="tab_container/main_split"]
+[node name="task_manager" type="PanelContainer" parent="tab_container/main_split"]
 layout_mode = 2
 
-[node name="panel_container" type="PanelContainer" parent="tab_container/main_split/manager_split"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="v_box_container" type="VBoxContainer" parent="tab_container/main_split/manager_split/panel_container"]
+[node name="vbox" type="VBoxContainer" parent="tab_container/main_split/task_manager"]
 layout_mode = 2
 
-[node name="current_project" type="Label" parent="tab_container/main_split/manager_split/panel_container/v_box_container"]
+[node name="current_project" type="Label" parent="tab_container/main_split/task_manager/vbox"]
 visible = false
 layout_mode = 2
 mouse_filter = 0
 horizontal_alignment = 1
 script = ExtResource("11_s6s3o")
 
-[node name="manager_buttons" type="GridContainer" parent="tab_container/main_split/manager_split/panel_container/v_box_container" node_paths=PackedStringArray("buttons_disabled_while_running")]
+[node name="manager_buttons" type="GridContainer" parent="tab_container/main_split/task_manager/vbox" node_paths=PackedStringArray("buttons_disabled_while_running")]
 layout_mode = 2
 columns = 2
 script = ExtResource("1_dkkd1")
 buttons_disabled_while_running = [NodePath("settings"), NodePath("save/new"), NodePath("load/overwrite"), NodePath("load/append"), NodePath("run/reset_all")]
 
-[node name="save" type="HBoxContainer" parent="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons"]
+[node name="save" type="HBoxContainer" parent="tab_container/main_split/task_manager/vbox/manager_buttons"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="new" type="Button" parent="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/save"]
+[node name="new" type="Button" parent="tab_container/main_split/task_manager/vbox/manager_buttons/save"]
 layout_mode = 2
 tooltip_text = "Create a new queue."
 shortcut = SubResource("Shortcut_y17js")
 icon = ExtResource("4_qtrbu")
 
-[node name="confirmation_dialog" type="ConfirmationDialog" parent="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/save/new"]
+[node name="confirmation_dialog" type="ConfirmationDialog" parent="tab_container/main_split/task_manager/vbox/manager_buttons/save/new"]
 oversampling_override = 1.0
 initial_position = 1
 size = Vector2i(391, 100)
 dialog_text = "This will remove all tasks and cannot be undone!"
 dialog_autowrap = true
 
-[node name="current" type="Button" parent="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/save"]
+[node name="current" type="Button" parent="tab_container/main_split/task_manager/vbox/manager_buttons/save"]
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Save the current configuration and overwrite."
@@ -183,23 +173,23 @@ shortcut = SubResource("Shortcut_tthtu")
 text = "Save"
 icon = ExtResource("4_s6s3o")
 
-[node name="as_new" type="Button" parent="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/save"]
+[node name="as_new" type="Button" parent="tab_container/main_split/task_manager/vbox/manager_buttons/save"]
 layout_mode = 2
 tooltip_text = "Save the current configuration as a new JSON file."
 shortcut = SubResource("Shortcut_qtrbu")
 icon = ExtResource("5_6cm3p")
 
-[node name="file_dialog" type="FileDialog" parent="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/save"]
+[node name="file_dialog" type="FileDialog" parent="tab_container/main_split/task_manager/vbox/manager_buttons/save"]
 oversampling_override = 1.0
 display_mode = 1
 filters = PackedStringArray("*.json")
 use_native_dialog = true
 
-[node name="load" type="HBoxContainer" parent="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons"]
+[node name="load" type="HBoxContainer" parent="tab_container/main_split/task_manager/vbox/manager_buttons"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="overwrite" type="Button" parent="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/load"]
+[node name="overwrite" type="Button" parent="tab_container/main_split/task_manager/vbox/manager_buttons/load"]
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Load a JSON file into the queue."
@@ -207,42 +197,43 @@ shortcut = SubResource("Shortcut_f2ono")
 text = "Load"
 icon = ExtResource("7_f2ono")
 
-[node name="file_dialog" type="FileDialog" parent="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/load/overwrite"]
+[node name="file_dialog" type="FileDialog" parent="tab_container/main_split/task_manager/vbox/manager_buttons/load/overwrite"]
 title = "Open a File"
 file_mode = 0
 display_mode = 1
 filters = PackedStringArray("*.json")
 use_native_dialog = true
 
-[node name="append" type="Button" parent="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/load"]
+[node name="append" type="Button" parent="tab_container/main_split/task_manager/vbox/manager_buttons/load"]
 layout_mode = 2
 tooltip_text = "Load a JSON file and add it to the existing queue."
 shortcut = SubResource("Shortcut_xs2sm")
 icon = ExtResource("9_s6s3o")
 
-[node name="file_dialog" type="FileDialog" parent="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/load/append"]
+[node name="file_dialog" type="FileDialog" parent="tab_container/main_split/task_manager/vbox/manager_buttons/load/append"]
 title = "Open a File"
 file_mode = 0
 display_mode = 1
 filters = PackedStringArray("*.json")
 use_native_dialog = true
 
-[node name="settings" type="Button" parent="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons"]
+[node name="settings" type="Button" parent="tab_container/main_split/task_manager/vbox/manager_buttons"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Settings"
 icon = ExtResource("2_rangv")
 script = SubResource("GDScript_lpup6")
 
-[node name="access" type="Node" parent="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/settings"]
+[node name="access" type="Node" parent="tab_container/main_split/task_manager/vbox/manager_buttons/settings"]
 script = ExtResource("3_6cm3p")
+python_venv_path = "res://addons/marathon"
 metadata/python_venv_path = "res://addons/marathon"
 
-[node name="run" type="HBoxContainer" parent="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons"]
+[node name="run" type="HBoxContainer" parent="tab_container/main_split/task_manager/vbox/manager_buttons"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="play_stop" type="Button" parent="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/run"]
+[node name="play_stop" type="Button" parent="tab_container/main_split/task_manager/vbox/manager_buttons/run"]
 layout_mode = 2
 size_flags_horizontal = 3
 toggle_mode = true
@@ -251,37 +242,13 @@ text = "Run Queue"
 icon = ExtResource("5_qtrbu")
 script = SubResource("GDScript_a2pxq")
 
-[node name="reset_all" type="Button" parent="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/run"]
+[node name="reset_all" type="Button" parent="tab_container/main_split/task_manager/vbox/manager_buttons/run"]
 layout_mode = 2
 tooltip_text = "Reset any/all Tasks that have completed."
 icon = ExtResource("8_iuqo7")
 
-[node name="task_tree_container" type="Control" parent="tab_container/main_split/manager_split/panel_container/v_box_container"]
+[node name="task_tree" type="Tree" parent="tab_container/main_split/task_manager/vbox"]
 layout_mode = 2
-size_flags_vertical = 3
-
-[node name="no_info" type="CenterContainer" parent="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container"]
-visible = false
-z_index = 1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="label" type="Label" parent="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/no_info"]
-layout_mode = 2
-text = "No Tasks"
-label_settings = ExtResource("9_xs2sm")
-
-[node name="task_tree" type="Tree" parent="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
 size_flags_vertical = 3
 columns = 4
 column_titles_visible = true
@@ -293,86 +260,42 @@ scroll_horizontal_enabled = false
 auto_tooltip = false
 script = ExtResource("10_y17js")
 
-[node name="create_task_list" type="HFlowContainer" parent="tab_container/main_split/manager_split/panel_container/v_box_container"]
+[node name="create_task_list" type="HFlowContainer" parent="tab_container/main_split/task_manager/vbox"]
 layout_mode = 2
 alignment = 1
 script = ExtResource("11_br3bt")
 templates = Array[ExtResource("12_wroo2")]([ExtResource("14_0ugl0"), ExtResource("15_eolsp"), ExtResource("16_n85t4"), ExtResource("17_af51x")])
 
-[node name="task_split" type="Control" parent="tab_container/main_split"]
+[node name="task_container" type="TabContainer" parent="tab_container/main_split"]
 layout_mode = 2
-
-[node name="no_info" type="CenterContainer" parent="tab_container/main_split/task_split"]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="label" type="Label" parent="tab_container/main_split/task_split/no_info"]
-layout_mode = 2
-text = "No Task Selected"
-label_settings = ExtResource("9_xs2sm")
-
-[node name="task_container" type="TabContainer" parent="tab_container/main_split/task_split"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
 tabs_visible = false
 tab_focus_mode = 0
 deselect_enabled = true
 script = ExtResource("18_3u6c7")
 
-[node name="settings" type="Control" parent="tab_container"]
-visible = false
-layout_mode = 2
-metadata/_tab_index = 1
-
-[node name="panel_container" type="PanelContainer" parent="tab_container/settings"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="v_box_container" type="VBoxContainer" parent="tab_container/settings/panel_container"]
-layout_mode = 2
-
-[node name="controls" type="HFlowContainer" parent="tab_container/settings/panel_container/v_box_container"]
-layout_mode = 2
-
-[node name="back" type="Button" parent="tab_container/settings/panel_container/v_box_container/controls"]
-layout_mode = 2
-text = "Back"
-icon = ExtResource("19_e3acf")
-
-[connection signal="current_save_requested" from="tab_container/main_split/manager_split/panel_container/v_box_container/current_project" to="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" method="save_json"]
-[connection signal="gui_input" from="tab_container/main_split/manager_split/panel_container/v_box_container/current_project" to="tab_container/main_split/manager_split/panel_container/v_box_container/current_project" method="_on_gui_input"]
-[connection signal="nothing_saved" from="tab_container/main_split/manager_split/panel_container/v_box_container/current_project" to="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/save/file_dialog" method="show"]
-[connection signal="pressed" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/save/new" to="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/save/new/confirmation_dialog" method="show"]
-[connection signal="confirmed" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/save/new/confirmation_dialog" to="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" method="remove_all_tasks"]
-[connection signal="confirmed" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/save/new/confirmation_dialog" to="tab_container/main_split/manager_split/panel_container/v_box_container/current_project" method="set_file_path" binds= [""]]
-[connection signal="pressed" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/save/current" to="tab_container/main_split/manager_split/panel_container/v_box_container/current_project" method="_on_save_current_pressed"]
-[connection signal="pressed" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/save/as_new" to="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/save/file_dialog" method="show"]
-[connection signal="file_selected" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/save/file_dialog" to="tab_container/main_split/manager_split/panel_container/v_box_container/current_project" method="set_file_path"]
-[connection signal="file_selected" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/save/file_dialog" to="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" method="save_json"]
-[connection signal="pressed" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/load/overwrite" to="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/load/overwrite/file_dialog" method="show"]
-[connection signal="file_selected" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/load/overwrite/file_dialog" to="tab_container/main_split/manager_split/panel_container/v_box_container/current_project" method="set_file_path"]
-[connection signal="file_selected" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/load/overwrite/file_dialog" to="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" method="load_json" binds= [false]]
-[connection signal="pressed" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/load/append" to="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/load/append/file_dialog" method="show"]
-[connection signal="file_selected" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/load/append/file_dialog" to="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" method="load_json" binds= [true]]
-[connection signal="toggled" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/run/play_stop" to="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" method="_on_run_stop_toggled"]
-[connection signal="pressed" from="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/run/reset_all" to="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" method="reset_all"]
-[connection signal="button_clicked" from="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" to="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" method="_on_button_clicked"]
-[connection signal="empty_clicked" from="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" to="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" method="_on_empty_clicked"]
-[connection signal="item_selected" from="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" to="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" method="_on_item_selected"]
-[connection signal="started" from="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" to="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons" method="_on_task_tree_started"]
-[connection signal="started" from="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" to="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/run/play_stop" method="_on_task_tree_started"]
-[connection signal="stop_requested" from="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" to="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/run/play_stop" method="_on_task_tree_stop_requested"]
-[connection signal="stopped" from="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" to="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons" method="_on_task_tree_stopped"]
-[connection signal="stopped" from="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" to="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/run/play_stop" method="_on_task_tree_stopped"]
-[connection signal="stopped" from="tab_container/main_split/manager_split/panel_container/v_box_container/task_tree_container/task_tree" to="tab_container/main_split/manager_split/panel_container/v_box_container/manager_buttons/run/play_stop" method="set_disabled" binds= [false]]
-[connection signal="pressed" from="tab_container/settings/panel_container/v_box_container/controls/back" to="tab_container" method="set_current_tab" binds= [0]]
+[connection signal="current_save_requested" from="tab_container/main_split/task_manager/vbox/current_project" to="tab_container/main_split/task_manager/vbox/task_tree" method="save_json"]
+[connection signal="gui_input" from="tab_container/main_split/task_manager/vbox/current_project" to="tab_container/main_split/task_manager/vbox/current_project" method="_on_gui_input"]
+[connection signal="nothing_saved" from="tab_container/main_split/task_manager/vbox/current_project" to="tab_container/main_split/task_manager/vbox/manager_buttons/save/file_dialog" method="show"]
+[connection signal="pressed" from="tab_container/main_split/task_manager/vbox/manager_buttons/save/new" to="tab_container/main_split/task_manager/vbox/manager_buttons/save/new/confirmation_dialog" method="show"]
+[connection signal="confirmed" from="tab_container/main_split/task_manager/vbox/manager_buttons/save/new/confirmation_dialog" to="tab_container/main_split/task_manager/vbox/task_tree" method="remove_all_tasks"]
+[connection signal="confirmed" from="tab_container/main_split/task_manager/vbox/manager_buttons/save/new/confirmation_dialog" to="tab_container/main_split/task_manager/vbox/current_project" method="set_file_path" binds= [""]]
+[connection signal="pressed" from="tab_container/main_split/task_manager/vbox/manager_buttons/save/current" to="tab_container/main_split/task_manager/vbox/current_project" method="_on_save_current_pressed"]
+[connection signal="pressed" from="tab_container/main_split/task_manager/vbox/manager_buttons/save/as_new" to="tab_container/main_split/task_manager/vbox/manager_buttons/save/file_dialog" method="show"]
+[connection signal="file_selected" from="tab_container/main_split/task_manager/vbox/manager_buttons/save/file_dialog" to="tab_container/main_split/task_manager/vbox/current_project" method="set_file_path"]
+[connection signal="file_selected" from="tab_container/main_split/task_manager/vbox/manager_buttons/save/file_dialog" to="tab_container/main_split/task_manager/vbox/task_tree" method="save_json"]
+[connection signal="pressed" from="tab_container/main_split/task_manager/vbox/manager_buttons/load/overwrite" to="tab_container/main_split/task_manager/vbox/manager_buttons/load/overwrite/file_dialog" method="show"]
+[connection signal="file_selected" from="tab_container/main_split/task_manager/vbox/manager_buttons/load/overwrite/file_dialog" to="tab_container/main_split/task_manager/vbox/current_project" method="set_file_path"]
+[connection signal="file_selected" from="tab_container/main_split/task_manager/vbox/manager_buttons/load/overwrite/file_dialog" to="tab_container/main_split/task_manager/vbox/task_tree" method="load_json" binds= [false]]
+[connection signal="pressed" from="tab_container/main_split/task_manager/vbox/manager_buttons/load/append" to="tab_container/main_split/task_manager/vbox/manager_buttons/load/append/file_dialog" method="show"]
+[connection signal="file_selected" from="tab_container/main_split/task_manager/vbox/manager_buttons/load/append/file_dialog" to="tab_container/main_split/task_manager/vbox/task_tree" method="load_json" binds= [true]]
+[connection signal="toggled" from="tab_container/main_split/task_manager/vbox/manager_buttons/run/play_stop" to="tab_container/main_split/task_manager/vbox/task_tree" method="_on_run_stop_toggled"]
+[connection signal="pressed" from="tab_container/main_split/task_manager/vbox/manager_buttons/run/reset_all" to="tab_container/main_split/task_manager/vbox/task_tree" method="reset_all"]
+[connection signal="button_clicked" from="tab_container/main_split/task_manager/vbox/task_tree" to="tab_container/main_split/task_manager/vbox/task_tree" method="_on_button_clicked"]
+[connection signal="empty_clicked" from="tab_container/main_split/task_manager/vbox/task_tree" to="tab_container/main_split/task_manager/vbox/task_tree" method="_on_empty_clicked"]
+[connection signal="item_selected" from="tab_container/main_split/task_manager/vbox/task_tree" to="tab_container/main_split/task_manager/vbox/task_tree" method="_on_item_selected"]
+[connection signal="started" from="tab_container/main_split/task_manager/vbox/task_tree" to="tab_container/main_split/task_manager/vbox/manager_buttons" method="_on_task_tree_started"]
+[connection signal="started" from="tab_container/main_split/task_manager/vbox/task_tree" to="tab_container/main_split/task_manager/vbox/manager_buttons/run/play_stop" method="_on_task_tree_started"]
+[connection signal="stop_requested" from="tab_container/main_split/task_manager/vbox/task_tree" to="tab_container/main_split/task_manager/vbox/manager_buttons/run/play_stop" method="_on_task_tree_stop_requested"]
+[connection signal="stopped" from="tab_container/main_split/task_manager/vbox/task_tree" to="tab_container/main_split/task_manager/vbox/manager_buttons" method="_on_task_tree_stopped"]
+[connection signal="stopped" from="tab_container/main_split/task_manager/vbox/task_tree" to="tab_container/main_split/task_manager/vbox/manager_buttons/run/play_stop" method="_on_task_tree_stopped"]
+[connection signal="stopped" from="tab_container/main_split/task_manager/vbox/task_tree" to="tab_container/main_split/task_manager/vbox/manager_buttons/run/play_stop" method="set_disabled" binds= [false]]
