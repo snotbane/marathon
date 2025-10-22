@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("1_hifjc")
 name = "Dummy"
+description = "Dummy task that waits a specified amount of time before completing. Fails if interrupted."
 icon = ExtResource("1_vhsym")
 _scene_uid = "uid://cefgrwj8dg2a0"
 metadata/_custom_type_script = "uid://cl81t2vbdaklc"

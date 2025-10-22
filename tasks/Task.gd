@@ -19,6 +19,10 @@ const COPY_ICON : Texture2D = preload("uid://cqjx2fyt0kmb3")
 const REMOVE_ICON : Texture2D = preload("uid://cmhgkxhl65v0q")
 
 
+static var TEMP_DIR_PATH : String :
+	get: return ProjectSettings.globalize_path("user://tmp/")
+
+
 static func get_source_target_diff_path(source: String, target: String) -> String:
 	if source == "": return target
 

@@ -1,7 +1,19 @@
 @tool class_name ImagePreview extends Control
 
+@onready var name_label : Label = $main/name_label
 @onready var image_rect : TextureRect = $main/zoomable_image
 @onready var path_label : Label = $main/path_label
+
+var _label : String
+@export var label : String :
+	get: return _label
+	set(value):
+		_label = value
+
+		if not name_label: return
+
+		name_label.text = _label
+		name_label.visible = not _label.is_empty()
 
 @export var show_path : bool = true :
 	get: return path_label.visible if path_label else true

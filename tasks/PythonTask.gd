@@ -3,9 +3,6 @@
 
 const ABORT_KEY := "stop"
 
-static var TEMP_DIR_PATH : String :
-	get: return ProjectSettings.globalize_path("user://tmp/")
-
 
 static func localize_script_path(path: String) -> String:
 	if OS.has_feature("editor"):

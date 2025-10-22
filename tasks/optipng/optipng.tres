@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("2_2ldeg")
 name = "OptiPNG"
+description = "Uses OptiPNG to losslessly compress PNG images."
 icon = ExtResource("1_loxpi")
 _scene_uid = "uid://br8nucwf4oc6e"
 metadata/_custom_type_script = "uid://cl81t2vbdaklc"

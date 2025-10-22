@@ -1,0 +1,106 @@
+[gd_scene load_steps=9 format=3 uid="uid://cjg2ttmre2ljd"]
+
+[ext_resource type="PackedScene" uid="uid://cpw2roduamin5" path="res://addons/marathon/tasks/Task.tscn" id="1_2jeqr"]
+[ext_resource type="Script" uid="uid://dkoi6thcesu63" path="res://addons/marathon/tasks/spruce/SpruceTask.gd" id="2_1tbij"]
+[ext_resource type="PackedScene" uid="uid://3djnsrgpqbb1" path="res://addons/marathon/scenes/ImagePreview.tscn" id="2_fa1rg"]
+[ext_resource type="Texture2D" uid="uid://c53my30h15c2e" path="res://addons/marathon/icons/ImportCheck.svg" id="4_848fo"]
+[ext_resource type="Script" uid="uid://b0dg087awsnro" path="res://addons/marathon/tasks/spruce/ReviewTree.gd" id="4_cqrby"]
+[ext_resource type="Texture2D" uid="uid://bggxylyvjwxip" path="res://addons/marathon/icons/ArrowDown.svg" id="4_wov3m"]
+[ext_resource type="Texture2D" uid="uid://cx8x3diddw5ud" path="res://addons/marathon/icons/ImportFail.svg" id="5_cqrby"]
+[ext_resource type="PackedScene" uid="uid://dqpguervbrvmn" path="res://addons/marathon/scenes/VisibilityToggle.tscn" id="6_wov3m"]
+
+[node name="SpruceTask" instance=ExtResource("1_2jeqr")]
+script = ExtResource("2_1tbij")
+review_changes = true
+target_dir = ""
+filter_include = ""
+filter_exclude = ""
+island_opacity = 0
+island_size = 256
+
+[node name="split" type="HSplitContainer" parent="v_box_container/content" index="0"]
+layout_mode = 2
+
+[node name="compare" type="VBoxContainer" parent="v_box_container/content/split" index="0"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="source" type="Control" parent="v_box_container/content/split/compare" index="0"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="preview" parent="v_box_container/content/split/compare/source" index="0" instance=ExtResource("2_fa1rg")]
+layout_mode = 1
+label = "Current"
+
+[node name="indicator" type="TextureRect" parent="v_box_container/content/split/compare" index="1"]
+layout_mode = 2
+texture = ExtResource("4_wov3m")
+stretch_mode = 5
+
+[node name="target" type="Control" parent="v_box_container/content/split/compare" index="2"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="preview" parent="v_box_container/content/split/compare/target" index="0" instance=ExtResource("2_fa1rg")]
+layout_mode = 1
+label = "Incoming"
+
+[node name="review" type="VSplitContainer" parent="v_box_container/content/split" index="1"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="diff" type="Control" parent="v_box_container/content/split/review" index="0"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="preview" parent="v_box_container/content/split/review/diff" index="0" instance=ExtResource("2_fa1rg")]
+layout_mode = 1
+label = "Diff Bitmap"
+
+[node name="controls" type="VBoxContainer" parent="v_box_container/content/split/review" index="1"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="list" type="Tree" parent="v_box_container/content/split/review/controls" index="0" node_paths=PackedStringArray("task", "old_preview", "new_preview", "diff_bitmap")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 2
+hide_folding = true
+hide_root = true
+select_mode = 1
+scroll_horizontal_enabled = false
+script = ExtResource("4_cqrby")
+task = NodePath("../../../../../..")
+old_preview = NodePath("../../../compare/source/preview")
+new_preview = NodePath("../../../compare/target/preview")
+diff_bitmap = NodePath("../../diff/preview")
+
+[node name="actions" type="HBoxContainer" parent="v_box_container/content/split/review/controls" index="1"]
+layout_mode = 2
+
+[node name="accept_all" type="Button" parent="v_box_container/content/split/review/controls/actions" index="0"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Accept All"
+icon = ExtResource("4_848fo")
+
+[node name="confirmation_dialog" type="ConfirmationDialog" parent="v_box_container/content/split/review/controls/actions/accept_all" index="0"]
+dialog_text = "This will replace all files listed here with their modified versions and cannot be undone!"
+
+[node name="reject_all" type="Button" parent="v_box_container/content/split/review/controls/actions" index="1"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Reject All"
+icon = ExtResource("5_cqrby")
+
+[node name="visibility" parent="v_box_container/content/split/review/controls/actions" index="2" node_paths=PackedStringArray("link") instance=ExtResource("6_wov3m")]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+link = NodePath("../../../diff")
+
+[connection signal="finished" from="." to="v_box_container/content/split/review/controls/list" method="refresh_files" unbinds=1]
+[connection signal="pressed" from="v_box_container/content/split/review/controls/actions/accept_all" to="v_box_container/content/split/review/controls/actions/accept_all/confirmation_dialog" method="popup_centered"]
+[connection signal="confirmed" from="v_box_container/content/split/review/controls/actions/accept_all/confirmation_dialog" to="v_box_container/content/split/review/controls/list" method="accept_all"]
+[connection signal="pressed" from="v_box_container/content/split/review/controls/actions/reject_all" to="v_box_container/content/split/review/controls/list" method="reject_all"]

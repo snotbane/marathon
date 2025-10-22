@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("2_72xmk")
 name = "Laigter"
+description = "Uses Laigter to create normal maps."
 icon = ExtResource("1_les4c")
 _scene_uid = "uid://bhay6qe36hb8n"
 metadata/_custom_type_script = "uid://cl81t2vbdaklc"

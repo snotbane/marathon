@@ -147,6 +147,7 @@ func refresh_items() -> void:
 func find_task(item: TreeItem) -> Task:
 	if item == null: return null
 	for i in tasks:
+		if i not in task_items: continue
 		if task_items[i] == item: return i
 	return null
 

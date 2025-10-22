@@ -6,5 +6,7 @@
 [resource]
 script = ExtResource("2_cntci")
 name = "Spruce"
+description = "Cleans up images, removing stray or near-transparent pixel islands."
 icon = ExtResource("1_h2lvv")
+_scene_uid = "uid://cjg2ttmre2ljd"
 metadata/_custom_type_script = "uid://cl81t2vbdaklc"

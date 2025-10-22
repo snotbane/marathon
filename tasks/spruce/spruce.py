@@ -6,7 +6,7 @@ import sys
 import time
 from PIL import Image, ImageChops
 
-progress_display = 0
+progress = 0
 
 def str2bool(value: str) -> bool:
 	if isinstance(value, bool):
@@ -135,17 +135,17 @@ class TargetImage:
 		self.full = os.path.join(root, file)
 		self.name, self.ext = os.path.splitext(file)
 
-		self.temp_path_new = os.path.join(args.temp_root, self.name + "__new" + self.ext)
-		self.temp_path_old_bitmap = os.path.join(args.temp_root, self.name + "__old_b" + self.ext)
-		self.temp_path_new_bitmap = os.path.join(args.temp_root, self.name + "__new_b" + self.ext)
+		self.temp_path_new = os.path.join(args.temp_root, f"{self.name}__new{self.ext}")
+		self.temp_path_diff = os.path.join(args.temp_root, f"{self.name}__diff{self.ext}")
 
 		self.image : Image = Image.open(self.full).convert("RGBA")
 
 
 	def process(self):
-		global progress_display
+		global progress
 
 		try:
+			os.makedirs(args.temp_root, exist_ok=True)
 			os.makedirs(os.path.dirname(self.full), exist_ok=True)
 			bus_set("output", "source_preview", f"\"{self.full}\"")
 
@@ -225,22 +225,23 @@ class TargetImage:
 				changes = ImageChops.difference(bitmap, bitmap_original)
 				changes_exist = changes.getbbox()
 				if changes_exist:
-					changes.save(self.temp_path_new_bitmap)
+					changes.save(self.temp_path_diff)
 			else:
 				self.image.save(self.full)
 
-			bus_set("output", "target_bitmap", f"\"{self.temp_path_new_bitmap}\"")
+			bus_set("output", "target_bitmap", f"\"{self.temp_path_diff}\"")
 			bus_set("output", "target_preview", f"\"{self.temp_path_new}\"")
 
 			if not changes_exist:
 				os.remove(self.temp_path_new)
-				os.remove(self.temp_path_new_bitmap)
+				os.remove(self.temp_path_diff)
 
 		except Exception as e:
 			sys.stderr.write(f"Error processing {self.full}: {e}")
+			progress -= 1
 
-		progress_display += 1
-		bus_set("output", "progress_display", progress_display)
+		progress += 1
+		bus_set("output", "progress", progress)
 
 
 def assign_targets():
@@ -259,16 +260,16 @@ def assign_targets():
 
 
 def main():
-	bus_set("output", "progress_display", 0)
+	bus_set("output", "progress", 0)
 	if os.path.isdir(args.target):
 		targets = assign_targets()
-		bus_set("output", "progress_display_max", len(targets))
+		bus_set("output", "progress_max", len(targets))
 		for target in targets:
 			if bus_get("input", "stop"): sys.exit(1)
 			target.process()
 	elif os.path.isfile(args.target):
 		target = TargetImage(os.path.dirname(args.target), os.path.basename(args.target))
-		bus_set("output", "progress_display_max", 1)
+		bus_set("output", "progress_max", 1)
 		target.process()
 	else:
 		sys.stderr.write("Input path is not a valid file nor directory.")
@@ -286,6 +287,9 @@ if __name__ == "__main__":
 	parser.add_argument("island_opacity", type=int)
 	parser.add_argument("island_size", type=int)
 	args = parser.parse_args()
+
+	args.filter_include = args.filter_include[1:-1]
+	args.filter_exclude = args.filter_exclude[1:-1]
 
 	bus_path = args.bus_path
 	bus = configparser.ConfigParser()
