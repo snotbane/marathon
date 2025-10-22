@@ -51,3 +51,6 @@ func _exit_tree() -> void:
 
 	TaskTree.inst.save_json()
 
+	main.queue_free()
+	main = null
+
