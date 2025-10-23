@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://cpw2roduamin5"]
 
 [ext_resource type="Script" uid="uid://p4c2mgi3kd3r" path="res://addons/marathon/runner/tasks/Task.gd" id="1_v46v0"]
-[ext_resource type="Texture2D" uid="uid://clac2ow8ahs4r" path="res://addons/marathon/icons/Play.svg" id="2_vaehq"]
+[ext_resource type="Texture2D" uid="uid://clac2ow8ahs4r" path="res://addons/marathon/runner/icons/Play.svg" id="2_vaehq"]
 
 [sub_resource type="GDScript" id="GDScript_vaehq"]
 resource_name = "ExecuteButton"

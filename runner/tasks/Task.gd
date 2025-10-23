@@ -116,7 +116,7 @@ var progress : float :
 
 
 func _ready() -> void:
-	if Utils.is_node_in_editor(self): return
+	if MarathonUtils.is_node_in_editor(self): return
 
 	comment = _get_default_comment()
 
@@ -222,7 +222,7 @@ func validate_non_empty_string(s: String, var_name: String) -> void:
 		_errors.push_back("'%s' cannot be blank." % var_name)
 
 func validate_dir_contains(dir: String, path: String, require_inside: bool) -> void:
-	if Utils.is_folder_inside_other(dir, path) != require_inside:
+	if MarathonUtils.is_folder_inside_other(dir, path) != require_inside:
 		_errors.push_back("The file or folder '%s' must %sbe contained inside directory '%s'." % [path, "" if require_inside else "NOT ", dir])
 
 

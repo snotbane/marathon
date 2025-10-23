@@ -1,0 +1,67 @@
+[gd_scene load_steps=3 format=3 uid="uid://dyvw87nkq8tsl"]
+
+[ext_resource type="Script" uid="uid://d0j13slighj5g" path="res://addons/marathon/runner/elements/ZoomableImage.gd" id="2_plfch"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_50v2e"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.1, 0.1, 0.1, 1)
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
+
+[node name="zoomable_image" type="TextureRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+mouse_filter = 0
+mouse_default_cursor_shape = 3
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("2_plfch")
+expand_speed = 30.0
+
+[node name="zoom_control" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 0
+mouse_filter = 2
+mouse_behavior_recursive = 1
+
+[node name="clip" type="Control" parent="zoom_control"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="panel" type="Panel" parent="zoom_control/clip"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="zoom_image" type="Sprite2D" parent="zoom_control/clip"]
+centered = false
+
+[node name="border" type="Panel" parent="zoom_control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_50v2e")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

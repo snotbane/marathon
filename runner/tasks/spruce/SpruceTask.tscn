@@ -2,12 +2,12 @@
 
 [ext_resource type="PackedScene" uid="uid://cpw2roduamin5" path="res://addons/marathon/runner/tasks/Task.tscn" id="1_2jeqr"]
 [ext_resource type="Script" uid="uid://dkoi6thcesu63" path="res://addons/marathon/runner/tasks/spruce/SpruceTask.gd" id="2_1tbij"]
-[ext_resource type="PackedScene" uid="uid://3djnsrgpqbb1" path="res://addons/marathon/runner/ImagePreview.tscn" id="2_fa1rg"]
-[ext_resource type="Texture2D" uid="uid://c53my30h15c2e" path="res://addons/marathon/icons/ImportCheck.svg" id="4_848fo"]
+[ext_resource type="PackedScene" uid="uid://3djnsrgpqbb1" path="res://addons/marathon/runner/elements/ImagePreview.tscn" id="2_fa1rg"]
+[ext_resource type="Texture2D" uid="uid://c53my30h15c2e" path="res://addons/marathon/runner/icons/ImportCheck.svg" id="4_848fo"]
 [ext_resource type="Script" uid="uid://b0dg087awsnro" path="res://addons/marathon/runner/tasks/spruce/ReviewTree.gd" id="4_cqrby"]
-[ext_resource type="Texture2D" uid="uid://bggxylyvjwxip" path="res://addons/marathon/icons/ArrowDown.svg" id="4_wov3m"]
-[ext_resource type="Texture2D" uid="uid://cx8x3diddw5ud" path="res://addons/marathon/icons/ImportFail.svg" id="5_cqrby"]
-[ext_resource type="PackedScene" uid="uid://dqpguervbrvmn" path="res://addons/marathon/runner/VisibilityToggle.tscn" id="6_wov3m"]
+[ext_resource type="Texture2D" uid="uid://bggxylyvjwxip" path="res://addons/marathon/runner/icons/ArrowDown.svg" id="4_wov3m"]
+[ext_resource type="Texture2D" uid="uid://cx8x3diddw5ud" path="res://addons/marathon/runner/icons/ImportFail.svg" id="5_cqrby"]
+[ext_resource type="PackedScene" uid="uid://dqpguervbrvmn" path="res://addons/marathon/runner/elements/VisibilityToggle.tscn" id="6_wov3m"]
 
 [node name="SpruceTask" instance=ExtResource("1_2jeqr")]
 script = ExtResource("2_1tbij")

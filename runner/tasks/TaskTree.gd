@@ -43,7 +43,7 @@ var selected_task : Task :
 
 
 func _ready() -> void:
-	if Utils.is_node_in_editor(self): return
+	if MarathonUtils.is_node_in_editor(self): return
 
 	inst = self
 

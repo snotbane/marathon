@@ -49,7 +49,7 @@ func _get_python_script_path() -> String:
 	return "res://addons/marathon/runner/tasks/optipng/optipng.py"
 
 func _get_default_comment() -> String:
-	return Utils.get_project_preferred_path(target_dir)
+	return MarathonUtils.get_project_preferred_path(target_dir)
 
 
 func _validate_args() -> void:

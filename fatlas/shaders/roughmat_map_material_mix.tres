@@ -1,0 +1,6 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://c70gd0pu5iw8p"]
+
+[ext_resource type="Shader" uid="uid://cnm6jflfce5ck" path="res://addons/marathon/fatlas/shaders/roughmat_map_shader_mix.tres" id="1_wvqva"]
+
+[resource]
+shader = ExtResource("1_wvqva")
