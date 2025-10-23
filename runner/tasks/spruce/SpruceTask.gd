@@ -75,7 +75,7 @@ var _island_size : int = 256
 
 
 func _get_python_script_path() -> String:
-	return "res://addons/marathon/tasks/spruce/spruce.py"
+	return "res://addons/marathon/runner/tasks/spruce/spruce.py"
 
 func _get_default_comment() -> String:
 	var result := "%s : %spx / %sa" % [

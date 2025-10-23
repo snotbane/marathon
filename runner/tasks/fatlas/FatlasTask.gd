@@ -150,7 +150,7 @@ var _island_margin : int = 2
 
 
 func _get_python_script_path() -> String:
-	return "res://addons/marathon/tasks/fatlas/fatlas.py"
+	return "res://addons/marathon/runner/tasks/fatlas/fatlas.py"
 
 
 func _get_default_comment() -> String:

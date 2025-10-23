@@ -46,7 +46,7 @@ var bytes_reduced : int :
 
 
 func _get_python_script_path() -> String:
-	return "res://addons/marathon/tasks/optipng/optipng.py"
+	return "res://addons/marathon/runner/tasks/optipng/optipng.py"
 
 func _get_default_comment() -> String:
 	return Utils.get_project_preferred_path(target_dir)

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cefgrwj8dg2a0"]
 
-[ext_resource type="PackedScene" uid="uid://cpw2roduamin5" path="res://addons/marathon/tasks/Task.tscn" id="1_6ve1d"]
-[ext_resource type="Script" uid="uid://ctjqb4bxdah7e" path="res://addons/marathon/tasks/dummy/DummyTask.gd" id="2_0eh56"]
+[ext_resource type="PackedScene" uid="uid://cpw2roduamin5" path="res://addons/marathon/runner/tasks/Task.tscn" id="1_6ve1d"]
+[ext_resource type="Script" uid="uid://ctjqb4bxdah7e" path="res://addons/marathon/runner/tasks/dummy/DummyTask.gd" id="2_0eh56"]
 
 [node name="task" instance=ExtResource("1_6ve1d")]
 script = ExtResource("2_0eh56")

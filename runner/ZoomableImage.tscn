@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dyvw87nkq8tsl"]
 
-[ext_resource type="Script" uid="uid://d0j13slighj5g" path="res://addons/marathon/scenes/ZoomableImage.gd" id="2_plfch"]
+[ext_resource type="Script" uid="uid://d0j13slighj5g" path="res://addons/marathon/runner/ZoomableImage.gd" id="2_plfch"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_50v2e"]
 draw_center = false

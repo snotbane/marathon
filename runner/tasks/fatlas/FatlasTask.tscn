@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://d11essky3hr68"]
 
-[ext_resource type="PackedScene" uid="uid://cpw2roduamin5" path="res://addons/marathon/tasks/Task.tscn" id="1_ryshl"]
-[ext_resource type="Script" uid="uid://c0u7gyo3167ny" path="res://addons/marathon/tasks/fatlas/FatlasTask.gd" id="2_xi30t"]
-[ext_resource type="PackedScene" uid="uid://3djnsrgpqbb1" path="res://addons/marathon/scenes/ImagePreview.tscn" id="3_xi30t"]
+[ext_resource type="PackedScene" uid="uid://cpw2roduamin5" path="res://addons/marathon/runner/tasks/Task.tscn" id="1_ryshl"]
+[ext_resource type="Script" uid="uid://c0u7gyo3167ny" path="res://addons/marathon/runner/tasks/fatlas/FatlasTask.gd" id="2_xi30t"]
+[ext_resource type="PackedScene" uid="uid://3djnsrgpqbb1" path="res://addons/marathon/runner/ImagePreview.tscn" id="3_xi30t"]
 
 [node name="FatlasTask" instance=ExtResource("1_ryshl")]
 script = ExtResource("2_xi30t")

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://3djnsrgpqbb1"]
 
-[ext_resource type="Script" uid="uid://51xgcpo7hw0k" path="res://addons/marathon/scenes/ImagePreview.gd" id="1_vve5r"]
-[ext_resource type="PackedScene" uid="uid://dyvw87nkq8tsl" path="res://addons/marathon/scenes/ZoomableImage.tscn" id="2_3e428"]
+[ext_resource type="Script" uid="uid://51xgcpo7hw0k" path="res://addons/marathon/runner/ImagePreview.gd" id="1_vve5r"]
+[ext_resource type="PackedScene" uid="uid://dyvw87nkq8tsl" path="res://addons/marathon/runner/ZoomableImage.tscn" id="2_3e428"]
 
 [node name="preview" type="Control"]
 visible = false

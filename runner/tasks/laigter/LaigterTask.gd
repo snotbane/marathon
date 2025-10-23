@@ -102,7 +102,7 @@ var _overwrite : bool = true
 
 
 func _get_python_script_path() -> String:
-	return "res://addons/marathon/tasks/laigter/laigter.py"
+	return "res://addons/marathon/runner/tasks/laigter/laigter.py"
 
 
 func _get_default_comment() -> String:
