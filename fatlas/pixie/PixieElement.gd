@@ -1,8 +1,8 @@
 
-## A single sprite within a [MaterializedSprite].
-@tool class_name MaterializedSpriteElement extends Sprite2D
+## A single sprite within a [Pixie].
+@tool class_name PixieElement extends Sprite2D
 
-var component : MaterializedSpriteComponent
+var component : PixieComponent
 var template : Node2D
 
 
@@ -22,7 +22,7 @@ func _texture_changed() -> void:
 			template.offset = self.offset
 
 
-func populate(__component: MaterializedSpriteComponent, __template: Node2D) -> void:
+func populate(__component: PixieComponent, __template: Node2D) -> void:
 	component = __component
 	template = __template
 

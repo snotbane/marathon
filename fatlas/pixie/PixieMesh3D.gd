@@ -1,4 +1,4 @@
-@tool extends MaterializedSprite3D
+@tool extends Pixie3D
 
 @export_range(0, 1, 0.001) var opacity : float = 1.0 :
 	get: return 1.0 - self.transparency

@@ -1,11 +1,11 @@
-# Abstract base class for a node that uses [MaterializedSpriteComponent]s.
-@tool class_name MaterializedSprite3D extends VisualInstance3D
+# Abstract base class for a node that uses [PixieComponent]s.
+@tool class_name Pixie3D extends VisualInstance3D
 
 const SHADER : Shader = preload("uid://cdufaegr5ju4f")
 
-var _template : MaterializedSpriteTemplate
+var _template : PixieTemplate
 ## Reference to the sprite component template.
-@export var template : MaterializedSpriteTemplate :
+@export var template : PixieTemplate :
 	get: return _template
 	set(value):
 		if _template == value: return
@@ -85,9 +85,9 @@ func refresh_viewports() -> void:
 		self.material.set_shader_parameter("r_a", vptexture)
 
 	if enable_mirrors:
-		create_subviewport_from_template(true, MaterializedSpriteComponent.TextureComponent.ALBEDO)
+		create_subviewport_from_template(true, PixieComponent.TextureComponent.ALBEDO)
 	else:
-		remove_subviewport_from_template(true, MaterializedSpriteComponent.TextureComponent.ALBEDO)
+		remove_subviewport_from_template(true, PixieComponent.TextureComponent.ALBEDO)
 
 	for i in 3:
 		var i1 := i + 1
@@ -102,7 +102,7 @@ func refresh_viewports() -> void:
 		create_subviewport_from_template(true, i1)
 
 
-func create_subviewport_from_template(mirrored : bool, component : MaterializedSpriteComponent.TextureComponent) -> SubViewport:
+func create_subviewport_from_template(mirrored : bool, component : PixieComponent.TextureComponent) -> SubViewport:
 	var suffix := get_suffix(mirrored, component)
 
 	var result : SubViewport = viewport.duplicate()
@@ -117,7 +117,7 @@ func create_subviewport_from_template(mirrored : bool, component : MaterializedS
 		vptexture.viewport_path = get_tree().edited_scene_root.get_path_to(result)
 		self.material.set_shader_parameter(suffix.substr(1), vptexture)
 
-	var comp := MaterializedSpriteComponent.new()
+	var comp := PixieComponent.new()
 	comp.name = "_" + template.name + suffix
 	comp.populate(template, mirrored, component)
 	result.add_child(comp)
@@ -128,18 +128,18 @@ func create_subviewport_from_template(mirrored : bool, component : MaterializedS
 	return result
 
 
-func remove_subviewport_from_template(mirrored: bool, component : MaterializedSpriteComponent.TextureComponent) -> void:
+func remove_subviewport_from_template(mirrored: bool, component : PixieComponent.TextureComponent) -> void:
 	var suffix := get_suffix(mirrored, component)
 
 	if self.material is ShaderMaterial:
 		self.material.set_shader_parameter(suffix.substr(1), null)
 
 
-static func get_suffix(mirrored: bool, component : MaterializedSpriteComponent.TextureComponent) -> String:
+static func get_suffix(mirrored: bool, component : PixieComponent.TextureComponent) -> String:
 	var result := "_l" if mirrored else "_r"
 	match component:
-		MaterializedSpriteComponent.TextureComponent.ALBEDO: 	result += "_a"
-		MaterializedSpriteComponent.TextureComponent.EMISSIVE: 	result += "_e"
-		MaterializedSpriteComponent.TextureComponent.ROUGHMAT:	result += "_m"
-		MaterializedSpriteComponent.TextureComponent.NORMAL: 	result += "_n"
+		PixieComponent.TextureComponent.ALBEDO: 	result += "_a"
+		PixieComponent.TextureComponent.EMISSIVE: 	result += "_e"
+		PixieComponent.TextureComponent.ROUGHMAT:	result += "_m"
+		PixieComponent.TextureComponent.NORMAL: 	result += "_n"
 	return result

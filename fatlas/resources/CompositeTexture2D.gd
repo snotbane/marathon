@@ -2,7 +2,7 @@
 
 @export var maps : Dictionary[StringName, Texture2D]
 
-const DEFAULT_KEY := "-r-a"
+const DEFAULT_KEY := &"-r-a"
 
 var default_map : Texture2D :
 	get: return maps[DEFAULT_KEY]

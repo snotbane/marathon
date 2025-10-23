@@ -1,3 +1,4 @@
+
 @tool class_name FatlasFormatLoader extends ResourceFormatLoader
 
 const RECOGNIZED_EXTENSIONS : PackedStringArray = ["fat"]

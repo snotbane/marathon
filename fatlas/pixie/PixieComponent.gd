@@ -1,6 +1,6 @@
 
-## A single component copied from a [MaterializedSpriteTemplate]. Contains many [MaterializedSpriteElement]s (layers).
-@tool class_name MaterializedSpriteComponent extends Node2D
+## A single component copied from a [PixieTemplate]. Contains many [PixieElement]s (layers).
+@tool class_name PixieComponent extends Node2D
 
 const COMPONENT_KEYS = ["a", "e", "m", "n"]
 
@@ -17,7 +17,7 @@ enum TextureComponent {
 
 @export var mirrored : bool
 @export var component : TextureComponent
-@export var template : MaterializedSpriteTemplate
+@export var template : PixieTemplate
 
 var texture_key : StringName :
 	get:
@@ -31,7 +31,7 @@ func _ready() -> void:
 	refresh()
 
 
-func populate(__template: MaterializedSpriteTemplate, __mirrored: bool, __component: TextureComponent) -> void:
+func populate(__template: PixieTemplate, __mirrored: bool, __component: TextureComponent) -> void:
 	template = __template
 	mirrored = __mirrored
 	component = __component
@@ -95,7 +95,7 @@ func create_sprite_from_animated_sprite_2d(sprite: AnimatedSprite2D) -> Sprite2D
 
 
 func create_mesh(node: Node2D, texture: Texture2D) -> Sprite2D:
-	var result := MaterializedSpriteElement.new()
+	var result := PixieElement.new()
 	result.populate(self, node)
 
 	# result.set_script(ELEMENT_SCRIPT)

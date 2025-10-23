@@ -1,3 +1,4 @@
+## Manages Fatlas data files and generates/updates sub-resources, including multiple [OffsetAtlasTexture] and [CompositeTexture2D].
 @tool class_name Fatlas extends Resource
 
 const TEXTURE_FOLDER_NAME := "textures"
@@ -7,7 +8,7 @@ const ATLAS_FOLDER_NAME := "atlas"
 @export_storage var json_path : String
 
 func refresh_resources() -> void:
-	var base_folder := json_path.substr(0, json_path.rfind("/"))
+	var base_folder := json_path.get_base_dir()
 	var texture_folder := base_folder.path_join(TEXTURE_FOLDER_NAME)
 	var compo_folder := base_folder.path_join(COMPOSITE_FOLDER_NAME)
 	var atlas_folder := base_folder.path_join(ATLAS_FOLDER_NAME)
