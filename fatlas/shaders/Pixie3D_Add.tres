@@ -1,0 +1,6 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://rjp5m128v3st"]
+
+[ext_resource type="Shader" uid="uid://c34hk2vrtf55s" path="res://addons/marathon/fatlas/shaders/Pixie3D_Add.gdshader" id="1_y6kko"]
+
+[resource]
+shader = ExtResource("1_y6kko")
