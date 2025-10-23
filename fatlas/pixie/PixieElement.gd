@@ -41,9 +41,11 @@ func populate(__component: PixieComponent, __template: Node2D) -> void:
 
 
 func refresh_sprite2d_from_texture() -> void:
+	if not template.texture: return
 	self.texture = (template.texture as CompositeTexture2D).maps.get(component.texture_key)
 
 
 func refresh_animated_sprite2d_from_texture() -> void:
+	if not template.sprite_frames: return
 	var tex : Texture2D = template.sprite_frames.get_frame_texture(template.animation, template.frame)
 	self.texture = (tex as CompositeTexture2D).maps.get(component.texture_key) if tex else null

@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cpw2roduamin5" path="res://addons/marathon/runner/tasks/Task.tscn" id="1_g2ipj"]
 [ext_resource type="Script" uid="uid://dg6hphx77kahi" path="res://addons/marathon/runner/tasks/optipng/OptiPngTask.gd" id="2_g1gwt"]
-[ext_resource type="PackedScene" uid="uid://3djnsrgpqbb1" path="res://addons/marathon/runner/elements/ImagePreview.tscn" id="3_fsoj2"]
+[ext_resource type="PackedScene" uid="uid://3djnsrgpqbb1" path="res://addons/marathon/elements/ImagePreview.tscn" id="3_fsoj2"]
 
 [node name="OptiPngTask" instance=ExtResource("1_g2ipj")]
 script = ExtResource("2_g1gwt")

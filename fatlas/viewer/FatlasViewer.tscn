@@ -1,0 +1,235 @@
+[gd_scene load_steps=22 format=3 uid="uid://wgnllq4daibn"]
+
+[ext_resource type="Script" uid="uid://djlmf28b28qgr" path="res://addons/marathon/fatlas/pixie/PixieMesh3D.gd" id="1_375br"]
+[ext_resource type="Script" uid="uid://dkwonh24tl2uf" path="res://addons/marathon/fatlas/viewer/FatlasViewer.gd" id="1_rgkua"]
+[ext_resource type="Shader" uid="uid://cdufaegr5ju4f" path="res://addons/marathon/fatlas/shaders/Pixie3D.gdshader" id="2_ldu7x"]
+[ext_resource type="Script" uid="uid://d34pkpof4ugo2" path="res://addons/marathon/fatlas/pixie/PixieTemplate.gd" id="4_uev78"]
+[ext_resource type="Script" uid="uid://b5g8gsnswdccv" path="res://assets/scripts/spinny.gd" id="6_jpl1i"]
+[ext_resource type="Script" uid="uid://x7ea85xyjl63" path="res://addons/marathon/fatlas/pixie/PixieComponent.gd" id="7_ffm6p"]
+
+[sub_resource type="Environment" id="Environment_ldu7x"]
+
+[sub_resource type="World3D" id="World3D_jpl1i"]
+environment = SubResource("Environment_ldu7x")
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ldu7x"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_jpl1i"]
+sky_material = SubResource("ProceduralSkyMaterial_ldu7x")
+
+[sub_resource type="Environment" id="Environment_ffm6p"]
+background_mode = 2
+sky = SubResource("Sky_jpl1i")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_jpl1i"]
+viewport_path = NodePath("split/preview/sub_viewport_container/sub_viewport/root/quad/_pixie_l_a")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_ffm6p"]
+viewport_path = NodePath("split/preview/sub_viewport_container/sub_viewport/root/quad/_pixie_l_e")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_1eb5q"]
+viewport_path = NodePath("split/preview/sub_viewport_container/sub_viewport/root/quad/_pixie_l_m")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_1hyd0"]
+viewport_path = NodePath("split/preview/sub_viewport_container/sub_viewport/root/quad/_pixie_l_n")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_ibb02"]
+viewport_path = NodePath("split/preview/sub_viewport_container/sub_viewport/root/quad/pixie_r_a")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_f521b"]
+viewport_path = NodePath("split/preview/sub_viewport_container/sub_viewport/root/quad/_pixie_r_e")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_6d34g"]
+viewport_path = NodePath("split/preview/sub_viewport_container/sub_viewport/root/quad/_pixie_r_m")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_tg6ip"]
+viewport_path = NodePath("split/preview/sub_viewport_container/sub_viewport/root/quad/_pixie_r_n")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jpl1i"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("2_ldu7x")
+shader_parameter/unique_backface = true
+shader_parameter/emission_color = Color(1, 1, 1, 1)
+shader_parameter/emission_strength = 1.0
+shader_parameter/ao_shadow_power = 4.0
+shader_parameter/ao_light_scale = 0.667
+shader_parameter/roughness = 1.0
+shader_parameter/specular = 1.0
+shader_parameter/metallic = 1.0
+shader_parameter/normal_scale = 1.0
+shader_parameter/r_a = SubResource("ViewportTexture_ibb02")
+shader_parameter/l_a = SubResource("ViewportTexture_jpl1i")
+shader_parameter/r_e = SubResource("ViewportTexture_f521b")
+shader_parameter/l_e = SubResource("ViewportTexture_ffm6p")
+shader_parameter/r_m = SubResource("ViewportTexture_6d34g")
+shader_parameter/l_m = SubResource("ViewportTexture_1eb5q")
+shader_parameter/r_n = SubResource("ViewportTexture_tg6ip")
+shader_parameter/l_n = SubResource("ViewportTexture_1hyd0")
+
+[sub_resource type="QuadMesh" id="QuadMesh_1eb5q"]
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_jpl1i")
+
+[node name="FatlasViewer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_rgkua")
+
+[node name="split" type="HSplitContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="composite" type="Control" parent="split"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="grid" type="GridContainer" parent="split/composite"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 2
+
+[node name="preview" type="Control" parent="split"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="sub_viewport_container" type="SubViewportContainer" parent="split/preview"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+stretch = true
+
+[node name="sub_viewport" type="SubViewport" parent="split/preview/sub_viewport_container"]
+own_world_3d = true
+world_3d = SubResource("World3D_jpl1i")
+handle_input_locally = false
+size = Vector2i(954, 1080)
+render_target_update_mode = 4
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="split/preview/sub_viewport_container/sub_viewport"]
+environment = SubResource("Environment_ffm6p")
+
+[node name="camera_3d" type="Camera3D" parent="split/preview/sub_viewport_container/sub_viewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="directional_light_3d" type="DirectionalLight3D" parent="split/preview/sub_viewport_container/sub_viewport/camera_3d"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+
+[node name="root" type="Node3D" parent="split/preview/sub_viewport_container/sub_viewport"]
+script = ExtResource("6_jpl1i")
+rotation_per_second = Vector3(0, 60, 0)
+
+[node name="quad" type="MeshInstance3D" parent="split/preview/sub_viewport_container/sub_viewport/root" node_paths=PackedStringArray("parent_owner", "template")]
+mesh = SubResource("QuadMesh_1eb5q")
+skeleton = NodePath("../..")
+script = ExtResource("1_375br")
+parent_owner = NodePath("../../../../../..")
+template = NodePath("pixie_r_a/pixie")
+auto_size = 1
+features = 15
+
+[node name="pixie_r_a" type="SubViewport" parent="split/preview/sub_viewport_container/sub_viewport/root/quad"]
+disable_3d = true
+handle_input_locally = false
+size = Vector2i(2, 2)
+
+[node name="pixie" type="CanvasGroup" parent="split/preview/sub_viewport_container/sub_viewport/root/quad/pixie_r_a"]
+script = ExtResource("4_uev78")
+
+[node name="sprite" type="Sprite2D" parent="split/preview/sub_viewport_container/sub_viewport/root/quad/pixie_r_a/pixie"]
+centered = false
+
+[node name="_pixie_l_a" type="SubViewport" parent="split/preview/sub_viewport_container/sub_viewport/root/quad"]
+disable_3d = true
+handle_input_locally = false
+size = Vector2i(2, 2)
+
+[node name="_pixie_l_a" type="Node2D" parent="split/preview/sub_viewport_container/sub_viewport/root/quad/_pixie_l_a" node_paths=PackedStringArray("template")]
+script = ExtResource("7_ffm6p")
+mirrored = true
+template = NodePath("../../pixie_r_a/pixie")
+
+[node name="_pixie_r_e" type="SubViewport" parent="split/preview/sub_viewport_container/sub_viewport/root/quad"]
+disable_3d = true
+handle_input_locally = false
+size = Vector2i(2, 2)
+
+[node name="_pixie_r_e" type="Node2D" parent="split/preview/sub_viewport_container/sub_viewport/root/quad/_pixie_r_e" node_paths=PackedStringArray("template")]
+script = ExtResource("7_ffm6p")
+component = 1
+template = NodePath("../../pixie_r_a/pixie")
+
+[node name="_pixie_l_e" type="SubViewport" parent="split/preview/sub_viewport_container/sub_viewport/root/quad"]
+disable_3d = true
+handle_input_locally = false
+size = Vector2i(2, 2)
+
+[node name="_pixie_l_e" type="Node2D" parent="split/preview/sub_viewport_container/sub_viewport/root/quad/_pixie_l_e" node_paths=PackedStringArray("template")]
+script = ExtResource("7_ffm6p")
+mirrored = true
+component = 1
+template = NodePath("../../pixie_r_a/pixie")
+
+[node name="_pixie_r_m" type="SubViewport" parent="split/preview/sub_viewport_container/sub_viewport/root/quad"]
+disable_3d = true
+handle_input_locally = false
+size = Vector2i(2, 2)
+
+[node name="_pixie_r_m" type="Node2D" parent="split/preview/sub_viewport_container/sub_viewport/root/quad/_pixie_r_m" node_paths=PackedStringArray("template")]
+script = ExtResource("7_ffm6p")
+component = 2
+template = NodePath("../../pixie_r_a/pixie")
+
+[node name="_pixie_l_m" type="SubViewport" parent="split/preview/sub_viewport_container/sub_viewport/root/quad"]
+disable_3d = true
+handle_input_locally = false
+size = Vector2i(2, 2)
+
+[node name="_pixie_l_m" type="Node2D" parent="split/preview/sub_viewport_container/sub_viewport/root/quad/_pixie_l_m" node_paths=PackedStringArray("template")]
+script = ExtResource("7_ffm6p")
+mirrored = true
+component = 2
+template = NodePath("../../pixie_r_a/pixie")
+
+[node name="_pixie_r_n" type="SubViewport" parent="split/preview/sub_viewport_container/sub_viewport/root/quad"]
+disable_3d = true
+handle_input_locally = false
+size = Vector2i(2, 2)
+
+[node name="_pixie_r_n" type="Node2D" parent="split/preview/sub_viewport_container/sub_viewport/root/quad/_pixie_r_n" node_paths=PackedStringArray("template")]
+script = ExtResource("7_ffm6p")
+component = 3
+template = NodePath("../../pixie_r_a/pixie")
+
+[node name="_pixie_l_n" type="SubViewport" parent="split/preview/sub_viewport_container/sub_viewport/root/quad"]
+disable_3d = true
+handle_input_locally = false
+size = Vector2i(2, 2)
+
+[node name="_pixie_l_n" type="Node2D" parent="split/preview/sub_viewport_container/sub_viewport/root/quad/_pixie_l_n" node_paths=PackedStringArray("template")]
+script = ExtResource("7_ffm6p")
+mirrored = true
+component = 3
+template = NodePath("../../pixie_r_a/pixie")

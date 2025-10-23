@@ -1,4 +1,10 @@
+
 @tool class_name ImagePreview extends Control
+
+enum {
+	AUTO,
+	MANUAL,
+}
 
 @onready var name_label : Label = $main/name_label
 @onready var image_rect : TextureRect = $main/zoomable_image
@@ -21,12 +27,31 @@ var _label : String
 		if not path_label: return
 		path_label.visible = value
 
+var _path_mode : int
+@export var path_mode : int :
+	get: return _path_mode
+	set(value):
+		if _path_mode == value: return
+		_path_mode = value
+
+		refresh()
+
+
+@export var path_text : String :
+	get: return path_label.text if path_label else ""
+	set(value):
+		if not path_label: return
+		path_label.text = value
+		path_label.tooltip_text = value
+
+		refresh()
+
 
 @export_storage var value : String :
 	get: return path_label.text if path_label else ""
 	set(val):
 		if not path_label or value == val: return
-		path_label.text = val
+		path_text = val
 
 		refresh()
 func set_value(val: String) -> void:
@@ -39,12 +64,19 @@ var texture : Texture2D :
 
 
 func refresh() -> void:
-	var file_exists := FileAccess.file_exists(value)
-
 	visible = not value.is_empty()
 
-	path_label.tooltip_text = value
-	path_label.self_modulate = Color.WHITE if file_exists else Color.INDIAN_RED
+	var file_exists := FileAccess.file_exists(value)
+
+	match path_mode:
+		AUTO:
+			path_label.self_modulate = Color.WHITE if file_exists else Color.INDIAN_RED
+			path_label.focus_mode = Control.FOCUS_CLICK
+			path_label.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND if file_exists else Control.CURSOR_FORBIDDEN
+		MANUAL:
+			path_label.self_modulate = Color.WHITE
+			path_label.focus_mode = Control.FOCUS_NONE
+			path_label.mouse_default_cursor_shape = Control.CURSOR_ARROW
 
 	if not file_exists: texture = null; return
 

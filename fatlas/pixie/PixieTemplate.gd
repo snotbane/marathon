@@ -1,7 +1,7 @@
 ## A collection of [Node2D]s that can be cloned to make up other components of a full image.
 @tool class_name PixieTemplate extends Node2D
 
-@export var size : Vector2i
+@export var size := Vector2i.ONE
 
 @export_subgroup("Preview")
 

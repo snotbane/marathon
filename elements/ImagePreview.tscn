@@ -1,11 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://3djnsrgpqbb1"]
+[gd_scene load_steps=4 format=3 uid="uid://3djnsrgpqbb1"]
 
-[ext_resource type="Script" uid="uid://51xgcpo7hw0k" path="res://addons/marathon/runner/elements/ImagePreview.gd" id="1_vve5r"]
-[ext_resource type="PackedScene" uid="uid://dyvw87nkq8tsl" path="res://addons/marathon/runner/elements/ZoomableImage.tscn" id="2_3e428"]
+[ext_resource type="Script" uid="uid://51xgcpo7hw0k" path="res://addons/marathon/elements/ImagePreview.gd" id="1_vve5r"]
+[ext_resource type="PackedScene" uid="uid://dyvw87nkq8tsl" path="res://addons/marathon/elements/ZoomableImage.tscn" id="2_3e428"]
 
-[node name="preview" type="Control"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o1g2e"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 0.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[node name="preview" type="PanelContainer"]
 visible = false
-layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -13,15 +24,11 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_o1g2e")
 script = ExtResource("1_vve5r")
 
 [node name="main" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 
 [node name="name_label" type="Label" parent="main"]
 visible = false

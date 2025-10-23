@@ -1,7 +1,23 @@
 # Abstract base class for a node that uses [PixieComponent]s.
 @tool class_name Pixie3D extends VisualInstance3D
 
+enum ESizingMethod {
+	## Modifies the size of the quad to match the size of the image * [member pixel_size].
+	AUTO_PIXEL,
+	## Modifies the size of the quad to fit inside a 1.0 x 1.0 space.
+	AUTO_UNIT,
+	## Allows the user to manually set the quad size.
+	MANUAL,
+}
+
 const SHADER : Shader = preload("uid://cdufaegr5ju4f")
+
+@onready var viewport : SubViewport = template.get_parent() if template else null
+
+@export_tool_button("Refresh") var _refresh_button := func() -> void:
+	refresh()
+
+@export var parent_owner : Node
 
 var _template : PixieTemplate
 ## Reference to the sprite component template.
@@ -13,7 +29,7 @@ var _template : PixieTemplate
 		self._template_changed()
 func _template_changed() -> void: pass
 
-
+@export var auto_size := ESizingMethod.AUTO_PIXEL
 var _pixel_size : float = 0.001
 @export_range(0.0001, 1.0, 0.0001, "or_greater") var pixel_size : float = 0.001 :
 	get: return _pixel_size
@@ -33,14 +49,12 @@ var _features : int
 var enable_mirrors : bool :
 	get: return features & 1
 
-@export var quad : QuadMesh
+var quad : QuadMesh
 var material : Material :
 	get: return quad.material if quad else null
 	set(value):
 		if quad.material == value: return
 		quad.material = value
-
-@onready var viewport : SubViewport = template.get_parent() if template else null
 
 
 func _ready() -> void:
@@ -48,41 +62,47 @@ func _ready() -> void:
 
 
 func refresh() -> void:
-	if not Engine.is_editor_hint(): return
 	refresh_quad()
 	refresh_material()
 	refresh_viewports()
 
 
 func refresh_quad() -> void:
-	if not self.quad:
-		self.quad = QuadMesh.new()
-		self.quad.resource_local_to_scene = true
+	if not quad:
+		quad = QuadMesh.new()
+		quad.resource_local_to_scene = true
 	if not template: return
-	self.quad.size = template.size * pixel_size
+	match auto_size:
+		ESizingMethod.AUTO_PIXEL:	quad.size = template.size * pixel_size
+		ESizingMethod.AUTO_UNIT:	quad.size = Vector2(
+			minf(1.0, float(template.size.x) / template.size.y),
+			minf(1.0, float(template.size.y) / template.size.x),
+		)
+	print("template.size : %s" % [ template.size ])
+	print("quad.size : %s" % [ quad.size ])
 
 
 func refresh_material() -> void:
 	if not material:
-		self.material = ShaderMaterial.new()
-		self.material.resource_local_to_scene = true
-		self.material.shader = SHADER
+		material = ShaderMaterial.new()
+		material.resource_local_to_scene = true
+		material.shader = SHADER
 
 
 func refresh_viewports() -> void:
 	if not viewport: return
-	for child in self.get_children():
+	for child in get_children():
 		if child == viewport: continue
-		self.remove_child(child)
+		remove_child(child)
 		child.queue_free()
 
 	viewport.size = template.size
 
-	if self.material is ShaderMaterial:
+	if material is ShaderMaterial:
 		var vptexture := ViewportTexture.new()
-		vptexture.viewport_path = get_tree().edited_scene_root.get_path_to(viewport)
-		self.material.set_shader_parameter(&"unique_backface", enable_mirrors)
-		self.material.set_shader_parameter("r_a", vptexture)
+		vptexture.viewport_path = parent_owner.get_path_to(viewport)
+		material.set_shader_parameter(&"unique_backface", enable_mirrors)
+		material.set_shader_parameter("r_a", vptexture)
 
 	if enable_mirrors:
 		create_subviewport_from_template(true, PixieComponent.TextureComponent.ALBEDO)
@@ -110,18 +130,18 @@ func create_subviewport_from_template(mirrored : bool, component : PixieComponen
 	while result.get_child_count() > 0:
 		result.remove_child(result.get_child(0))
 	self.add_child(result)
-	result.owner = get_tree().edited_scene_root
+	result.owner = parent_owner
 
 	if self.material is ShaderMaterial:
 		var vptexture := ViewportTexture.new()
-		vptexture.viewport_path = get_tree().edited_scene_root.get_path_to(result)
+		vptexture.viewport_path = parent_owner.get_path_to(result)
 		self.material.set_shader_parameter(suffix.substr(1), vptexture)
 
 	var comp := PixieComponent.new()
 	comp.name = "_" + template.name + suffix
 	comp.populate(template, mirrored, component)
 	result.add_child(comp)
-	comp.owner = get_tree().edited_scene_root
+	comp.owner = parent_owner
 
 	result.set_display_folded(true)
 
