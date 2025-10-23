@@ -7,7 +7,9 @@
 		self.transparency = 1.0 - value
 		if self.material is ShaderMaterial:
 			var this = self
-			this.set_instance_shader_parameter(&"opacity", value)
+			var modulate : Color = this.get_instance_shader_parameter(&"modulate")
+			modulate.a = value
+			this.set_instance_shader_parameter(&"modulate", modulate)
 		if value < 1.0:
 			self.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		else:

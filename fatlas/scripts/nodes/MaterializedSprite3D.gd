@@ -1,7 +1,7 @@
 # Abstract base class for a node that uses [MaterializedSpriteComponent]s.
 @tool class_name MaterializedSprite3D extends VisualInstance3D
 
-const SHADER : Shader = preload("res://addons/fatlas/assets/shaders/materialized_sprite3d.tres")
+const SHADER : Shader = preload("uid://cdufaegr5ju4f")
 
 var _template : MaterializedSpriteTemplate
 ## Reference to the sprite component template.
