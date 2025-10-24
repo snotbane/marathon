@@ -35,12 +35,13 @@ static func print_ancestry(node: Node) -> void:
 
 
 static func is_node_in_editor(node: Node) -> bool:
+	if not Engine.is_editor_hint(): return false
 	var editor := node.get_parent()
 	while editor:
 		if editor.get_parent().name == "MainScreen": break
 		editor = editor.get_parent()
 
-	return editor.name.contains("CanvasItemEditor") if editor else false
+	return (editor.name.contains("CanvasItemEditor") or editor.name.contains("SpatialEditor")) if editor else false
 
 static func is_folder_inside_other(a: String, b: String) -> bool:
 	return ProjectSettings.globalize_path(b).begins_with(ProjectSettings.globalize_path(a))

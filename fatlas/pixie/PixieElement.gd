@@ -16,10 +16,12 @@ func _template_visiblity_changed() -> void:
 
 func _texture_changed() -> void:
 	self.z_index = template.z_index
-	if self.texture is OffsetAtlasTexture:
+	if template.get_meta(&"ignore_offset", false):
+		self.offset = template.offset
+	elif self.texture is OffsetAtlasTexture:
 		self.offset = self.texture.offset
-		if Engine.is_editor_hint():
-			template.offset = self.offset
+		# if Engine.is_editor_hint():
+		# 	template.offset = self.offset
 
 
 func populate(__component: PixieComponent, __template: Node2D) -> void:

@@ -3,15 +3,12 @@
 
 const IMAGE_PREVIEW_SCENE : PackedScene = preload("uid://3djnsrgpqbb1")
 
+signal edited(resource: CompositeTexture2D)
+
 @onready var grid : GridContainer = $split/composite/grid
-@onready var pixie : Pixie3D = $split/preview/sub_viewport_container/sub_viewport/root/quad
-@onready var pixie_viewport : SubViewport = $split/preview/sub_viewport_container/sub_viewport/root/quad/pixie_r_a
-@onready var sprite : Sprite2D = pixie.template.get_child(0)
 
 @export_storage var resource : CompositeTexture2D
 
-func _ready() -> void:
-	pixie.parent_owner = self
 
 func edit(__resource__: Object) -> void:
 	if __resource__ is not CompositeTexture2D:
@@ -44,16 +41,10 @@ func edit(__resource__: Object) -> void:
 			"-l-e": order = -6
 			"-r-a": order = -7
 			"-l-a": order = -8
-		order += grid.get_child_count()
+		order += resource.maps.size()
 		grid.move_child(child, order)
 
-
-	sprite.texture = resource
-	pixie.template.size = sprite.texture.get_size()
-	pixie.refresh()
-	sprite.set.call_deferred(&"offset", Vector2.ZERO)
-	print_tree_pretty()
-	print("pixie.template.size : %s" % [ pixie.template.size ])
+	edited.emit(resource)
 
 
 func _process(delta: float) -> void:

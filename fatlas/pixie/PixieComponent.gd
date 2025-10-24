@@ -100,6 +100,7 @@ func create_mesh(node: Node2D, texture: Texture2D) -> Sprite2D:
 
 	# result.set_script(ELEMENT_SCRIPT)
 	result.texture = texture
+	result.offset = node.offset
 	result.centered = node.centered
 	result.name = node.name
 	set_texture(result, texture)
