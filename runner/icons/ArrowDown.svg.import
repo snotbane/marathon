@@ -5,6 +5,7 @@ type="CompressedTexture2D"
 uid="uid://bggxylyvjwxip"
 path="res://.godot/imported/ArrowDown.svg-1268dc9e2107d96b5cd5b47ec50ab678.ctex"
 metadata={
+"has_editor_variant": true,
 "vram_texture": false
 }
 
@@ -39,5 +40,5 @@ process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
 svg/scale=1.0
-editor/scale_with_editor_scale=false
+editor/scale_with_editor_scale=true
 editor/convert_colors_with_editor_theme=false
