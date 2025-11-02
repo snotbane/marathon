@@ -78,8 +78,6 @@ func refresh_quad() -> void:
 			minf(1.0, float(template.size.x) / template.size.y),
 			minf(1.0, float(template.size.y) / template.size.x),
 		)
-	print("template.size : %s" % [ template.size ])
-	print("quad.size : %s" % [ quad.size ])
 
 
 func refresh_material() -> void:
