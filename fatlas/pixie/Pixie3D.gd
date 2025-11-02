@@ -14,9 +14,6 @@ const SHADER : Shader = preload("uid://cdufaegr5ju4f")
 
 @onready var viewport : SubViewport = template.get_parent() if template else null
 
-@export_tool_button("Refresh") var _refresh_button := func() -> void:
-	refresh()
-
 @export var parent_owner : Node
 
 var _template : PixieTemplate
@@ -58,6 +55,9 @@ var material : Material :
 
 
 func _ready() -> void:
+	if not Engine.is_editor_hint(): return
+	parent_owner = get_tree().edited_scene_root
+
 	refresh()
 
 
