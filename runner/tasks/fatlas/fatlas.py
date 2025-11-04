@@ -294,8 +294,8 @@ def assign_image_sources():
 		for file in files:
 			name, ext = os.path.splitext(file)
 			if not ext.lower() in SUPPORTED_EXTS: continue
-			if args.filter_include != "" and re.search(include, file) == None: continue
-			if args.filter_exclude != "" and re.search(exclude, file) != None: continue
+			if args.filter_include != "" and re.search(include, name) == None: continue
+			if args.filter_exclude != "" and re.search(exclude, name) != None: continue
 			try:
 				source = SourceImage(root, file)
 			except: continue
