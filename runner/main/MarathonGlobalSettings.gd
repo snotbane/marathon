@@ -19,6 +19,7 @@ var python_exe_path : String :
 
 @export_tool_button("Install Python Venv") var install_venv_button := func() -> void:
 	install_venv_dialog.dialog_text = "This will install a python virtual environment at:\n%s" % MarathonUtils.get_project_preferred_path(python_venv_path)
+	if not python_venv_path.ends_with(".venv"): install_venv_dialog.dialog_text += "\nWarning! It is recommended that the destination folder is called \".venv\" !"
 	install_venv_dialog.popup_centered()
 func install_venv() -> void:
 	PythonTask.execute_static("python3", ["-m", "venv", ProjectSettings.globalize_path(python_venv_path)])
