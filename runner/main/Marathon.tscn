@@ -140,6 +140,7 @@ visible = false
 layout_mode = 2
 mouse_filter = 0
 horizontal_alignment = 1
+text_overrun_behavior = 1
 script = ExtResource("11_s6s3o")
 
 [node name="manager_buttons" type="GridContainer" parent="tab_container/main_split/task_manager/vbox" node_paths=PackedStringArray("buttons_disabled_while_running")]
