@@ -333,7 +333,7 @@ def assign_compo_data(atlas: dict) -> dict:
 	## Initialize data
 
 	magics = dict()
-	name_pattern = re.compile(r"(.+?)(?:_(.))?(?:_(.))?$")
+	name_pattern = re.compile(r"(.+?)(?:\-(.))?(?:\-(.))?$")
 	for texture in atlas.keys():
 		for subimage_name in atlas[texture].keys():
 			entry = AtlasEntry(re.search(name_pattern, subimage_name))
@@ -354,9 +354,9 @@ def assign_compo_data(atlas: dict) -> dict:
 	for name in magics.keys():
 		result[name] = dict()
 		for i_mirror in range(2 if magics[name]["mirror"] else 1):
-			mirror = "" if not magics[name]["mirror"] else f"_{"l" if i_mirror == 1 else "r"}"
+			mirror = "" if not magics[name]["mirror"] else f"-{"l" if i_mirror == 1 else "r"}"
 			for component in magics[name]["components"]:
-				suffix = mirror + f"_{component}"
+				suffix = mirror + f"-{component}"
 				prospect = name + suffix
 
 				prospect_in_image = False
@@ -372,7 +372,7 @@ def assign_compo_data(atlas: dict) -> dict:
 	for name in result.keys():
 		for suffix in result[name]:
 			if result[name][suffix] == None:
-				r_suffix = "_r" + suffix[2:4]
+				r_suffix = "-r" + suffix[2:4]
 				result[name][suffix] = result[name][r_suffix]
 
 	return result
