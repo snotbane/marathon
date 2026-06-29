@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://c5fib1mm65yc2"]
+
+[ext_resource type="Script" uid="uid://bevk26ire5nxc" path="res://addons/marathon_task_runner/fatlas/viewer/FatlasWorld.gd" id="1_xvvjg"]
+[ext_resource type="Shader" uid="uid://d02rc4qm1810j" path="res://addons/marathon_task_runner/fatlas/shaders/Pixie3DWithOffset.gdshader" id="2_arka2"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ldu7x"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_jpl1i"]
+sky_material = SubResource("ProceduralSkyMaterial_ldu7x")
+
+[sub_resource type="Environment" id="Environment_ffm6p"]
+background_mode = 2
+sky = SubResource("Sky_jpl1i")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_15j30"]
+render_priority = 0
+shader = ExtResource("2_arka2")
+shader_parameter/unique_backface = true
+shader_parameter/emission_color = Color(1, 1, 1, 1)
+shader_parameter/emission_strength = 1.0
+shader_parameter/ao_shadow_power = 4.0
+shader_parameter/ao_light_scale = 0.667
+shader_parameter/roughness = 1.0
+shader_parameter/specular = 1.0
+shader_parameter/metallic = 1.0
+shader_parameter/normal_scale = 1.0
+shader_parameter/r_a_offset = Vector2(0, 0)
+shader_parameter/l_a_offset = Vector2(0, 0)
+shader_parameter/r_e_offset = Vector2(0, 0)
+shader_parameter/l_e_offset = Vector2(0, 0)
+shader_parameter/r_m_offset = Vector2(0, 0)
+shader_parameter/l_m_offset = Vector2(0, 0)
+shader_parameter/r_n_offset = Vector2(0, 0)
+shader_parameter/l_n_offset = Vector2(0, 0)
+shader_parameter/r_a_size = Vector2(0, 0)
+shader_parameter/l_a_size = Vector2(0, 0)
+shader_parameter/r_e_size = Vector2(0, 0)
+shader_parameter/l_e_size = Vector2(0, 0)
+shader_parameter/r_m_size = Vector2(0, 0)
+shader_parameter/l_m_size = Vector2(0, 0)
+shader_parameter/r_n_size = Vector2(0, 0)
+shader_parameter/l_n_size = Vector2(0, 0)
+
+[sub_resource type="QuadMesh" id="QuadMesh_nmsmu"]
+material = SubResource("ShaderMaterial_15j30")
+size = Vector2(0.7906178, 1)
+
+[node name="FatlasWorld" type="Node3D" unique_id=811248028]
+script = ExtResource("1_xvvjg")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=610051353]
+environment = SubResource("Environment_ffm6p")
+
+[node name="camera_controller" type="Node3D" parent="." unique_id=482770903]
+
+[node name="camera_3d" type="Camera3D" parent="camera_controller" unique_id=1692947017]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+fov = 90.0
+
+[node name="directional_light_3d" type="DirectionalLight3D" parent="camera_controller" unique_id=1918329377]
+
+[node name="root" type="Node3D" parent="." unique_id=468357226]
+transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
+
+[node name="pixie" type="MeshInstance3D" parent="root" unique_id=1761007174]
+mesh = SubResource("QuadMesh_nmsmu")

@@ -1,7 +1,8 @@
 # Godot 4+ specific ignores
-.venv
 .godot/
 /android/
+.vscode/
+.venv/
 
 *.png~
 .DS_Store
