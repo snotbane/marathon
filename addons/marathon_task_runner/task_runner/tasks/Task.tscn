@@ -1,0 +1,118 @@
+[gd_scene format=3 uid="uid://cpw2roduamin5"]
+
+[ext_resource type="Script" uid="uid://p4c2mgi3kd3r" path="res://addons/marathon_task_runner/task_runner/tasks/Task.gd" id="1_v46v0"]
+[ext_resource type="Texture2D" uid="uid://clac2ow8ahs4r" path="res://addons/marathon_task_runner/task_runner/icons/Play.svg" id="2_vaehq"]
+
+[sub_resource type="GDScript" id="GDScript_vaehq"]
+resource_name = "ExecuteButton"
+script/source = "
+@tool extends Button
+
+@export var task : Task
+
+func _pressed() -> void:
+	match task.status:
+		Task.QUEUED:
+			task.start()
+		Task.RUNNING:
+			task.abort()
+		Task.SUCCEEDED, Task.FAILED:
+			task.reset()
+
+
+func _on_task_status_changed() -> void:
+	match task.status:
+		Task.QUEUED:
+			disabled = false
+			icon = Task.PLAY_ICON
+			tooltip_text = \"Run this task.\"
+		Task.INVALID:
+			disabled = true
+			icon = Task.PLAY_ICON
+			tooltip_text = \"Can't run this task due to errors:\\n%s\" % task.error_tooltip_text
+		Task.RUNNING:
+			disabled = false
+			icon = Task.STOP_ICON
+			tooltip_text = \"Stop running this task.\"
+		Task.ABORTING:
+			disabled = true
+			icon = Task.STOP_ICON
+			tooltip_text = \"Please wait...\"
+		Task.SUCCEEDED, Task.FAILED:
+			disabled = false
+			icon = Task.RESET_ICON
+			tooltip_text = \"Reset the task to be run again.\"
+"
+
+[node name="task" type="Control" unique_id=181984087]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_v46v0")
+
+[node name="v_box_container" type="VBoxContainer" parent="." unique_id=1457765560]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="content" type="PanelContainer" parent="v_box_container" unique_id=1147619570]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="results" type="HBoxContainer" parent="v_box_container" unique_id=1635354410]
+layout_mode = 2
+
+[node name="execute" type="Button" parent="v_box_container/results" unique_id=1151996094 node_paths=PackedStringArray("task")]
+layout_mode = 2
+tooltip_text = "Run this task."
+focus_mode = 0
+icon = ExtResource("2_vaehq")
+flat = true
+script = SubResource("GDScript_vaehq")
+task = NodePath("../../..")
+
+[node name="progress_bar" type="ProgressBar" parent="v_box_container/results" unique_id=1816965090]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.0
+
+[node name="margin_container" type="MarginContainer" parent="v_box_container/results/progress_bar" unique_id=383752516]
+custom_minimum_size = Vector2(0, 27)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="time_elapsed" type="Label" parent="v_box_container/results/progress_bar/margin_container" unique_id=1627825704]
+layout_mode = 2
+size_flags_horizontal = 2
+tooltip_text = "Elapsed time since this task started."
+mouse_filter = 1
+text = "00:00"
+
+[node name="stats" type="HBoxContainer" parent="v_box_container/results/progress_bar/margin_container" unique_id=642357511]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 2
+
+[node name="items_completed" type="Label" parent="v_box_container/results/progress_bar/margin_container/stats" unique_id=1256294260]
+layout_mode = 2
+size_flags_horizontal = 10
+tooltip_text = "Number of items completed in this task."
+mouse_filter = 1
+text = "0 of 0 completed"
+
+[connection signal="status_changed" from="." to="v_box_container/results/execute" method="_on_task_status_changed"]
