@@ -3,15 +3,18 @@ extends PythonTask
 
 static func bytes_to_string(bytes: int) -> String:
 	const SIZE_KB := 1024
-	const SIZE_MB := 1024 * 1024
-	const SIZE_GB := 1024 * 1024 * 1024
+	const SIZE_MB := SIZE_KB * 1024
+	const SIZE_GB := SIZE_MB * 1024
 
 	if bytes < SIZE_KB:
 		return str(bytes) + " B"
+
 	if bytes < SIZE_MB:
 		return "%.2f KB" % (float(bytes) / SIZE_KB)
+
 	if bytes < SIZE_GB:
 		return "%.2f MB" % (float(bytes) / SIZE_MB)
+
 	return "%.2f GB" % (float(bytes) / SIZE_GB)
 
 
@@ -51,6 +54,7 @@ var bytes_reduced: int:
 func _get_python_script_path() -> String:
 	return "res://addons/marathon_task_runner/runner/tasks/optipng/optipng.py"
 
+
 func _get_default_comment() -> String:
 	return MarathonUtils.get_project_preferred_path(target_dir)
 
@@ -72,6 +76,7 @@ func _save_args(result: Dictionary) -> void:
 		&"optipng_path": optipng_path,
 		&"target_dir": target_dir,
 	})
+
 
 func _load_args(data: Dictionary) -> void:
 	target_dir = data[&"target_dir"]

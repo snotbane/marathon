@@ -17,19 +17,28 @@ enum {
 	DIFF,
 }
 
-const ICON_ACCEPT := preload("uid://c53my30h15c2e")
-const ICON_INSPECT := preload("uid://dtxcom0expqpo")
-const ICON_REJECT := preload("uid://cx8x3diddw5ud")
 
-@export var task : Task
+const ICON_ACCEPT := preload("res://addons/marathon_task_runner/runner/icons/ImportCheck.svg")
 
-@export var old_preview : ImagePreview
-@export var new_preview : ImagePreview
-@export var diff_bitmap : ImagePreview
+const ICON_INSPECT := preload("res://addons/marathon_task_runner/runner/icons/ExternalLink.svg")
 
-var root : TreeItem
-var review_paths : PackedStringArray
-var item_paths : Dictionary
+const ICON_REJECT := preload("res://addons/marathon_task_runner/runner/icons/ImportFail.svg")
+
+
+@export var task: Task
+
+@export var old_preview: ImagePreview
+
+@export var new_preview: ImagePreview
+
+@export var diff_bitmap: ImagePreview
+
+
+var root: TreeItem
+
+var review_paths: PackedStringArray
+
+var item_paths: Dictionary
 
 
 func _ready() -> void:
@@ -105,7 +114,7 @@ func reject_item(item: TreeItem) -> void:
 
 
 func remove_path_by_item(item: TreeItem) -> void:
-	var path : String = item_paths[item]
+	var path: String = item_paths[item]
 	item_paths.erase(item)
 	for i in review_paths.size():
 		if review_paths[i] != path: continue
@@ -137,12 +146,12 @@ func reject_all() -> void:
 
 
 func open_target_directory() -> void:
-	var path : String = task.target_dir
+	var path: String = task.target_dir
 	if DirAccess.dir_exists_absolute(path): OS.shell_open(path)
 	elif FileAccess.file_exists(path): OS.shell_open(path.substr(0, path.rfind("/")))
 
 
-func _on_button_clicked(item:TreeItem, column:int, id:int, mouse_button_index:int) -> void:
+func _on_button_clicked(item: TreeItem, column: int, id: int, mouse_button_index: int) -> void:
 	set_selected(item, FILE)
 	var next := clampi(item.get_index() + 1, 0, self.review_paths.size() - 1)
 	match id:
@@ -151,10 +160,9 @@ func _on_button_clicked(item:TreeItem, column:int, id:int, mouse_button_index:in
 		REJECT: reject_item(item); select_tree_item_by_index(next)
 
 
-
 func _on_item_selected() -> void:
 	var selected := get_selected()
-	var path : String = item_paths[selected] if selected and item_paths.has(selected) else ""
+	var path: String = item_paths[selected] if selected and item_paths.has(selected) else ""
 	old_preview.value = get_alt_path(path, OLD)
 	new_preview.value = get_alt_path(path, NEW)
 	diff_bitmap.value = get_alt_path(path, DIFF)
@@ -165,12 +173,12 @@ func get_files(path: String) -> PackedStringArray:
 		return get_all_matching_files(path, RegEx.create_from_string(task.filter_include), RegEx.create_from_string(task.filter_exclude))
 	elif FileAccess.file_exists(path):
 		if RegEx.create_from_string(task.filter_include).search(path) and FileAccess.file_exists(get_alt_path(path, NEW)):
-			return [ path ]
+			return [path]
 	return []
 
 
 func get_all_matching_files(path: String, include: RegEx, exclude: RegEx) -> PackedStringArray:
-	var result : PackedStringArray = []
+	var result: PackedStringArray = []
 	var dir := DirAccess.open(path)
 	if not dir.dir_exists(path): return result
 
@@ -181,7 +189,7 @@ func get_all_matching_files(path: String, include: RegEx, exclude: RegEx) -> Pac
 		if dir.current_is_dir():
 			result.append_array(get_all_matching_files(full_path, include, exclude))
 		else:
-			if	(include.get_pattern() == "" or include.search(file) != null) and \
+			if (include.get_pattern() == "" or include.search(file) != null) and \
 				(exclude.get_pattern() == "" or exclude.search(file) == null) and \
 				FileAccess.file_exists(get_alt_path(full_path, NEW)):
 					result.push_back(full_path)
@@ -193,16 +201,16 @@ func get_all_matching_files(path: String, include: RegEx, exclude: RegEx) -> Pac
 func get_alt_path(old: String, type: int = NEW) -> String:
 	if type == OLD: return old
 
-	var file : String = old.substr(old.rfind("/") + 1)
+	var file: String = old.substr(old.rfind("/") + 1)
 	var split := file.rfind(".")
 	var p_name := file.substr(0, split)
 	var ext := file.substr(split)
 
 	var p_root := Task.TEMP_DIR_PATH
-	var suffix : String
+	var suffix: String
 	match type:
-		NEW:	suffix = "__new"
-		DIFF:	suffix = "__diff"
+		NEW: suffix = "__new"
+		DIFF: suffix = "__diff"
 
 	return p_root.path_join(p_name + suffix + ext)
 

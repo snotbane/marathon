@@ -1,20 +1,23 @@
+@tool
+class_name FatlasViewer
+extends Control
 
-@tool class_name FatlasViewer extends Control
+const IMAGE_PREVIEW_SCENE: PackedScene = preload("uid://3djnsrgpqbb1")
 
-const IMAGE_PREVIEW_SCENE : PackedScene = preload("uid://3djnsrgpqbb1")
 
 signal edited(resource: CompositeTexture2D)
 
-@onready var grid : GridContainer = $split/composite/grid
 
-@export_storage var resource : CompositeTexture2D
+@onready var grid: GridContainer = $split/composite/grid
+
+
+@export_storage var resource: CompositeTexture2D
 
 
 func edit(__resource__: Object) -> void:
 	if __resource__ is not CompositeTexture2D:
 		return
 
-	# if resource == __resource__: return
 	resource = __resource__
 
 	for child in grid.get_children():
@@ -23,14 +26,14 @@ func edit(__resource__: Object) -> void:
 	for k in resource.maps:
 		var texture := resource.maps[k]
 
-		var image_preview : ImagePreview = IMAGE_PREVIEW_SCENE.instantiate()
+		var image_preview: ImagePreview = IMAGE_PREVIEW_SCENE.instantiate()
 		grid.add_child(image_preview)
-		image_preview.path_mode = ImagePreview.MANUAL
+		image_preview.path_mode = 1
 		image_preview.path_text = k
 		image_preview.texture = texture
 		image_preview.visible = true
 
-	for child : ImagePreview in grid.get_children():
+	for child: ImagePreview in grid.get_children():
 		var order := 0
 		match child.path_text:
 			"-r-n": order = -1
@@ -45,10 +48,3 @@ func edit(__resource__: Object) -> void:
 		grid.move_child(child, order)
 
 	edited.emit(resource)
-
-
-func _process(delta: float) -> void:
-	# if sprite:
-	# 	sprite.offset.x = sin(Time.get_ticks_msec() / 1000.0) * 1000.0
-	# 	print("sprite.offset : %s" % [ sprite.offset ])
-	pass

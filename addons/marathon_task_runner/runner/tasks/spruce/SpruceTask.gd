@@ -76,6 +76,7 @@ var _island_size: int = 256
 func _get_python_script_path() -> String:
 	return "res://addons/marathon_task_runner/runner/tasks/spruce/spruce.py"
 
+
 func _get_default_comment() -> String:
 	var result := "%s : %spx / %sa" % [
 		target_dir.get_file(),
@@ -89,6 +90,7 @@ func _get_default_comment() -> String:
 		result += " (exclude: %s)" % filter_exclude
 
 	return result
+
 
 func _validate_args() -> void:
 	validate_dir_path(target_dir, true, "target_dir")
@@ -107,6 +109,7 @@ func _get_python_arguments() -> Array:
 		island_size,
 	]
 
+
 func _save_args(result: Dictionary) -> void:
 	result.merge({
 		&"target_dir": target_dir,
@@ -116,6 +119,7 @@ func _save_args(result: Dictionary) -> void:
 		&"island_opacity": island_opacity,
 		&"island_size": island_size,
 	})
+
 
 func _load_args(data: Dictionary) -> void:
 		target_dir = data[&"target_dir"]

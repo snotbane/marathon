@@ -1,13 +1,14 @@
-@tool extends Pixie3D
+@tool
+extends Pixie3D
 
-@export_range(0, 1, 0.001) var opacity : float = 1.0 :
+@export_range(0, 1, 0.001) var opacity: float = 1.0:
 	get: return 1.0 - self.transparency
 	set(value):
 		# if Engine.is_editor_hint(): return
 		self.transparency = 1.0 - value
 		if self.material is ShaderMaterial:
 			var this = self
-			var modulate : Color = this.get_instance_shader_parameter(&"modulate")
+			var modulate: Color = this.get_instance_shader_parameter(&"modulate")
 			modulate.a = value
 			this.set_instance_shader_parameter(&"modulate", modulate)
 		if value < 1.0:
@@ -19,4 +20,3 @@
 func refresh() -> void:
 	super.refresh()
 	self.mesh = self.quad
-

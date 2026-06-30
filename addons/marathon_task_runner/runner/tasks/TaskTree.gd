@@ -1,5 +1,6 @@
-
-@tool class_name TaskTree extends Tree
+@tool
+class_name TaskTree
+extends Tree
 
 enum {
 	TEMPLATE,
@@ -14,31 +15,43 @@ enum {
 	REMOVE,
 }
 
+
 const JSON_IDENTIFIER := "Marathon"
+
 const TEMP_JSON_PATH := "user://temp_queue.json"
 
-static var inst : TaskTree
+
+static var inst: TaskTree
 
 
 signal started
+
 signal stop_requested
+
 signal stopped
 
 
-var root : TreeItem
-var _tasks : Array[Node]
-var tasks : Array[Node] :
+var root: TreeItem
+
+var _tasks: Array[Node]
+var tasks: Array[Node]:
 	get:
 		if TaskContainer.inst: _tasks = TaskContainer.inst.get_children()
 		return _tasks
-var task_count : int :
-	get: return _tasks.size()
-var task_items : Dictionary
-var buttons : Dictionary
-var dragged_item : TreeItem
-var running : bool
 
-var selected_task : Task :
+var task_count: int:
+	get: return _tasks.size()
+
+var task_items: Dictionary
+
+var buttons: Dictionary
+
+var dragged_item: TreeItem
+
+var running: bool
+
+
+var selected_task: Task:
 	get: return find_task(get_selected())
 
 
@@ -64,16 +77,16 @@ func _process(delta: float) -> void:
 	var color := lerp(Color.DARK_SLATE_GRAY, Color.SLATE_GRAY, remap(sin(float(Time.get_ticks_msec()) * PI / 1000.0), -1.0, 1.0, 0.0, 1.0))
 	for task in task_items:
 		if task == null or not task.running: continue
-		var item : TreeItem = task_items[task]
+		var item: TreeItem = task_items[task]
 		for i in columns:
 			item.set_custom_bg_color(i, color)
-
 
 
 #region Drag and Drop
 
 func _can_drop_data(at_position: Vector2, data: Variant) -> bool:
 	return true
+
 
 func _drop_data(at_position: Vector2, data: Variant) -> void:
 	var target := get_item_at_position(at_position)
@@ -83,11 +96,12 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 	if target_index == -1: return
 
 	var section := get_drop_section_at_position(at_position)
-	var delta : int = target_index - data
+	var delta: int = target_index - data
 	if delta != 0:
 		reorder_item(dragged_item, delta + (mini(section, 0) if signi(delta) > 0 else maxi(section, 0)))
 		if dragged_item: dragged_item.free()
 	drop_mode_flags = DROP_MODE_DISABLED
+
 
 func _get_drag_data(at_position: Vector2) -> Variant:
 	dragged_item = get_item_at_position(at_position)
@@ -136,6 +150,7 @@ func get_item_index(item: TreeItem) -> int:
 		child = child.get_next()
 	return -1
 
+
 func refresh_items() -> void:
 	clear()
 	task_items.clear()
@@ -143,6 +158,7 @@ func refresh_items() -> void:
 	for task in tasks:
 		if task.is_queued_for_deletion(): continue
 		add_task_item(task)
+
 
 func find_task(item: TreeItem) -> Task:
 	if item == null: return null
@@ -166,6 +182,7 @@ func add_task(task: Task) -> TreeItem:
 
 	return result
 
+
 func add_task_item(task: Task) -> TreeItem:
 	var result := create_item(root)
 	task_items[task] = result
@@ -188,6 +205,7 @@ func add_task_item(task: Task) -> TreeItem:
 
 	return result
 
+
 func remove_task(task: Task) -> void:
 	if task.running: return
 
@@ -195,6 +213,8 @@ func remove_task(task: Task) -> void:
 		TaskContainer.inst.current_task = null
 	task.queue_free()
 	refresh_items()
+
+
 func remove_item(item: TreeItem) -> void:
 	remove_task(find_task(item))
 
@@ -213,6 +233,8 @@ func reorder_task(task: Task, amount: int) -> void:
 	TaskContainer.inst.move_child(task, idx)
 
 	refresh_items()
+
+
 func reorder_item(item: TreeItem, amount: int) -> void:
 	reorder_task(find_task(item), amount)
 
@@ -221,13 +243,17 @@ func copy_task(task: Task) -> void:
 	var copy := task.duplicate()
 	task.add_sibling(copy)
 	open_task(copy)
+
+
 func copy_item(item: TreeItem) -> void:
 	copy_task(find_task(item))
 
 
 func open_task(task: Task) -> void:
-	if task:	task.visible = true
-	else:		TaskContainer.inst.current_tab = -1
+	if task: task.visible = true
+	else: TaskContainer.inst.current_tab = -1
+
+
 func open_item(item: TreeItem) -> void:
 	open_task(find_task(item))
 
@@ -248,16 +274,18 @@ func execute_task(task: Task) -> void:
 				task.abort(true)
 		Task.SUCCEEDED, Task.FAILED:
 			task.reset()
+
+
 func execute_item(item: TreeItem) -> void:
 	execute_task(find_task(item))
 
 
 func refresh_task_status(task: Task) -> void:
-	var item : TreeItem = task_items[task]
+	var item: TreeItem = task_items[task]
 
-	var text : String
-	var tooltip : String
-	var icon : Texture2D = null
+	var text: String
+	var tooltip: String
+	var icon: Texture2D = null
 	match task.status:
 		Task.QUEUED:
 			text = "Ready"
@@ -313,13 +341,13 @@ func refresh_task_status(task: Task) -> void:
 
 func refresh_task_progress(task: Task) -> void:
 	if task.status != Task.RUNNING: return
-	var item : TreeItem = task_items[task]
+	var item: TreeItem = task_items[task]
 	var progress := floori(task.progress * 100.0)
 	item.set_text(STATUS, "%s%%" % progress)
 
 
 func refresh_task_comment(task: Task) -> void:
-	var item : TreeItem = task_items[task]
+	var item: TreeItem = task_items[task]
 	item.set_text(COMMENT, task.comment)
 	item.set_tooltip_text(COMMENT, task.comment)
 
@@ -334,6 +362,7 @@ func save_json(path: String = TEMP_JSON_PATH) -> void:
 	}
 	json_file.store_string(JSON.stringify(json))
 
+
 func load_json(path: String = TEMP_JSON_PATH, append: bool = false) -> void:
 	if not FileAccess.file_exists(path):
 		printerr("File at path '%s' does not exist." % path)
@@ -343,14 +372,14 @@ func load_json(path: String = TEMP_JSON_PATH, append: bool = false) -> void:
 		remove_all_tasks()
 
 	var json_file := FileAccess.open(path, FileAccess.READ)
-	var json : Dictionary = JSON.parse_string(json_file.get_as_text())
+	var json: Dictionary = JSON.parse_string(json_file.get_as_text())
 
 	if json.get(&"type") != JSON_IDENTIFIER:
 		printerr("File at path '%s' cannot be loaded because it is not a Marathon task list.")
 		return
 
 	for data in json[&"data"]:
-		var template : TaskTemplate = load(data[&"template_uid"])
+		var template: TaskTemplate = load(data[&"template_uid"])
 		var task := template.create_task(false)
 		task.load_args(data)
 
@@ -358,7 +387,7 @@ func load_json(path: String = TEMP_JSON_PATH, append: bool = false) -> void:
 #endregion
 #region Signal Events
 
-func _on_button_clicked(item:TreeItem, column:int, id:int, mouse_button_index:int) -> void:
+func _on_button_clicked(item: TreeItem, column: int, id: int, mouse_button_index: int) -> void:
 	match id:
 		EXECUTE: execute_item(item)
 		# OPEN: open_item(item)
@@ -367,8 +396,8 @@ func _on_button_clicked(item:TreeItem, column:int, id:int, mouse_button_index:in
 
 
 func _on_run_stop_toggled(toggled_on: bool) -> void:
-	if toggled_on:	start_queue()
-	else:			stop_queue()
+	if toggled_on: start_queue()
+	else: stop_queue()
 
 
 func _on_item_selected() -> void:
@@ -380,6 +409,3 @@ func _on_empty_clicked(click_position: Vector2, mouse_button_index: int) -> void
 	deselect_all()
 
 #endregion
-
-
-

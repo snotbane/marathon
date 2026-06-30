@@ -1,7 +1,8 @@
-@tool extends Task
+@tool
+extends Task
 
-var _wait_time : float = 1.0
-@export_range(0.0, 10.0, 0.5, "or_greater") var wait_time : float = 1.0 :
+var _wait_time: float = 1.0
+@export_range(0.0, 10.0, 0.5, "or_greater") var wait_time: float = 1.0:
 	get: return _wait_time
 	set(value):
 		if _wait_time == value: return
@@ -46,4 +47,3 @@ func _abort() -> bool:
 	$timer.stop()
 
 	return false
-

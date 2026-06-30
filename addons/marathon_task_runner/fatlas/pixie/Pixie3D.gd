@@ -1,5 +1,7 @@
 # Abstract base class for a node that uses [PixieComponent]s.
-@tool class_name Pixie3D extends VisualInstance3D
+@tool
+class_name Pixie3D
+extends VisualInstance3D
 
 enum ESizingMethod {
 	## Modifies the size of the quad to match the size of the image * [member pixel_size].
@@ -10,15 +12,29 @@ enum ESizingMethod {
 	MANUAL,
 }
 
-const SHADER : Shader = preload("uid://cdufaegr5ju4f")
 
-@onready var viewport : SubViewport = template.get_parent() if template else null
+const SHADER: Shader = preload("res://addons/marathon_task_runner/fatlas/shaders/Pixie3D.gdshader")
 
-@export var parent_owner : Node
 
-var _template : PixieTemplate
+static func get_suffix(mirrored: bool, component: PixieComponent.TextureComponent) -> String:
+	var result := "_l" if mirrored else "_r"
+	match component:
+		PixieComponent.TextureComponent.ALBEDO: result += "_a"
+		PixieComponent.TextureComponent.EMISSIVE: result += "_e"
+		PixieComponent.TextureComponent.ROUGHMAT: result += "_m"
+		PixieComponent.TextureComponent.NORMAL: result += "_n"
+	return result
+
+
+@onready var viewport: SubViewport = template.get_parent() if template else null
+
+
+@export var parent_owner: Node
+
+
+var _template: PixieTemplate
 ## Reference to the sprite component template.
-@export var template : PixieTemplate :
+@export var template: PixieTemplate:
 	get: return _template
 	set(value):
 		if _template == value: return
@@ -26,28 +42,32 @@ var _template : PixieTemplate
 		self._template_changed()
 func _template_changed() -> void: pass
 
+
 @export var auto_size := ESizingMethod.AUTO_PIXEL
-var _pixel_size : float = 0.001
-@export_range(0.0001, 1.0, 0.0001, "or_greater") var pixel_size : float = 0.001 :
+var _pixel_size: float = 0.001
+@export_range(0.0001, 1.0, 0.0001, "or_greater") var pixel_size: float = 0.001:
 	get: return _pixel_size
 	set(value):
 		if _pixel_size == value: return
 		_pixel_size = value
 		refresh_quad()
 
-var _features : int
+
+var _features: int
 ## Texture features for this visual instance.
-@export_flags("Mirrored", "Emissive", "Roughness+", "Normal") var features : int :
+@export_flags("Mirrored", "Emissive", "Roughness+", "Normal") var features: int:
 	get: return _features
 	set(value):
 		if _features == value: return
 		_features = value
 		refresh()
-var enable_mirrors : bool :
+var enable_mirrors: bool:
 	get: return features & 1
 
-var quad : QuadMesh
-var material : Material :
+
+var quad: QuadMesh
+
+var material: Material:
 	get: return quad.material if quad else null
 	set(value):
 		if quad.material == value: return
@@ -73,8 +93,8 @@ func refresh_quad() -> void:
 		quad.resource_local_to_scene = true
 	if not template: return
 	match auto_size:
-		ESizingMethod.AUTO_PIXEL:	quad.size = template.size * pixel_size
-		ESizingMethod.AUTO_UNIT:	quad.size = Vector2(
+		ESizingMethod.AUTO_PIXEL: quad.size = template.size * pixel_size
+		ESizingMethod.AUTO_UNIT: quad.size = Vector2(
 			minf(1.0, float(template.size.x) / template.size.y),
 			minf(1.0, float(template.size.y) / template.size.x),
 		)
@@ -120,10 +140,10 @@ func refresh_viewports() -> void:
 		create_subviewport_from_template(true, i1)
 
 
-func create_subviewport_from_template(mirrored : bool, component : PixieComponent.TextureComponent) -> SubViewport:
+func create_subviewport_from_template(mirrored: bool, component: PixieComponent.TextureComponent) -> SubViewport:
 	var suffix := get_suffix(mirrored, component)
 
-	var result : SubViewport = viewport.duplicate()
+	var result: SubViewport = viewport.duplicate()
 	result.name = "_" + viewport.name.substr(0, viewport.name.length() - suffix.length()) + suffix
 	while result.get_child_count() > 0:
 		result.remove_child(result.get_child(0))
@@ -146,18 +166,8 @@ func create_subviewport_from_template(mirrored : bool, component : PixieComponen
 	return result
 
 
-func remove_subviewport_from_template(mirrored: bool, component : PixieComponent.TextureComponent) -> void:
+func remove_subviewport_from_template(mirrored: bool, component: PixieComponent.TextureComponent) -> void:
 	var suffix := get_suffix(mirrored, component)
 
 	if self.material is ShaderMaterial:
 		self.material.set_shader_parameter(suffix.substr(1), null)
-
-
-static func get_suffix(mirrored: bool, component : PixieComponent.TextureComponent) -> String:
-	var result := "_l" if mirrored else "_r"
-	match component:
-		PixieComponent.TextureComponent.ALBEDO: 	result += "_a"
-		PixieComponent.TextureComponent.EMISSIVE: 	result += "_e"
-		PixieComponent.TextureComponent.ROUGHMAT:	result += "_m"
-		PixieComponent.TextureComponent.NORMAL: 	result += "_n"
-	return result

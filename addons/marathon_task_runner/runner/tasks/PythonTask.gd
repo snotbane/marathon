@@ -18,28 +18,20 @@ static func value_as_python_argument(value: Variant) -> String:
 		return str(int(value))
 	return str(value)
 
+
 var python_script_path: String:
 	get: return _get_python_script_path()
+
 func _get_python_script_path() -> String:
 	assert(false); return ""
 
-# @export_tool_button("Reveal Bus") var reveal_bus := func() -> void:
-# 	if running:
-# 		OS.shell_open(ProjectSettings.globalize_path(bus_path))
-# 	else:
-# 		var dialog := AcceptDialog.new()
-# 		dialog.popup_window = true
-# 		dialog.transient = true
-# 		dialog.transient_to_focused = true
-# 		dialog.dialog_text = "Python bus can only be revealed while the script is running."
-# 		dialog.close_requested.connect(dialog.queue_free)
-# 		add_child(dialog)
-# 		dialog.popup_centered()
-
 
 var bus_dir: DirAccess
+
 var bus: ConfigFile
+
 var bus_path: String
+
 var thread: Thread
 
 
@@ -55,6 +47,8 @@ func get_python_arguments() -> PackedStringArray:
 		return PythonTask.value_as_python_argument(e)
 	))
 	return result
+
+
 func _get_python_arguments() -> Array: return []
 
 
@@ -73,6 +67,7 @@ func _ready() -> void:
 	]
 
 	thread = Thread.new()
+
 
 func _process_running(delta: float) -> void:
 	super._process_running(delta)

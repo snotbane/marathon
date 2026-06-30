@@ -1,11 +1,7 @@
-
 ## A single component copied from a [PixieTemplate]. Contains many [PixieElement]s (layers).
-@tool class_name PixieComponent extends Node2D
-
-const COMPONENT_KEYS = ["a", "e", "m", "n"]
-
-const ROUGHMAT_MIX_MATERIAL := preload("uid://c70gd0pu5iw8p")
-const ROUGHMAT_ADD_MATERIAL := preload("uid://rjp5m128v3st")
+@tool
+class_name PixieComponent
+extends Node2D
 
 enum TextureComponent {
 	ALBEDO,
@@ -15,14 +11,24 @@ enum TextureComponent {
 }
 
 
-@export var mirrored : bool
-@export var component : TextureComponent
-@export var template : PixieTemplate
+const COMPONENT_KEYS: PackedStringArray = ["a", "e", "m", "n"]
 
-var texture_key : StringName :
+const ROUGHMAT_MIX_MATERIAL := preload("res://addons/marathon_task_runner/fatlas/shaders/Pixie3D_Mix.tres")
+
+const ROUGHMAT_ADD_MATERIAL := preload("res://addons/marathon_task_runner/fatlas/shaders/Pixie3D_Add.tres")
+
+
+@export var mirrored: bool
+
+@export var component: TextureComponent
+
+@export var template: PixieTemplate
+
+
+var texture_key: StringName:
 	get:
-		var mirrored_string : String = "l" if mirrored else "r"
-		var component_string : String = COMPONENT_KEYS[component]
+		var mirrored_string: String = "l" if mirrored else "r"
+		var component_string: String = COMPONENT_KEYS[component]
 		return "-%s-%s" % [mirrored_string, component_string]
 
 
@@ -35,10 +41,6 @@ func populate(__template: PixieTemplate, __mirrored: bool, __component: TextureC
 	template = __template
 	mirrored = __mirrored
 	component = __component
-
-	# if component == TextureComponent.ALBEDO:
-	# 	self.modulate = template.modulate
-	# 	self.self_modulate = template.self_modulate
 
 	refresh()
 
@@ -98,7 +100,6 @@ func create_mesh(node: Node2D, texture: Texture2D) -> Sprite2D:
 	var result := PixieElement.new()
 	result.populate(self, node)
 
-	# result.set_script(ELEMENT_SCRIPT)
 	result.texture = texture
 	result.offset = node.offset
 	result.centered = node.centered

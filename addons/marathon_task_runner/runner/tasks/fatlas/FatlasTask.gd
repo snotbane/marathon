@@ -1,7 +1,6 @@
 @tool
 extends PythonTask
 
-
 var _project_name: String
 ## Project name and also the name of the resulting image file(s) and data file.
 @export var project_name: String:
@@ -12,6 +11,7 @@ var _project_name: String
 		refresh_comment_if_default()
 		_project_name = value
 		validate_args()
+
 
 var _source_dir: String
 ## Source folder to assemble target image(s) from.
@@ -24,6 +24,7 @@ var _source_dir: String
 		_source_dir = value
 		validate_args()
 
+
 var _target_dir: String
 ## Target folder in which to place target image(s).
 @export_global_dir var target_dir: String:
@@ -34,6 +35,7 @@ var _target_dir: String
 		refresh_comment_if_default()
 		_target_dir = value
 		validate_args()
+
 
 var _target_size_limit: int = 65536
 ## The max pixel dimensions (square) a target image can be. If an island cannot be placed without expanding the target image beyond this limit, a new target image will be created.
@@ -46,6 +48,7 @@ var _target_size_limit: int = 65536
 		_target_size_limit = value
 		validate_args()
 
+
 var _target_format := Image.Format.FORMAT_RGBA8
 ## Target image format. For now, only use RGBA.
 @export_storage var target_format := Image.Format.FORMAT_RGBA8:
@@ -56,6 +59,7 @@ var _target_format := Image.Format.FORMAT_RGBA8
 		refresh_comment_if_default()
 		_target_format = value
 		validate_args()
+
 
 var _data_format: int = 1
 ## File extension to write the data file to. This does not change the data itself; only the file extension. The result file can still be read as a .json file.
@@ -73,6 +77,7 @@ var data_format_ext: String:
 			0: return ".json"
 			_: return ".fat"
 
+
 var _filter_include: String = r""
 ## Only file names (excluding extension) matching this regex filter will be added to the target image(s).
 @export var filter_include: String = r"":
@@ -84,6 +89,7 @@ var _filter_include: String = r""
 		_filter_include = value
 		validate_args()
 
+
 var _filter_exclude: String = r""
 ## Any file names (excluding extension) matching this regex filter will NOT be added to the target image(s).
 @export var filter_exclude: String = r"":
@@ -94,6 +100,7 @@ var _filter_exclude: String = r""
 		refresh_comment_if_default()
 		_filter_exclude = value
 		validate_args()
+
 
 var _filter_separate: String = r"^"
 ## File names (excluding extension) matching this regex filter will be separated into different images. Target files will be named based on this filter.
@@ -110,6 +117,7 @@ var _filter_separate: String = r"^"
 		_filter_separate = value
 		validate_args()
 
+
 var _filter_composite: String = r"((.+?)(?:_(\d+))?)_([lr])_(.)"
 ## Assigns composition data based on the internal groups of the regex. FOR NOW this only works with this specific pattern, so don't change this.
 @export_storage var filter_composite: String = r"((.+?)(?:_(\d+))?)_([lr])_(.)":
@@ -120,6 +128,7 @@ var _filter_composite: String = r"((.+?)(?:_(\d+))?)_([lr])_(.)"
 		refresh_comment_if_default()
 		_filter_composite = value
 		validate_args()
+
 
 var _island_crop: bool = true
 ## If enabled, only the bounding box containing all visible pixels will be included.
@@ -132,6 +141,7 @@ var _island_crop: bool = true
 		refresh_comment_if_default()
 		_island_crop = value
 		validate_args()
+
 
 var _island_margin: int = 2
 ## The space between sprites and image bounds in the final image(s).
@@ -184,6 +194,7 @@ func _get_python_arguments() -> Array:
 		island_margin,
 	]
 
+
 func _save_args(result: Dictionary) -> void:
 	result.merge({
 		&"project_name": project_name,
@@ -199,6 +210,7 @@ func _save_args(result: Dictionary) -> void:
 		&"island_crop": island_crop,
 		&"island_margin": island_margin,
 	})
+
 
 func _load_args(data: Dictionary) -> void:
 	project_name = data[&"project_name"]
@@ -225,6 +237,7 @@ func _finish(code: int) -> void:
 	$v_box_container/content/previews/targets.columns = ceili(sqrt(target_paths.size()))
 	$v_box_container/content/previews/targets.visible = true
 
+
 func _reset() -> void:
 	$v_box_container/content/previews/source.clear()
 	$v_box_container/content/previews/source.visible = true
@@ -234,6 +247,7 @@ func _reset() -> void:
 	target_paths.clear()
 
 var target_paths: PackedStringArray
+
 
 func _bus_poll() -> void:
 	super._bus_poll()

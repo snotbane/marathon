@@ -1,4 +1,5 @@
-@tool extends Pixie3D
+@tool
+extends Pixie3D
 
 func refresh() -> void:
 	super.refresh()

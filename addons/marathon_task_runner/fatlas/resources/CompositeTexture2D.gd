@@ -1,11 +1,16 @@
-@tool class_name CompositeTexture2D extends Texture2D
-
-@export var maps : Dictionary[StringName, Texture2D]
+@tool
+class_name CompositeTexture2D
+extends Texture2D
 
 const DEFAULT_KEY := &"-r-a"
 
-var default_map : Texture2D :
+
+@export var maps: Dictionary[StringName, Texture2D]
+
+
+var default_map: Texture2D:
 	get: return maps[DEFAULT_KEY]
+
 
 func _draw(to_canvas_item: RID, pos: Vector2, modulate: Color, transpose: bool) -> void:
 	if not Engine.is_editor_hint(): return

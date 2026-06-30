@@ -3,6 +3,7 @@ extends CheckBox
 
 @export var link: Node
 
+
 func _ready() -> void:
 	if MarathonUtils.is_node_in_editor(self): return
 

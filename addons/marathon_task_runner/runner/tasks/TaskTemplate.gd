@@ -1,11 +1,16 @@
+@tool
+class_name TaskTemplate
+extends Resource
 
-@tool class_name TaskTemplate extends Resource
+@export var name: String
 
-@export var name : String
-@export_multiline var description : String
-@export var icon : Texture2D
-@export var _scene_uid : String
-var scene : PackedScene :
+@export_multiline var description: String
+
+@export var icon: Texture2D
+
+@export var _scene_uid: String
+
+var scene: PackedScene:
 	get: return load(_scene_uid)
 
 
@@ -21,7 +26,7 @@ func create_button() -> Button:
 
 
 func create_task(become_selected: bool = true) -> Task:
-	var result : Task = scene.instantiate()
+	var result: Task = scene.instantiate()
 	result.template = self
 
 	TaskContainer.inst.add_child(result)
@@ -29,4 +34,3 @@ func create_task(become_selected: bool = true) -> Task:
 	result.visible = become_selected
 
 	return result
-

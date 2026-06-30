@@ -1,17 +1,17 @@
+@tool
+class_name ImagePreview
+extends Control
 
-@tool class_name ImagePreview extends Control
 
-enum {
-	AUTO,
-	MANUAL,
-}
+@onready var name_label: Label = $main/name_label
 
-@onready var name_label : Label = $main/name_label
-@onready var image_rect : TextureRect = $main/zoomable_image
-@onready var path_label : Label = $main/path_label
+@onready var image_rect: TextureRect = $main/zoomable_image
 
-var _label : String
-@export var label : String :
+@onready var path_label: Label = $main/path_label
+
+
+var _label: String
+@export var label: String:
 	get: return _label
 	set(value):
 		_label = value
@@ -21,23 +21,23 @@ var _label : String
 		name_label.text = _label
 		name_label.visible = not _label.is_empty()
 
-@export var show_path : bool = true :
+
+@export var show_path: bool = true:
 	get: return path_label.visible if path_label else true
 	set(value):
 		if not path_label: return
 		path_label.visible = value
 
-var _path_mode : int
-@export var path_mode : int :
-	get: return _path_mode
+
+@export_enum("Auto", "Manual") var path_mode: int = 0:
 	set(value):
-		if _path_mode == value: return
-		_path_mode = value
+		if path_mode == value: return
+		path_mode = value
 
 		refresh()
 
 
-@export var path_text : String :
+@export var path_text: String:
 	get: return path_label.text if path_label else ""
 	set(value):
 		if not path_label: return
@@ -47,18 +47,19 @@ var _path_mode : int
 		refresh()
 
 
-@export_storage var value : String :
+@export_storage var value: String:
 	get: return path_label.text if path_label else ""
 	set(val):
 		if not path_label or value == val: return
 		path_text = val
 
 		refresh()
+
 func set_value(val: String) -> void:
 	value = val
 
 
-var texture : Texture2D :
+var texture: Texture2D:
 	get: return image_rect.texture
 	set(value): image_rect.texture = value
 
@@ -69,11 +70,11 @@ func refresh() -> void:
 	var file_exists := FileAccess.file_exists(value)
 
 	match path_mode:
-		AUTO:
+		0:
 			path_label.self_modulate = Color.WHITE if file_exists else Color.INDIAN_RED
 			path_label.focus_mode = Control.FOCUS_CLICK
 			path_label.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND if file_exists else Control.CURSOR_FORBIDDEN
-		MANUAL:
+		1:
 			path_label.self_modulate = Color.WHITE
 			path_label.focus_mode = Control.FOCUS_NONE
 			path_label.mouse_default_cursor_shape = Control.CURSOR_ARROW

@@ -1,8 +1,11 @@
-@tool extends EditorPlugin
+@tool
+extends EditorPlugin
 
 const MAIN_SCENE := preload("uid://ef5hvftp4smh")
 
+
 var main: Control
+
 
 func _get_plugin_name() -> String:
 	return "Tasks"

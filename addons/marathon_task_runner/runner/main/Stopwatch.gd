@@ -1,51 +1,54 @@
-@tool class_name Stopwatch extends RefCounted
+## Simple stopwatch keeps track of the amount of time that has passed since it has started. Use [member start] and [member stop] to make it work!
+@tool
+class_name Stopwatch
+extends RefCounted
 
-enum {
-	MSEC,
-	USEC,
-}
+static var NOW: int:
+	get: return Time.get_ticks_msec()
 
-@export_storage var precision : int
 
-var _playing : bool
+var _playing: bool
 
-var when_started_ticks : int
-var when_stopped_ticks : int
+var when_started_ticks: int
 
-var time_elapsed_ticks : int :
-	get: return (now_precise if _playing else when_stopped_ticks) - when_started_ticks
+var when_stopped_ticks: int
 
-var time_elapsed_sec : float :
-	get: return float(time_elapsed_ticks) / 1000.0
 
-var now_precise : int :
-	get:
-		match precision:
-			MSEC:	return Time.get_ticks_msec()
-			USEC:	return Time.get_ticks_usec()
-			_:		return Time.get_ticks_msec()
+var time_elapsed_ticks: int:
+	get: return (NOW if _playing else when_stopped_ticks) - when_started_ticks
 
-var time_elapsed_string_auto : String :
-	get:
-		var total_seconds : int = time_elapsed_ticks / 1000
-		var seconds : int = (total_seconds)			% 60
-		var minutes : int = (total_seconds / 60)	% 60
-		var hours : int = (total_seconds / 3600)
+var time_elapsed_seconds: float:
+	get: return float(time_elapsed_ticks) * 0.00_1
 
-		if hours > 0:
-			return "%02d:%02d:%02d" % [hours, minutes, seconds]
-		else:
-			return "%02d:%02d" % [minutes, seconds]
 
-func _init(__precision__: int = MSEC) -> void:
-	precision = __precision__
-	when_started_ticks = now_precise
-	when_stopped_ticks = now_precise
+func _init() -> void:
+	when_started_ticks = NOW
+	when_stopped_ticks = NOW
+
 
 func start() -> void:
 	_playing = true
-	when_started_ticks = now_precise
+	when_started_ticks = NOW
+
 
 func stop() -> void:
 	_playing = false
-	when_stopped_ticks = now_precise
+	when_stopped_ticks = NOW
+
+
+func get_time_elapsed_string(minimum_elements: int = 2, seconds_format: String = "%02d") -> String:
+	var result: String
+
+	if minimum_elements >= 1:
+		result = seconds_format % fmod(time_elapsed_seconds, 60)
+
+	if minimum_elements >= 2 or time_elapsed_seconds > 60:
+		result = ("%02d:" % (time_elapsed_seconds / 60) % 60) + result
+
+	if minimum_elements >= 3 or time_elapsed_seconds > 3600:
+		result = ("%02d:" % (time_elapsed_seconds / 3600) % 24) + result
+
+	if minimum_elements >= 4 or time_elapsed_seconds > 86400:
+		result = ("%02d:" % (time_elapsed_seconds / 86400)) + result
+
+	return result

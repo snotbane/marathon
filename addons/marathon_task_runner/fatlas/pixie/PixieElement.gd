@@ -1,9 +1,11 @@
-
 ## A single sprite within a [Pixie].
-@tool class_name PixieElement extends Sprite2D
+@tool
+class_name PixieElement
+extends Sprite2D
 
-var component : PixieComponent
-var template : Node2D
+var component: PixieComponent
+
+var template: Node2D
 
 
 func _ready() -> void:
@@ -49,5 +51,5 @@ func refresh_sprite2d_from_texture() -> void:
 
 func refresh_animated_sprite2d_from_texture() -> void:
 	if not template.sprite_frames: return
-	var tex : Texture2D = template.sprite_frames.get_frame_texture(template.animation, template.frame)
+	var tex: Texture2D = template.sprite_frames.get_frame_texture(template.animation, template.frame)
 	self.texture = (tex as CompositeTexture2D).maps.get(component.texture_key) if tex else null

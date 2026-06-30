@@ -1,26 +1,34 @@
-@tool extends EditorPlugin
+@tool
+extends EditorPlugin
 
 var PREVIEW_GENERATOR_SCRIPT := preload("res://addons/marathon_task_runner/fatlas/resources/CompositeTexture2D_PreviewGenerator.gd")
 var preview_generator: EditorResourcePreviewGenerator
 
+
 var MAIN_SCENE := preload("res://addons/marathon_task_runner/fatlas/viewer/FatlasViewer.tscn")
 var main: FatlasViewer
+
 
 func _get_plugin_name() -> String:
 	return "Fatlas Preview"
 
+
 func _get_plugin_icon() -> Texture2D:
 	return preload("res://addons/marathon_task_runner/fatlas/icons/AtlasTexture.svg")
 
+
 func _has_main_screen() -> bool:
 	return true
+
 
 func _make_visible(visible: bool) -> void:
 	if main:
 		main.visible = visible
 
+
 func _handles(object: Object) -> bool:
 	return object is CompositeTexture2D
+
 
 func _edit(object: Object) -> void:
 	if main == null: return

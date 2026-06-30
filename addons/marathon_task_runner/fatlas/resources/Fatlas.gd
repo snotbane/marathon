@@ -1,11 +1,17 @@
 ## Manages Fatlas data files and generates/updates sub-resources, including multiple [OffsetAtlasTexture] and [CompositeTexture2D].
-@tool class_name Fatlas extends Resource
+@tool
+class_name Fatlas
+extends Resource
 
 const TEXTURE_FOLDER_NAME := "textures"
+
 const COMPOSITE_FOLDER_NAME := "compo"
+
 const ATLAS_FOLDER_NAME := "atlas"
 
-@export_storage var json_path : String
+
+@export_storage var json_path: String
+
 
 func refresh_resources() -> void:
 	var base_folder := json_path.get_base_dir()
@@ -23,31 +29,30 @@ func refresh_resources() -> void:
 	var existing_atlases := MarathonUtils.get_paths_in_folder(atlas_folder)
 	var existing_compos := MarathonUtils.get_paths_in_folder(compo_folder)
 
-	var images : Array[Texture2D]
+	var images: Array[Texture2D]
 	for i in MarathonUtils.get_paths_in_folder(texture_folder, RegEx.create_from_string(".png$")):
 		images.push_back(load(i))
 
-	# do_destroy(false)
-	var fresh_paths : PackedStringArray = []
-	var created_paths : Dictionary
+	var fresh_paths: PackedStringArray = []
+	var created_paths: Dictionary
 
 	var file := FileAccess.open(json_path, FileAccess.READ)
 	if file == null:
 		printerr("Fatlas: null file at path '%s'" % json_path)
 		return
 
-	var data : Dictionary = JSON.parse_string(file.get_as_text())
+	var data: Dictionary = JSON.parse_string(file.get_as_text())
 
-	var texture : Dictionary = data[ATLAS_FOLDER_NAME]
+	var texture: Dictionary = data[ATLAS_FOLDER_NAME]
 	for k in texture.keys():
-		var mega_texture : Texture2D = load(texture_folder.path_join(k))
+		var mega_texture: Texture2D = load(texture_folder.path_join(k))
 		for subimage_name in texture[k].keys():
-			var coord : Array = texture[k][subimage_name]
+			var coord: Array = texture[k][subimage_name]
 			var source_offset := Vector2i(coord[2], coord[3])
 			var target_region := Rect2i(coord[0], coord[1], coord[4], coord[5])
 
-			var atlas_path : String = atlas_folder.path_join(subimage_name + ".tres")
-			var atlas : OffsetAtlasTexture
+			var atlas_path: String = atlas_folder.path_join(subimage_name + ".tres")
+			var atlas: OffsetAtlasTexture
 			if FileAccess.file_exists(atlas_path):
 				atlas = load(atlas_path)
 			else:
@@ -64,12 +69,12 @@ func refresh_resources() -> void:
 
 	fresh_paths.append_array(created_paths.values())
 
-	var compo : Dictionary = data[COMPOSITE_FOLDER_NAME]
+	var compo: Dictionary = data[COMPOSITE_FOLDER_NAME]
 	for base_name in compo.keys():
-		var base : Dictionary = compo[base_name]
+		var base: Dictionary = compo[base_name]
 
-		var compo_path : String = compo_folder.path_join(base_name + ".tres")
-		var composite : CompositeTexture2D
+		var compo_path: String = compo_folder.path_join(base_name + ".tres")
+		var composite: CompositeTexture2D
 		if FileAccess.file_exists(compo_path):
 			composite = load(compo_path)
 			composite.maps.clear()
@@ -77,7 +82,7 @@ func refresh_resources() -> void:
 			composite = CompositeTexture2D.new()
 
 		for suffix in base.keys():
-			var link : String = base[suffix]
+			var link: String = base[suffix]
 			composite.maps[suffix] = load(created_paths[link])
 
 		ResourceSaver.save(composite, compo_path)
