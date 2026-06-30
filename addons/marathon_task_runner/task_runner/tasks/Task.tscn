@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cpw2roduamin5"]
 
 [ext_resource type="Script" uid="uid://p4c2mgi3kd3r" path="res://addons/marathon_task_runner/task_runner/tasks/Task.gd" id="1_v46v0"]
+[ext_resource type="StyleBox" uid="uid://bc6sl7ke3y6yi" path="res://addons/marathon_task_runner/ui/panel.tres" id="2_ijpsa"]
 [ext_resource type="Texture2D" uid="uid://clac2ow8ahs4r" path="res://addons/marathon_task_runner/task_runner/icons/Play.svg" id="2_vaehq"]
 
 [sub_resource type="GDScript" id="GDScript_vaehq"]
@@ -64,6 +65,7 @@ grow_vertical = 2
 [node name="content" type="PanelContainer" parent="v_box_container" unique_id=1147619570]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("2_ijpsa")
 
 [node name="results" type="HBoxContainer" parent="v_box_container" unique_id=1635354410]
 layout_mode = 2

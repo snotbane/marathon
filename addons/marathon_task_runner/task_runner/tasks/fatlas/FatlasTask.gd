@@ -1,6 +1,23 @@
 @tool
 extends PythonTask
 
+var _data_format: int = 1
+## File extension to write the data file to. This does not change the data itself; only the file extension. The result file can still be read as a .json file.
+@export_storage var data_format: int = 1:
+	get: return _data_format
+	set(value):
+		if _data_format == value: return
+
+		refresh_comment_if_default()
+		_data_format = value
+		validate_args()
+var data_format_ext: String:
+	get:
+		match data_format:
+			0: return ".json"
+			_: return ".fat"
+
+
 var _project_name: String
 ## Project name and also the name of the resulting image file(s) and data file.
 @export var project_name: String:
@@ -61,23 +78,6 @@ var _target_format := Image.Format.FORMAT_RGBA8
 		validate_args()
 
 
-var _data_format: int = 1
-## File extension to write the data file to. This does not change the data itself; only the file extension. The result file can still be read as a .json file.
-@export_enum("JSON", "FAT") var data_format: int = 1:
-	get: return _data_format
-	set(value):
-		if _data_format == value: return
-
-		refresh_comment_if_default()
-		_data_format = value
-		validate_args()
-var data_format_ext: String:
-	get:
-		match data_format:
-			0: return ".json"
-			_: return ".fat"
-
-
 var _filter_include: String = r""
 ## Only file names (excluding extension) matching this regex filter will be added to the target image(s).
 @export var filter_include: String = r"":
@@ -103,11 +103,7 @@ var _filter_exclude: String = r""
 
 
 var _filter_separate: String = r"^"
-## File names (excluding extension) matching this regex filter will be separated into different images. Target files will be named based on this filter.
-## This is primarily used to keep different kinds of images together, such as albedo and normal maps.
-## For example, use "-[a-zA-Z]$" to separate files ending with an alphabetic character, like "-n", "-o", "-m", etc.
-## Default: "^" (This will combine all images into a single superimage.)
-## (".*" will separate all images individually, which is completely pointless.)
+## File names (excluding extension) matching this regex filter will be separated into different spritesheets. Target files will be named based on this filter. This is primarily used to keep different kinds of sprites together, such as albedo and normal maps. For example, use `-[a-zA-Z]$` to separate files ending with an alphabetic character, like `-n`, `-o`, `-m`, etc. Default: `^` (This will combine all source images into a single spritesheet, because all file names contain this character sequence.)
 @export var filter_separate: String = r"^":
 	get: return _filter_separate
 	set(value):

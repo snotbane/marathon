@@ -19,6 +19,22 @@ static func value_as_python_argument(value: Variant) -> String:
 	return str(value)
 
 
+@export_global_dir var python_venv_path: String:
+	get: return MarathonGlobalSettings.inst.python_venv_path
+	set(value):
+		if not is_node_ready():
+			await ready
+
+		MarathonGlobalSettings.inst.python_venv_path = value
+
+
+@export_tool_button("Install Python Venv") var install_venv_button := MarathonGlobalSettings.inst.install_venv_button
+
+
+var python_exe_path: String:
+	get: return MarathonGlobalSettings.inst.python_exe_path
+
+
 var python_script_path: String:
 	get: return _get_python_script_path()
 
@@ -92,7 +108,7 @@ func _start() -> void:
 	bus = ConfigFile.new()
 	bus.save(bus_path)
 
-	var code: int = thread.start(execute.bind(MarathonGlobalSettings.inst.python_exe_path, get_python_arguments()))
+	var code: int = thread.start(execute.bind(python_exe_path, get_python_arguments()))
 	if code == OK: return
 
 	finish(code)

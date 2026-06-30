@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://6ejn7rerjf6y"
-path="res://.godot/imported/rubin-head-quiver-01-r-a.png-289ad84def61231932bb32e23164702a.ctex"
+uid="uid://b5b4xhe3i0lh2"
+path="res://.godot/imported/nasty_image.png-5002f566da4f5b52a46cc4107a204d2c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://testing/rubin-head-quiver-r-a/rubin-head-quiver-01-r-a.png"
-dest_files=["res://.godot/imported/rubin-head-quiver-01-r-a.png-289ad84def61231932bb32e23164702a.ctex"]
+source_file="res://testing/spruce/nasty_image.png"
+dest_files=["res://.godot/imported/nasty_image.png-5002f566da4f5b52a46cc4107a204d2c.ctex"]
 
 [params]
 

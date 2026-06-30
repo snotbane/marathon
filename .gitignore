@@ -4,6 +4,6 @@
 .vscode/
 .venv/
 
+*.kra*
 *.png~
 .DS_Store
-

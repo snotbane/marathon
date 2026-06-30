@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://damgchtapnn03"
-path="res://.godot/imported/rubin-note-lined-r-a.png-7f922be148f6510d681ef5fcb5300567.ctex"
+uid="uid://chx6857g1ig68"
+path="res://.godot/imported/nasty_image.png-07a0a4a852c11ac8790cad027ffb2c88.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/rubin-note-lined-r-a.png"
-dest_files=["res://.godot/imported/rubin-note-lined-r-a.png-7f922be148f6510d681ef5fcb5300567.ctex"]
+source_file="res://assets/images/nasty_image.png"
+dest_files=["res://.godot/imported/nasty_image.png-07a0a4a852c11ac8790cad027ffb2c88.ctex"]
 
 [params]
 

@@ -1,13 +1,20 @@
+## The base class for any task that can be run and saved in the task runner.
 @tool
 class_name Task
 extends Control
 
 enum {
+	## The task is ready to be run and has not yet done so.
 	QUEUED,
+	## The task is not set up properly and cannot be run.
 	INVALID,
+	## The task is currently running.
 	RUNNING,
+	## The task is attempting to stop running, due to the user telling it to.
 	ABORTING,
+	## The task has completed successfully.
 	SUCCEEDED,
+	## The task has finished, but there was an error (which should display as an error in the console).
 	FAILED,
 }
 
