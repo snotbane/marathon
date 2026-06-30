@@ -1,21 +1,28 @@
-[gd_scene load_steps=4 format=3 uid="uid://br8nucwf4oc6e"]
+[gd_scene format=3 uid="uid://br8nucwf4oc6e"]
 
-[ext_resource type="PackedScene" uid="uid://cpw2roduamin5" path="res://addons/marathon/runner/tasks/Task.tscn" id="1_g2ipj"]
-[ext_resource type="Script" uid="uid://dg6hphx77kahi" path="res://addons/marathon/runner/tasks/optipng/OptiPngTask.gd" id="2_g1gwt"]
-[ext_resource type="PackedScene" uid="uid://3djnsrgpqbb1" path="res://addons/marathon/elements/ImagePreview.tscn" id="3_fsoj2"]
+[ext_resource type="PackedScene" uid="uid://cpw2roduamin5" path="res://addons/marathon_task_runner/runner/tasks/Task.tscn" id="1_g2ipj"]
+[ext_resource type="Script" uid="uid://dg6hphx77kahi" path="res://addons/marathon_task_runner/runner/tasks/optipng/OptiPngTask.gd" id="2_g1gwt"]
+[ext_resource type="PackedScene" uid="uid://3djnsrgpqbb1" path="res://addons/marathon_task_runner/elements/ImagePreview.tscn" id="3_fsoj2"]
 
-[node name="OptiPngTask" instance=ExtResource("1_g2ipj")]
+[node name="OptiPngTask" unique_id=1467468519 instance=ExtResource("1_g2ipj")]
 script = ExtResource("2_g1gwt")
-optipng_path = "/usr/bin/optipng"
+optipng_path = ""
 target_dir = ""
 
-[node name="preview" parent="v_box_container/content" index="0" instance=ExtResource("3_fsoj2")]
+[node name="image_preview" parent="v_box_container/content" parent_id_path=PackedInt32Array(1147619570) index="0" unique_id=501062242 instance=ExtResource("3_fsoj2")]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="stats" parent="v_box_container/results/progress_bar/margin_container" index="1"]
+[node name="execute" parent="v_box_container/results" parent_id_path=PackedInt32Array(1635354410) index="0" unique_id=1151996094]
+tooltip_text = "Can't run this task due to errors:
+Directory 'target_dir' cannot be blank."
+disabled = true
+
+[node name="stats" parent="v_box_container/results/progress_bar/margin_container" parent_id_path=PackedInt32Array(383752516) index="1" unique_id=642357511]
 visible = true
 
-[node name="bytes_reduced" type="Label" parent="v_box_container/results/progress_bar/margin_container/stats" index="1"]
+[node name="bytes_reduced_label" type="Label" parent="v_box_container/results/progress_bar/margin_container/stats" index="1" unique_id=1296748345]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 text = "0 B reduced"

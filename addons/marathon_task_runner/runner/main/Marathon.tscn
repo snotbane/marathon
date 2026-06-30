@@ -1,24 +1,24 @@
-[gd_scene load_steps=34 format=3 uid="uid://ef5hvftp4smh"]
+[gd_scene format=3 uid="uid://ef5hvftp4smh"]
 
-[ext_resource type="Script" uid="uid://chfpoyapyy2r5" path="res://addons/marathon/runner/main/ManagerButtons.gd" id="1_dkkd1"]
-[ext_resource type="Texture2D" uid="uid://cgt6ejtfsi5x8" path="res://addons/marathon/runner/icons/Tools.svg" id="2_rangv"]
-[ext_resource type="Script" uid="uid://doilwux674cck" path="res://addons/marathon/runner/main/MarathonGlobalSettings.gd" id="3_6cm3p"]
-[ext_resource type="Texture2D" uid="uid://c01kr02aa053q" path="res://addons/marathon/runner/icons/New.svg" id="4_qtrbu"]
-[ext_resource type="Texture2D" uid="uid://5v03m2veuxsh" path="res://addons/marathon/runner/icons/Save.svg" id="4_s6s3o"]
-[ext_resource type="Texture2D" uid="uid://bvtbuh7sbludu" path="res://addons/marathon/runner/icons/FileBrowse.svg" id="5_6cm3p"]
-[ext_resource type="Texture2D" uid="uid://clac2ow8ahs4r" path="res://addons/marathon/runner/icons/Play.svg" id="5_qtrbu"]
-[ext_resource type="Texture2D" uid="uid://dcacnkbcou6rn" path="res://addons/marathon/runner/icons/Load.svg" id="7_f2ono"]
-[ext_resource type="Texture2D" uid="uid://ct7p1qh0ybn05" path="res://addons/marathon/runner/icons/Reload.svg" id="8_iuqo7"]
-[ext_resource type="Texture2D" uid="uid://bcd3eg8vjlgin" path="res://addons/marathon/runner/icons/Add.svg" id="9_s6s3o"]
-[ext_resource type="Script" uid="uid://clwedgk260yyt" path="res://addons/marathon/runner/tasks/TaskTree.gd" id="10_y17js"]
-[ext_resource type="Script" uid="uid://rgm460q6oiyv" path="res://addons/marathon/runner/main/CreateTaskList.gd" id="11_br3bt"]
-[ext_resource type="Script" uid="uid://bpeqonbriegt2" path="res://addons/marathon/runner/main/CurrentProject.gd" id="11_s6s3o"]
-[ext_resource type="Script" uid="uid://cl81t2vbdaklc" path="res://addons/marathon/runner/tasks/TaskTemplate.gd" id="12_wroo2"]
-[ext_resource type="Resource" uid="uid://dfcdu1wmnihl2" path="res://addons/marathon/runner/tasks/spruce/spruce.tres" id="14_0ugl0"]
-[ext_resource type="Resource" uid="uid://b8o7rpmif1hy8" path="res://addons/marathon/runner/tasks/laigter/laigter.tres" id="15_eolsp"]
-[ext_resource type="Resource" uid="uid://f2w8bttuc4oc" path="res://addons/marathon/runner/tasks/fatlas/fatlas.tres" id="16_n85t4"]
-[ext_resource type="Resource" uid="uid://bdrvf6blp42h2" path="res://addons/marathon/runner/tasks/optipng/optipng.tres" id="17_af51x"]
-[ext_resource type="Script" uid="uid://6eldrawh61aa" path="res://addons/marathon/runner/main/TaskContainer.gd" id="18_3u6c7"]
+[ext_resource type="Script" uid="uid://chfpoyapyy2r5" path="res://addons/marathon_task_runner/runner/main/ManagerButtons.gd" id="1_dkkd1"]
+[ext_resource type="Texture2D" uid="uid://cgt6ejtfsi5x8" path="res://addons/marathon_task_runner/runner/icons/Tools.svg" id="2_rangv"]
+[ext_resource type="Script" uid="uid://doilwux674cck" path="res://addons/marathon_task_runner/runner/main/MarathonGlobalSettings.gd" id="3_6cm3p"]
+[ext_resource type="Texture2D" uid="uid://c01kr02aa053q" path="res://addons/marathon_task_runner/runner/icons/New.svg" id="4_qtrbu"]
+[ext_resource type="Texture2D" uid="uid://5v03m2veuxsh" path="res://addons/marathon_task_runner/runner/icons/Save.svg" id="4_s6s3o"]
+[ext_resource type="Texture2D" uid="uid://bvtbuh7sbludu" path="res://addons/marathon_task_runner/runner/icons/FileBrowse.svg" id="5_6cm3p"]
+[ext_resource type="Texture2D" uid="uid://clac2ow8ahs4r" path="res://addons/marathon_task_runner/runner/icons/Play.svg" id="5_qtrbu"]
+[ext_resource type="Texture2D" uid="uid://dcacnkbcou6rn" path="res://addons/marathon_task_runner/runner/icons/Load.svg" id="7_f2ono"]
+[ext_resource type="Texture2D" uid="uid://ct7p1qh0ybn05" path="res://addons/marathon_task_runner/runner/icons/Reload.svg" id="8_iuqo7"]
+[ext_resource type="Texture2D" uid="uid://bcd3eg8vjlgin" path="res://addons/marathon_task_runner/runner/icons/Add.svg" id="9_s6s3o"]
+[ext_resource type="Script" uid="uid://clwedgk260yyt" path="res://addons/marathon_task_runner/runner/tasks/TaskTree.gd" id="10_y17js"]
+[ext_resource type="Script" uid="uid://rgm460q6oiyv" path="res://addons/marathon_task_runner/runner/main/CreateTaskList.gd" id="11_br3bt"]
+[ext_resource type="Script" uid="uid://bpeqonbriegt2" path="res://addons/marathon_task_runner/runner/main/CurrentProject.gd" id="11_s6s3o"]
+[ext_resource type="Script" uid="uid://cl81t2vbdaklc" path="res://addons/marathon_task_runner/runner/tasks/TaskTemplate.gd" id="12_wroo2"]
+[ext_resource type="Resource" uid="uid://dfcdu1wmnihl2" path="res://addons/marathon_task_runner/runner/tasks/spruce/spruce.tres" id="14_0ugl0"]
+[ext_resource type="Resource" uid="uid://b8o7rpmif1hy8" path="res://addons/marathon_task_runner/runner/tasks/laigter/laigter.tres" id="15_eolsp"]
+[ext_resource type="Resource" uid="uid://f2w8bttuc4oc" path="res://addons/marathon_task_runner/runner/tasks/fatlas/fatlas.tres" id="16_n85t4"]
+[ext_resource type="Resource" uid="uid://bdrvf6blp42h2" path="res://addons/marathon_task_runner/runner/tasks/optipng/optipng.tres" id="17_af51x"]
+[ext_resource type="Script" uid="uid://6eldrawh61aa" path="res://addons/marathon_task_runner/runner/main/TaskContainer.gd" id="18_3u6c7"]
 
 [sub_resource type="InputEventKey" id="InputEventKey_xs2sm"]
 device = -1
@@ -103,7 +103,19 @@ func _on_task_tree_stopped() -> void:
 	disabled = false
 "
 
-[node name="Marathon" type="Control"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wsxkn"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 5.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[node name="Marathon" type="Control" unique_id=1160569330]
 clip_contents = true
 layout_mode = 3
 anchors_preset = 15
@@ -114,7 +126,7 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="tab_container" type="TabContainer" parent="."]
+[node name="tab_container" type="TabContainer" parent="." unique_id=1233966865]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -124,18 +136,17 @@ grow_vertical = 2
 current_tab = 0
 tabs_visible = false
 
-[node name="main_split" type="HSplitContainer" parent="tab_container"]
+[node name="main_split" type="HSplitContainer" parent="tab_container" unique_id=2097981152]
 layout_mode = 2
-split_offset = 360
 metadata/_tab_index = 0
 
-[node name="task_manager" type="PanelContainer" parent="tab_container/main_split"]
+[node name="task_manager" type="PanelContainer" parent="tab_container/main_split" unique_id=1723004712]
 layout_mode = 2
 
-[node name="vbox" type="VBoxContainer" parent="tab_container/main_split/task_manager"]
+[node name="vbox" type="VBoxContainer" parent="tab_container/main_split/task_manager" unique_id=699672618]
 layout_mode = 2
 
-[node name="current_project" type="Label" parent="tab_container/main_split/task_manager/vbox"]
+[node name="current_project" type="Label" parent="tab_container/main_split/task_manager/vbox" unique_id=1978767238]
 visible = false
 layout_mode = 2
 mouse_filter = 0
@@ -144,30 +155,30 @@ horizontal_alignment = 1
 text_overrun_behavior = 1
 script = ExtResource("11_s6s3o")
 
-[node name="manager_buttons" type="GridContainer" parent="tab_container/main_split/task_manager/vbox" node_paths=PackedStringArray("buttons_disabled_while_running")]
+[node name="manager_buttons" type="GridContainer" parent="tab_container/main_split/task_manager/vbox" unique_id=273076860 node_paths=PackedStringArray("buttons_disabled_while_running")]
 layout_mode = 2
 columns = 2
 script = ExtResource("1_dkkd1")
 buttons_disabled_while_running = [NodePath("settings"), NodePath("save/new"), NodePath("load/overwrite"), NodePath("load/append"), NodePath("run/reset_all")]
 
-[node name="save" type="HBoxContainer" parent="tab_container/main_split/task_manager/vbox/manager_buttons"]
+[node name="save" type="HBoxContainer" parent="tab_container/main_split/task_manager/vbox/manager_buttons" unique_id=875485774]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="new" type="Button" parent="tab_container/main_split/task_manager/vbox/manager_buttons/save"]
+[node name="new" type="Button" parent="tab_container/main_split/task_manager/vbox/manager_buttons/save" unique_id=2143750591]
 layout_mode = 2
 tooltip_text = "Create a new queue."
 shortcut = SubResource("Shortcut_y17js")
 icon = ExtResource("4_qtrbu")
 
-[node name="confirmation_dialog" type="ConfirmationDialog" parent="tab_container/main_split/task_manager/vbox/manager_buttons/save/new"]
+[node name="confirmation_dialog" type="ConfirmationDialog" parent="tab_container/main_split/task_manager/vbox/manager_buttons/save/new" unique_id=1420907613]
 oversampling_override = 1.0
 initial_position = 1
 size = Vector2i(391, 100)
 dialog_text = "This will remove all tasks and cannot be undone!"
 dialog_autowrap = true
 
-[node name="current" type="Button" parent="tab_container/main_split/task_manager/vbox/manager_buttons/save"]
+[node name="current" type="Button" parent="tab_container/main_split/task_manager/vbox/manager_buttons/save" unique_id=349973159]
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Save the current configuration and overwrite."
@@ -175,23 +186,23 @@ shortcut = SubResource("Shortcut_tthtu")
 text = "Save"
 icon = ExtResource("4_s6s3o")
 
-[node name="as_new" type="Button" parent="tab_container/main_split/task_manager/vbox/manager_buttons/save"]
+[node name="as_new" type="Button" parent="tab_container/main_split/task_manager/vbox/manager_buttons/save" unique_id=1711521401]
 layout_mode = 2
 tooltip_text = "Save the current configuration as a new JSON file."
 shortcut = SubResource("Shortcut_qtrbu")
 icon = ExtResource("5_6cm3p")
 
-[node name="file_dialog" type="FileDialog" parent="tab_container/main_split/task_manager/vbox/manager_buttons/save"]
+[node name="file_dialog" type="FileDialog" parent="tab_container/main_split/task_manager/vbox/manager_buttons/save" unique_id=1169001965]
 oversampling_override = 1.0
 display_mode = 1
 filters = PackedStringArray("*.json")
 use_native_dialog = true
 
-[node name="load" type="HBoxContainer" parent="tab_container/main_split/task_manager/vbox/manager_buttons"]
+[node name="load" type="HBoxContainer" parent="tab_container/main_split/task_manager/vbox/manager_buttons" unique_id=1572524417]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="overwrite" type="Button" parent="tab_container/main_split/task_manager/vbox/manager_buttons/load"]
+[node name="overwrite" type="Button" parent="tab_container/main_split/task_manager/vbox/manager_buttons/load" unique_id=1986858407]
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Load a JSON file into the queue."
@@ -199,42 +210,42 @@ shortcut = SubResource("Shortcut_f2ono")
 text = "Load"
 icon = ExtResource("7_f2ono")
 
-[node name="file_dialog" type="FileDialog" parent="tab_container/main_split/task_manager/vbox/manager_buttons/load/overwrite"]
+[node name="file_dialog" type="FileDialog" parent="tab_container/main_split/task_manager/vbox/manager_buttons/load/overwrite" unique_id=581640602]
 title = "Open a File"
 file_mode = 0
 display_mode = 1
 filters = PackedStringArray("*.json")
 use_native_dialog = true
 
-[node name="append" type="Button" parent="tab_container/main_split/task_manager/vbox/manager_buttons/load"]
+[node name="append" type="Button" parent="tab_container/main_split/task_manager/vbox/manager_buttons/load" unique_id=1707211570]
 layout_mode = 2
 tooltip_text = "Load a JSON file and add it to the existing queue."
 shortcut = SubResource("Shortcut_xs2sm")
 icon = ExtResource("9_s6s3o")
 
-[node name="file_dialog" type="FileDialog" parent="tab_container/main_split/task_manager/vbox/manager_buttons/load/append"]
+[node name="file_dialog" type="FileDialog" parent="tab_container/main_split/task_manager/vbox/manager_buttons/load/append" unique_id=851303745]
 title = "Open a File"
 file_mode = 0
 display_mode = 1
 filters = PackedStringArray("*.json")
 use_native_dialog = true
 
-[node name="settings" type="Button" parent="tab_container/main_split/task_manager/vbox/manager_buttons"]
+[node name="settings" type="Button" parent="tab_container/main_split/task_manager/vbox/manager_buttons" unique_id=1973388653]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Settings"
 icon = ExtResource("2_rangv")
 script = SubResource("GDScript_lpup6")
 
-[node name="access" type="Node" parent="tab_container/main_split/task_manager/vbox/manager_buttons/settings"]
+[node name="access" type="Node" parent="tab_container/main_split/task_manager/vbox/manager_buttons/settings" unique_id=47666053]
 script = ExtResource("3_6cm3p")
-metadata/python_venv_path = "res://addons/marathon/.venv"
+metadata/python_venv_path = "res://addons/marathon_task_runner/.venv"
 
-[node name="run" type="HBoxContainer" parent="tab_container/main_split/task_manager/vbox/manager_buttons"]
+[node name="run" type="HBoxContainer" parent="tab_container/main_split/task_manager/vbox/manager_buttons" unique_id=2069630577]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="play_stop" type="Button" parent="tab_container/main_split/task_manager/vbox/manager_buttons/run"]
+[node name="play_stop" type="Button" parent="tab_container/main_split/task_manager/vbox/manager_buttons/run" unique_id=1167376804]
 layout_mode = 2
 size_flags_horizontal = 3
 toggle_mode = true
@@ -243,31 +254,32 @@ text = "Run Queue"
 icon = ExtResource("5_qtrbu")
 script = SubResource("GDScript_a2pxq")
 
-[node name="reset_all" type="Button" parent="tab_container/main_split/task_manager/vbox/manager_buttons/run"]
+[node name="reset_all" type="Button" parent="tab_container/main_split/task_manager/vbox/manager_buttons/run" unique_id=480898074]
 layout_mode = 2
 tooltip_text = "Reset any/all Tasks that have completed."
 icon = ExtResource("8_iuqo7")
 
-[node name="task_tree" type="Tree" parent="tab_container/main_split/task_manager/vbox"]
+[node name="task_tree" type="Tree" parent="tab_container/main_split/task_manager/vbox" unique_id=375547485]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_wsxkn")
 columns = 4
 column_titles_visible = true
 hide_folding = true
 enable_recursive_folding = false
 hide_root = true
 select_mode = 1
-scroll_horizontal_enabled = false
 auto_tooltip = false
+scroll_horizontal_enabled = false
 script = ExtResource("10_y17js")
 
-[node name="create_task_list" type="HFlowContainer" parent="tab_container/main_split/task_manager/vbox"]
+[node name="create_task_list" type="HFlowContainer" parent="tab_container/main_split/task_manager/vbox" unique_id=2008870705]
 layout_mode = 2
 alignment = 1
 script = ExtResource("11_br3bt")
 templates = Array[ExtResource("12_wroo2")]([ExtResource("14_0ugl0"), ExtResource("15_eolsp"), ExtResource("16_n85t4"), ExtResource("17_af51x")])
 
-[node name="task_container" type="TabContainer" parent="tab_container/main_split"]
+[node name="task_container" type="TabContainer" parent="tab_container/main_split" unique_id=1975157183]
 layout_mode = 2
 tabs_visible = false
 tab_focus_mode = 0

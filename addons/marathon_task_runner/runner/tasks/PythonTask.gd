@@ -1,5 +1,6 @@
-
-@tool class_name PythonTask extends Task
+@tool
+class_name PythonTask
+extends Task
 
 const ABORT_KEY := "stop"
 
@@ -8,7 +9,7 @@ static func localize_script_path(path: String) -> String:
 	if OS.has_feature("editor"):
 		return ProjectSettings.globalize_path(path)
 	else:
-		var result : String = path.substr(path.rfind("/") + 1)
+		var result: String = path.substr(path.rfind("/") + 1)
 		return OS.get_executable_path().get_base_dir().path_join("execute").path_join(result)
 
 
@@ -17,7 +18,7 @@ static func value_as_python_argument(value: Variant) -> String:
 		return str(int(value))
 	return str(value)
 
-var python_script_path : String :
+var python_script_path: String:
 	get: return _get_python_script_path()
 func _get_python_script_path() -> String:
 	assert(false); return ""
@@ -36,10 +37,10 @@ func _get_python_script_path() -> String:
 # 		dialog.popup_centered()
 
 
-var bus_dir : DirAccess
-var bus : ConfigFile
-var bus_path : String
-var thread : Thread
+var bus_dir: DirAccess
+var bus: ConfigFile
+var bus_path: String
+var thread: Thread
 
 
 func _get_default_comment() -> String:
@@ -47,7 +48,7 @@ func _get_default_comment() -> String:
 
 
 func get_python_arguments() -> PackedStringArray:
-	var result : PackedStringArray
+	var result: PackedStringArray
 	result.push_back(PythonTask.localize_script_path(python_script_path))
 	result.push_back(ProjectSettings.globalize_path(bus_path))
 	result.append_array(_get_python_arguments().map(func(e: Variant) -> String:
@@ -55,6 +56,7 @@ func get_python_arguments() -> PackedStringArray:
 	))
 	return result
 func _get_python_arguments() -> Array: return []
+
 
 func _exit_tree() -> void:
 	bus_dir.remove(bus_path)
@@ -95,7 +97,7 @@ func _start() -> void:
 	bus = ConfigFile.new()
 	bus.save(bus_path)
 
-	var code : int = thread.start(execute.bind(MarathonGlobalSettings.inst.python_exe_path, get_python_arguments()))
+	var code: int = thread.start(execute.bind(MarathonGlobalSettings.inst.python_exe_path, get_python_arguments()))
 	if code == OK: return
 
 	finish(code)
@@ -111,21 +113,23 @@ func _abort() -> bool:
 func execute(cmd: String, args: PackedStringArray) -> int:
 	return execute_static(cmd, args)
 static func execute_static(cmd: String, args: PackedStringArray, print_output: bool = true) -> int:
-	var output : Array
-	var result : int = OS.execute(cmd, args, output, print_output)
+	var output: Array
+	var result: int = OS.execute(cmd, args, output, print_output)
 	if print_output: for e in output:
-		if result == OK:	print(e)
-		else:				printerr(e)
+		if result == OK: print(e)
+		else: printerr(e)
 	return result
 
 
 func refresh_elements() -> void:
 	bus.load(bus_path)
 	_bus_poll()
+
+
 func _bus_poll() -> void:
 	progress_bar.value = bus.get_value("output", "progress", 0)
 	progress_bar.max_value = bus.get_value("output", "progress_max", 1)
 
-	items_completed_label.text = "%s of %s completed" % [ int(progress_bar.value), int(progress_bar.max_value) ]
+	items_completed_label.text = "%s of %s completed" % [int(progress_bar.value), int(progress_bar.max_value)]
 
 	progress_changed.emit()

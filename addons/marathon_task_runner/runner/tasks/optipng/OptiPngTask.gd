@@ -1,6 +1,5 @@
-
-@tool extends PythonTask
-
+@tool
+extends PythonTask
 
 static func bytes_to_string(bytes: int) -> String:
 	const SIZE_KB := 1024
@@ -15,17 +14,21 @@ static func bytes_to_string(bytes: int) -> String:
 		return "%.2f MB" % (float(bytes) / SIZE_MB)
 	return "%.2f GB" % (float(bytes) / SIZE_GB)
 
-@export var optipng_path : String :
+
+@export var optipng_path: String:
 	get:
 		if not MarathonGlobalSettings.inst: return ""
 		return MarathonGlobalSettings.inst.get_meta(&"optipng_path", "")
 	set(value):
-		if not MarathonGlobalSettings.inst: return
-		MarathonGlobalSettings.inst.set_meta(&"optipng_path", value)
-		MarathonGlobalSettings.inst.save_settings()
+		if is_node_ready():
+			MarathonGlobalSettings.inst.set_meta(&"optipng_path", value)
+			MarathonGlobalSettings.inst.save_settings()
 
-var _target_dir : String
-@export_global_dir var target_dir : String :
+		validate_args()
+
+
+var _target_dir: String
+@export_global_dir var target_dir: String:
 	get: return _target_dir
 	set(value):
 		if _target_dir == value: return
@@ -35,18 +38,18 @@ var _target_dir : String
 		validate_args()
 
 
-var _bytes_reduced : int
-var bytes_reduced : int :
+var _bytes_reduced: int
+var bytes_reduced: int:
 	get: return _bytes_reduced
 	set(value):
 		if _bytes_reduced == value: return
 		_bytes_reduced = value
 
-		$v_box_container/results/progress_bar/margin_container/stats/bytes_reduced.text = "%s reduced" % [ bytes_to_string(_bytes_reduced) ]
+		%bytes_reduced_label.text = "%s reduced" % [bytes_to_string(_bytes_reduced)]
 
 
 func _get_python_script_path() -> String:
-	return "res://addons/marathon/runner/tasks/optipng/optipng.py"
+	return "res://addons/marathon_task_runner/runner/tasks/optipng/optipng.py"
 
 func _get_default_comment() -> String:
 	return MarathonUtils.get_project_preferred_path(target_dir)
@@ -76,11 +79,11 @@ func _load_args(data: Dictionary) -> void:
 
 func _reset() -> void:
 	bytes_reduced = 0
-	$v_box_container/content/preview.clear()
+	%image_preview.clear()
 
 
 func _bus_poll() -> void:
 	super._bus_poll()
 
 	bytes_reduced = bus.get_value("output", "bytes", 0)
-	$v_box_container/content/preview.value = bus.get_value("output", "image_preview", "")
+	%image_preview.value = bus.get_value("output", "image_preview", "")

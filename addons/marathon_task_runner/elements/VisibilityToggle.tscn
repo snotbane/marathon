@@ -1,33 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://dqpguervbrvmn"]
+[gd_scene format=3 uid="uid://dqpguervbrvmn"]
 
-[ext_resource type="Texture2D" uid="uid://d8h61gsjldes" path="res://addons/marathon/runner/icons/GuiVisibilityHidden.svg" id="1_h2vh5"]
+[ext_resource type="Texture2D" uid="uid://7qb11yob10tf" path="res://addons/marathon_task_runner/runner/icons/GuiVisibilityVisible.svg" id="1_1xr6f"]
+[ext_resource type="Texture2D" uid="uid://d8h61gsjldes" path="res://addons/marathon_task_runner/runner/icons/GuiVisibilityHidden.svg" id="1_h2vh5"]
+[ext_resource type="Script" uid="uid://inmff3wsjdgp" path="res://addons/marathon_task_runner/elements/VisibilityToggle.gd" id="3_kbe8u"]
 
-[sub_resource type="GDScript" id="GDScript_ikll3"]
-script/source = "@tool extends Button
-
-@export var link : Node
-
-const ICON_SHOW := preload(\"uid://7qb11yob10tf\")
-const ICON_HIDE := preload(\"uid://d8h61gsjldes\")
-
-func _ready() -> void:
-	if Utils.is_node_in_editor(self): return
-	
-	link.visibility_changed.connect(_on_visibility_changed)
-
-func _toggled(toggled_on: bool) -> void:
-	link.visible = toggled_on
-
-func _on_visibility_changed() -> void:
-	icon = ICON_SHOW if link.visible else ICON_HIDE
-	set_pressed_no_signal(link.visible)
-"
-
-[node name="visibility" type="Button"]
+[node name="visibility" type="CheckBox" unique_id=648365518]
+offset_right = 24.0
+offset_bottom = 24.0
 focus_mode = 0
-toggle_mode = true
+theme_override_icons/checked = ExtResource("1_1xr6f")
+theme_override_icons/unchecked = ExtResource("1_h2vh5")
 button_pressed = true
-icon = ExtResource("1_h2vh5")
 flat = true
 icon_alignment = 1
-script = SubResource("GDScript_ikll3")
+expand_icon = true
+script = ExtResource("3_kbe8u")

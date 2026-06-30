@@ -1,0 +1,13 @@
+[gd_resource type="Texture2D" script_class="CompositeTexture2D" format=3 uid="uid://fudhp2b0mcv4"]
+
+[ext_resource type="Texture2D" uid="uid://cs66mk3rtffwu" path="res://testing/target/atlas/rubin-head-quiver-04-r-a.tres" id="1_8netr"]
+[ext_resource type="Script" uid="uid://dc3mpgrc3nb2a" path="res://addons/marathon_task_runner/fatlas/resources/CompositeTexture2D.gd" id="2_wvfs0"]
+
+[resource]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("2_wvfs0")
+maps = Dictionary[StringName, Texture2D]({
+&"-l-a": ExtResource("1_8netr"),
+&"-r-a": ExtResource("1_8netr")
+})

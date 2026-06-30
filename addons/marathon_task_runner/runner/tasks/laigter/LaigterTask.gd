@@ -1,20 +1,22 @@
-
-@tool extends PythonTask
+@tool
+extends PythonTask
 
 ## Path of the Laigter executable. See the Laigter documentation on how to install or where to find.
-@export_global_file var laigter_path : String :
+@export_global_file var laigter_path: String:
 	get:
 		if not MarathonGlobalSettings.inst: return ""
 		return MarathonGlobalSettings.inst.get_meta(&"laigter_path", "")
 	set(value):
-		if not MarathonGlobalSettings.inst: return
-		MarathonGlobalSettings.inst.set_meta(&"laigter_path", value)
-		MarathonGlobalSettings.inst.save_settings()
+		if is_node_ready():
+			MarathonGlobalSettings.inst.set_meta(&"laigter_path", value)
+			MarathonGlobalSettings.inst.save_settings()
+
+		validate_args()
 
 
-var _preset_path : String
+var _preset_path: String
 ## Path of the Laigter preset file. This must be manually created in the Laigter app.
-@export_global_file var preset_path : String :
+@export_global_file var preset_path: String:
 	get: return _preset_path
 	set(value):
 		if _preset_path == value: return
@@ -24,9 +26,9 @@ var _preset_path : String
 		validate_args()
 
 
-var _source_dir : String
+var _source_dir: String
 ## Source folder. All files in this folder and subfolders will be processed.
-@export_global_dir var source_dir : String :
+@export_global_dir var source_dir: String:
 	get: return _source_dir
 	set(value):
 		if _source_dir == value: return
@@ -36,9 +38,9 @@ var _source_dir : String
 		validate_args()
 
 
-var _target_dir : String
+var _target_dir: String
 ## Target folder. All files processed will be placed in this folder, preserving any subfolders. Leave blank to use [member source_dir].
-@export_global_dir var target_dir : String = "" :
+@export_global_dir var target_dir: String = "":
 	get: return _target_dir
 	set(value):
 		if _target_dir == value: return
@@ -48,9 +50,9 @@ var _target_dir : String
 		validate_args()
 
 
-var _target_suffix : String = "_n"
+var _target_suffix: String = "_n"
 ## Suffix to append to the target file to distinguish it from the source.
-@export var target_suffix : String = "_n" :
+@export var target_suffix: String = "_n":
 	get: return _target_suffix
 	set(value):
 		if _target_suffix == value: return
@@ -60,9 +62,9 @@ var _target_suffix : String = "_n"
 		validate_args()
 
 
-var _filter_include : String = ""
+var _filter_include: String = ""
 ## Inclusion filter. Only source names that match this query will be processed. Leave blank for no filter.
-@export var filter_include : String = "" :
+@export var filter_include: String = "":
 	get: return _filter_include
 	set(value):
 		if _filter_include == value: return
@@ -72,9 +74,9 @@ var _filter_include : String = ""
 		validate_args()
 
 
-var _filter_exclude : String = ""
+var _filter_exclude: String = ""
 ## Exclusion filter. Any source names that match this query will NOT be processed. Leave blank for no filter.
-@export var filter_exclude : String = "" :
+@export var filter_exclude: String = "":
 	get: return _filter_exclude
 	set(value):
 		if _filter_exclude == value: return
@@ -84,9 +86,9 @@ var _filter_exclude : String = ""
 		validate_args()
 
 
-var _overwrite : bool = true
+var _overwrite: bool = true
 ## If enabled, this will overwrite any target files that already exist. If disabled, this will NOT process any sources which already have a target file present at the specified [member target] and with the specified [member target_suffix].
-@export var overwrite : bool = true :
+@export var overwrite: bool = true:
 	get: return _overwrite
 	set(value):
 		if _overwrite == value: return
@@ -97,16 +99,12 @@ var _overwrite : bool = true
 		validate_args()
 
 
-@export_tool_button("Install Pillow to Venv") var _install_PIL := func() -> void:
-	execute_static(MarathonGlobalSettings.inst.python_exe_path, ["-m", "pip", "install", "Pillow"])
-
-
 func _get_python_script_path() -> String:
-	return "res://addons/marathon/runner/tasks/laigter/laigter.py"
+	return "res://addons/marathon_task_runner/runner/tasks/laigter/laigter.py"
 
 
 func _get_default_comment() -> String:
-	var result := "%s : %s >> %s" % [ _preset_path.get_file(), _source_dir.get_file(), _target_dir.get_file() ]
+	var result := "%s : %s >> %s" % [_preset_path.get_file(), _source_dir.get_file(), _target_dir.get_file()]
 
 	if filter_include:
 		result += " (include: %s)" % filter_include
@@ -170,4 +168,3 @@ func _bus_poll() -> void:
 
 	$v_box_container/content/split/source/preview.value = bus.get_value("output", "source_preview", "")
 	$v_box_container/content/split/target/preview.value = bus.get_value("output", "target_preview", "")
-

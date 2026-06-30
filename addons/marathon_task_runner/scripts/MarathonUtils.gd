@@ -1,13 +1,13 @@
-
-@tool class_name MarathonUtils
+@tool
+class_name MarathonUtils
 
 static func get_paths_in_folder(root := "res://", include := RegEx.create_from_string(".*")) -> PackedStringArray:
 	var dir := DirAccess.open(root)
 	if not dir: return []
 
-	var result : PackedStringArray = []
+	var result: PackedStringArray = []
 	dir.list_dir_begin()
-	var file : String = dir.get_next()
+	var file: String = dir.get_next()
 	while file:
 		var next := root.path_join(file)
 		if dir.current_is_dir():
@@ -16,6 +16,7 @@ static func get_paths_in_folder(root := "res://", include := RegEx.create_from_s
 			result.push_back(next)
 		file = dir.get_next()
 	return result
+
 
 static func get_project_preferred_path(path: String) -> String:
 	if path.begins_with("res://"): return path
@@ -34,6 +35,7 @@ static func print_ancestry(node: Node) -> void:
 		cursor = cursor.get_parent()
 
 
+##	Returns [true] if the [param Node] belongs to either the 2D or 3D SceneTree editor.
 static func is_node_in_editor(node: Node) -> bool:
 	if not Engine.is_editor_hint(): return false
 	var editor := node.get_parent()
@@ -41,7 +43,10 @@ static func is_node_in_editor(node: Node) -> bool:
 		if editor.get_parent().name == "MainScreen": break
 		editor = editor.get_parent()
 
-	return (editor.name.contains("CanvasItemEditor") or editor.name.contains("SpatialEditor")) if editor else false
+	if editor == null: return false
+
+	return editor.name.contains("CanvasItemEditor") or editor.name.contains("SpatialEditor")
+
 
 static func is_folder_inside_other(a: String, b: String) -> bool:
 	return ProjectSettings.globalize_path(b).begins_with(ProjectSettings.globalize_path(a))

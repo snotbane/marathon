@@ -1,10 +1,9 @@
+@tool
+extends PythonTask
 
-@tool extends PythonTask
-
-var _review_changes : bool = true
-## If enabled, you will be able to compare files that were changed using this window. NOTE: Files will NOT be updated until you manually approve changes.
-# If disabled, this will overwrite the original file(s). WARNING: You may lose data!
-@export var review_changes : bool = true :
+var _review_changes: bool = true
+## If enabled, you will be able to compare files that were changed using this window. NOTE: Files will NOT be updated until you manually approve changes. If disabled, this will overwrite the original file(s). WARNING: You may lose data!
+@export var review_changes: bool = true:
 	get: return _review_changes
 	set(value):
 		if _review_changes == value: return
@@ -14,9 +13,9 @@ var _review_changes : bool = true
 		validate_args()
 
 
-var _target_dir : String
-## Target folder. All files processed will be placed in this folder, preserving any subfolders. Leave blank to use [member source_dir].
-@export_global_dir var target_dir : String = "" :
+var _target_dir: String
+## Target folder. All files processed will be placed in this folder, preserving any subfolders.
+@export_global_dir var target_dir: String = "":
 	get: return _target_dir
 	set(value):
 		if _target_dir == value: return
@@ -26,9 +25,9 @@ var _target_dir : String
 		validate_args()
 
 
-var _filter_include : String = r""
+var _filter_include: String = r""
 ## Inclusion filter. Only source names that match this query will be processed. Leave blank for no filter.
-@export var filter_include : String = r"" :
+@export var filter_include: String = r"":
 	get: return _filter_include
 	set(value):
 		if _filter_include == value: return
@@ -38,9 +37,9 @@ var _filter_include : String = r""
 		validate_args()
 
 
-var _filter_exclude : String = r""
+var _filter_exclude: String = r""
 ## Exclusion filter. Any source names that match this query will NOT be processed. Leave blank for no filter.
-@export var filter_exclude : String = r"" :
+@export var filter_exclude: String = r"":
 	get: return _filter_exclude
 	set(value):
 		if _filter_exclude == value: return
@@ -50,9 +49,9 @@ var _filter_exclude : String = r""
 		validate_args()
 
 
-var _island_opacity : int = 0
+var _island_opacity: int = 0
 ## Pixels with an opacity lower than this value will be discarded.
-@export_range(0, 255, 1) var island_opacity : int = 0 :
+@export_range(0, 255, 1) var island_opacity: int = 0:
 	get: return _island_opacity
 	set(value):
 		if _island_opacity == value: return
@@ -62,9 +61,9 @@ var _island_opacity : int = 0
 		validate_args()
 
 
-var _island_size : int = 256
+var _island_size: int = 256
 ## Pixel islands with a larger rectangular area than this will be included in the final image. Pixel islands with a smaller rectangular area than this will be discarded.
-@export_range(0, 512, 1, "or_greater") var island_size : int = 256 :
+@export_range(0, 512, 1, "or_greater") var island_size: int = 256:
 	get: return _island_size
 	set(value):
 		if _island_size == value: return
@@ -75,7 +74,7 @@ var _island_size : int = 256
 
 
 func _get_python_script_path() -> String:
-	return "res://addons/marathon/runner/tasks/spruce/spruce.py"
+	return "res://addons/marathon_task_runner/runner/tasks/spruce/spruce.py"
 
 func _get_default_comment() -> String:
 	var result := "%s : %spx / %sa" % [
@@ -128,15 +127,14 @@ func _load_args(data: Dictionary) -> void:
 
 
 func _reset() -> void:
-	$v_box_container/content/split/compare/source/preview.clear()
-	$v_box_container/content/split/compare/target/preview.clear()
-	$v_box_container/content/split/review/diff/preview.clear()
+	%source_preview.clear()
+	%target_preview.clear()
+	%diff_preview.clear()
 
 
 func _bus_poll() -> void:
 	super._bus_poll()
 
-	$v_box_container/content/split/compare/source/preview.value = bus.get_value("output", "source_preview", "")
-	$v_box_container/content/split/compare/target/preview.value = bus.get_value("output", "target_preview", "")
-	$v_box_container/content/split/review/diff/preview.value = bus.get_value("output", "target_bitmap", "")
-
+	%source_preview.value = bus.get_value("output", "source_preview", "")
+	%target_preview.value = bus.get_value("output", "target_preview", "")
+	%diff_preview.value = bus.get_value("output", "target_bitmap", "")
