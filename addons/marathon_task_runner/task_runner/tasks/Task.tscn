@@ -105,7 +105,6 @@ mouse_filter = 1
 text = "00:00"
 
 [node name="stats" type="HBoxContainer" parent="v_box_container/results/progress_bar/margin_container" unique_id=642357511]
-visible = false
 layout_mode = 2
 theme_override_constants/separation = 16
 alignment = 2

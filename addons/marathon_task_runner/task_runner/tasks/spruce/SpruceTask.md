@@ -11,7 +11,10 @@ All images within this folder (and subfolders) will be processed.
 
 
 #### `target_dir`
-All images processed will be placed in this folder, preserving any subfolders.
+All images processed will be placed in this folder, preserving any subfolders. If unset, will use [`source_dir`](#source_dir).]
+
+> [!TIP]
+> It is generally recommended to leave this value blank (defaulting to `source_dir`), so that the files can be manually reviewed and then overwritten. This can help speed up future iterations as unchanged images will not appear in the Review List.
 
 
 #### `filter_include`

@@ -36,9 +36,13 @@ const ICON_REJECT := preload("res://addons/marathon_task_runner/task_runner/icon
 
 var root: TreeItem
 
-var review_paths: PackedStringArray
+var source_paths: PackedStringArray
 
-var item_paths: Dictionary
+# var target_paths: PackedStringArray
+
+var item_source_paths: Dictionary
+
+var item_target_paths: Dictionary
 
 
 func _ready() -> void:
@@ -52,26 +56,33 @@ func _ready() -> void:
 
 
 func clear_items() -> void:
-	review_paths.clear()
+	source_paths.clear()
 	refresh_items()
 
 
 func refresh_files() -> void:
-	review_paths = get_files(task.target_dir)
+	source_paths = get_files(task.source_dir)
+
+	# target_paths.resize(source_paths.size())
+	# for i in target_paths.size():
+	# 	var relative_path := source_paths[i].right(source_paths[i].rfind("/"))
+	# 	target_paths[i] = task.target_dir_safe.path_join(relative_path)
+
 	refresh_items()
 
 
 func refresh_items() -> void:
 	self.clear()
-	item_paths.clear()
+	item_source_paths.clear()
 	root = self.create_item()
-	for i in review_paths:
+	for i in source_paths:
 		add_path_item(i)
 
 
 func add_path_item(path: String):
 	var result := self.create_item(root)
-	item_paths[result] = path
+	item_source_paths[result] = path
+	item_target_paths[result] = task.target_dir_safe.path_join(path.right(-task.source_dir.length()))
 
 	result.add_button(BUTTONS, ICON_ACCEPT, ACCEPT)
 	result.set_button_tooltip_text(BUTTONS, ACCEPT, "Accept Changes")
@@ -85,22 +96,21 @@ func add_path_item(path: String):
 
 
 func open_item(item: TreeItem) -> void:
-	OS.shell_open(item_paths[item])
-	OS.shell_open(get_alt_path(item_paths[item], NEW))
+	OS.shell_open(item_source_paths[item])
+	OS.shell_open(get_alt_path(item_source_paths[item], NEW))
 
 
 func accept_item(item: TreeItem) -> void:
-	var old := FileAccess.open(item_paths[item], FileAccess.WRITE)
-	var new := FileAccess.open(get_alt_path(item_paths[item], NEW), FileAccess.READ)
+	var target := FileAccess.open(item_target_paths[item], FileAccess.WRITE)
+	var new := FileAccess.open(get_alt_path(item_source_paths[item], NEW), FileAccess.READ)
 
 	var buffer := new.get_buffer(new.get_length())
-	old.store_buffer(buffer)
+	target.store_buffer(buffer)
 
 	remove_path_by_item(item)
 	refresh_items()
 	if item == get_selected():
 		old_preview.clear()
-		# old_bitmap.clear()
 		diff_bitmap.clear()
 
 
@@ -114,46 +124,40 @@ func reject_item(item: TreeItem) -> void:
 
 
 func remove_path_by_item(item: TreeItem) -> void:
-	var path: String = item_paths[item]
-	item_paths.erase(item)
-	for i in review_paths.size():
-		if review_paths[i] != path: continue
-		review_paths.remove_at(i); break
-	DirAccess.remove_absolute(get_alt_path(path, NEW))
-	DirAccess.remove_absolute(get_alt_path(path, DIFF))
+	source_paths.erase(item_source_paths[item])
+	DirAccess.remove_absolute(get_alt_path(item_source_paths[item], NEW))
+	DirAccess.remove_absolute(get_alt_path(item_source_paths[item], DIFF))
+	item_source_paths.erase(item)
+	item_target_paths.erase(item)
 
 
 func accept_all() -> void:
-	for item in item_paths.keys():
-		var old := FileAccess.open(item_paths[item], FileAccess.WRITE)
-		var new := FileAccess.open(get_alt_path(item_paths[item], NEW), FileAccess.READ)
+	for item in item_source_paths.keys():
+		var target := FileAccess.open(item_target_paths[item], FileAccess.WRITE)
+		var new := FileAccess.open(get_alt_path(item_source_paths[item], NEW), FileAccess.READ)
 
 		var buffer := new.get_buffer(new.get_length())
-		old.store_buffer(buffer)
+		target.store_buffer(buffer)
 
 		remove_path_by_item(item)
+
 	refresh_files()
 	old_preview.clear()
 	diff_bitmap.clear()
 
 
 func reject_all() -> void:
-	for item in item_paths.keys():
+	for item in item_source_paths.keys():
 		remove_path_by_item(item)
+
 	refresh_files()
 	new_preview.clear()
 	diff_bitmap.clear()
 
 
-func open_target_directory() -> void:
-	var path: String = task.target_dir
-	if DirAccess.dir_exists_absolute(path): OS.shell_open(path)
-	elif FileAccess.file_exists(path): OS.shell_open(path.substr(0, path.rfind("/")))
-
-
 func _on_button_clicked(item: TreeItem, column: int, id: int, mouse_button_index: int) -> void:
 	set_selected(item, FILE)
-	var next := clampi(item.get_index() + 1, 0, self.review_paths.size() - 1)
+	var next := clampi(item.get_index() + 1, 0, self.source_paths.size() - 1)
 	match id:
 		ACCEPT: accept_item(item); select_tree_item_by_index(next)
 		INSPECT: open_item(item)
@@ -162,7 +166,7 @@ func _on_button_clicked(item: TreeItem, column: int, id: int, mouse_button_index
 
 func _on_item_selected() -> void:
 	var selected := get_selected()
-	var path: String = item_paths[selected] if selected and item_paths.has(selected) else ""
+	var path: String = item_source_paths[selected] if selected and item_source_paths.has(selected) else ""
 	old_preview.value = get_alt_path(path, OLD)
 	new_preview.value = get_alt_path(path, NEW)
 	diff_bitmap.value = get_alt_path(path, DIFF)

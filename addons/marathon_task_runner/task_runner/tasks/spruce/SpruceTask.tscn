@@ -12,6 +12,7 @@
 [node name="SpruceTask" unique_id=1404109605 instance=ExtResource("1_2jeqr")]
 script = ExtResource("2_1tbij")
 review_changes = true
+source_dir = ""
 target_dir = ""
 filter_include = ""
 filter_exclude = ""

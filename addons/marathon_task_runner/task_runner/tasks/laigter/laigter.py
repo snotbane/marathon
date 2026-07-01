@@ -78,7 +78,7 @@ class TargetImage:
 		global progress
 		try:
 			bus_set("output", "source_preview", f"\"{self.full_path_src}\"")
-			os.makedirs(os.path.dirname(self.full_path_tgt), exist_ok=True)
+			os.makedirs(self.dir_path_tgt, exist_ok=True)
 
 			result_path = os.path.join(self.dir_path_src, f"{self.name}{self.ext}")
 
@@ -116,6 +116,7 @@ def assign_image_targets():
 	exclude_any = args.filter_exclude != ""
 	include_regex = re.compile(args.filter_include)
 	exclude_regex = re.compile(args.filter_exclude)
+
 	for sub_dir, _, files in os.walk(args.source):
 		for file in files:
 			name, ext = os.path.splitext(file)
@@ -124,10 +125,11 @@ def assign_image_targets():
 			if include_any and re.search(include_regex, name) == None: continue
 			if exclude_any and re.search(exclude_regex, name) != None: continue
 
-			target = TargetImage(name, os.path.join(args.source, sub_dir), file, args.target)
+			target = TargetImage(name, os.path.join(args.source, sub_dir), file, os.path.join(args.target, sub_dir))
 			if not args.overwrite and os.path.exists(target.full_path_tgt): continue
 
 			result.append(target)
+
 	return result
 
 

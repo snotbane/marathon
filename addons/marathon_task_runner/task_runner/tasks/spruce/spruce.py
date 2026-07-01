@@ -6,6 +6,7 @@ import sys
 import time
 from PIL import Image, ImageChops
 
+SUPPORTED_EXTS = [".png", ".jpg", ".jpeg"]
 progress = 0
 
 def str2bool(value: str) -> bool:
@@ -129,16 +130,20 @@ class Rect:
 
 
 class TargetImage:
-	def __init__(self, root, file):
-		self.root = root
-		self.file = file
-		self.full = os.path.join(root, file)
-		self.name, self.ext = os.path.splitext(file)
+	def __init__(self, dir_path_src, file_path_src, dir_path_tgt):
+		self.dir_path_src = dir_path_src
+		self.file_path_src = file_path_src
+		self.full_path_src = os.path.join(dir_path_src, file_path_src)
+		self.name, self.ext = os.path.splitext(file_path_src)
 
 		self.temp_path_new = os.path.join(args.temp_root, f"{self.name}__new{self.ext}")
 		self.temp_path_diff = os.path.join(args.temp_root, f"{self.name}__diff{self.ext}")
 
-		self.image : Image = Image.open(self.full).convert("RGBA")
+		self.dir_path_tgt = dir_path_tgt
+		self.file_path_tgt = self.file_path_src
+		self.full_path_tgt = os.path.join(dir_path_tgt, self.file_path_tgt)
+
+		self.image : Image = Image.open(self.full_path_src).convert("RGBA")
 
 
 	def process(self):
@@ -146,8 +151,8 @@ class TargetImage:
 
 		try:
 			os.makedirs(args.temp_root, exist_ok=True)
-			os.makedirs(os.path.dirname(self.full), exist_ok=True)
-			bus_set("output", "source_preview", f"\"{self.full}\"")
+			os.makedirs(self.dir_path_tgt, exist_ok=True)
+			bus_set("output", "source_preview", f"\"{self.full_path_src}\"")
 
 			## Initialize bitmap
 
@@ -227,7 +232,7 @@ class TargetImage:
 				if changes_exist:
 					changes.save(self.temp_path_diff)
 			else:
-				self.image.save(self.full)
+				self.image.save(self.full_path_tgt)
 
 			bus_set("output", "target_bitmap", f"\"{self.temp_path_diff}\"")
 			bus_set("output", "target_preview", f"\"{self.temp_path_new}\"")
@@ -237,38 +242,44 @@ class TargetImage:
 				os.remove(self.temp_path_diff)
 
 		except Exception as e:
-			sys.stderr.write(f"Error processing {self.full}: {e}")
+			sys.stderr.write(f"Error processing {self.full_path_src}: {e}")
 			progress -= 1
 
 		progress += 1
 		bus_set("output", "progress", progress)
 
 
-def assign_targets():
+def assign_image_targets():
 	result = []
+	include_any = args.filter_include != ""
+	exclude_any = args.filter_exclude != ""
 	include = re.compile(args.filter_include)
 	exclude = re.compile(args.filter_exclude)
-	for root, _, files in os.walk(args.target):
+
+	for sub_dir, _, files in os.walk(args.source):
 		for file in files:
-			if args.filter_include != "" and re.search(include, file) == None: continue
-			if args.filter_exclude != "" and re.search(exclude, file) != None: continue
-			try:
-				target = TargetImage(os.path.join(args.target, root), file)
-			except: continue
+			name, ext = os.path.splitext(file)
+			if not ext.lower() in SUPPORTED_EXTS: continue
+
+			if include_any and re.search(include, name) == None: continue
+			if exclude_any and re.search(exclude, name) != None: continue
+
+			target = TargetImage(os.path.join(args.source, sub_dir), file, os.path.join(args.target, sub_dir))
 			result.append(target)
+
 	return result
 
 
 def main():
 	bus_set("output", "progress", 0)
-	if os.path.isdir(args.target):
-		targets = assign_targets()
+	if os.path.isdir(args.source):
+		targets = assign_image_targets()
 		bus_set("output", "progress_max", len(targets))
 		for target in targets:
 			if bus_get("input", "stop"): sys.exit(1)
 			target.process()
-	elif os.path.isfile(args.target):
-		target = TargetImage(os.path.dirname(args.target), os.path.basename(args.target))
+	elif os.path.isfile(args.source):
+		target = TargetImage(os.path.dirname(args.source), os.path.basename(args.source), os.path.dirname(args.target))
 		bus_set("output", "progress_max", 1)
 		target.process()
 	else:
@@ -280,6 +291,7 @@ if __name__ == "__main__":
 	parser = argparse.ArgumentParser()
 	parser.add_argument("bus_path", type=str)
 	parser.add_argument("temp_root", type=str)
+	parser.add_argument("source", type=str)
 	parser.add_argument("target", type=str)
 	parser.add_argument("review_changes", type=str2bool)
 	parser.add_argument("filter_include", type=str)

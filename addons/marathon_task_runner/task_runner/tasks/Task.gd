@@ -70,7 +70,7 @@ signal finished(code: int)
 @export_storage var template: TaskTemplate
 
 
-@onready var stopwatch := Stopwatch.new()
+@onready var stopwatch := MarathonStopwatch.new()
 
 @onready var progress_bar: ProgressBar = $v_box_container/results/progress_bar
 
