@@ -1,0 +1,19 @@
+[gd_resource type="Texture2D" script_class="CompositeTexture2D" format=3 uid="uid://bs5878xc4ifvo"]
+
+[ext_resource type="Texture2D" uid="uid://i6e0qonuj7dc" path="res://testing/rubin/atlas/rubin-body-casual-pockets-r-a.tres" id="1_v1iam"]
+[ext_resource type="Texture2D" uid="uid://dtepiy1uw0pxt" path="res://testing/rubin/atlas/rubin-body-casual-pockets-r-m.tres" id="2_lfhe5"]
+[ext_resource type="Texture2D" uid="uid://1j2tksvxydg1" path="res://testing/rubin/atlas/rubin-body-casual-pockets-r-n.tres" id="3_h02kt"]
+[ext_resource type="Script" uid="uid://dc3mpgrc3nb2a" path="res://addons/marathon_task_runner/fatlas/sunkist/SunkistTexture.gd" id="4_jkqmu"]
+
+[resource]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("4_jkqmu")
+maps = Dictionary[StringName, Texture2D]({
+&"-l-a": ExtResource("1_v1iam"),
+&"-l-m": ExtResource("2_lfhe5"),
+&"-l-n": ExtResource("3_h02kt"),
+&"-r-a": ExtResource("1_v1iam"),
+&"-r-m": ExtResource("2_lfhe5"),
+&"-r-n": ExtResource("3_h02kt")
+})

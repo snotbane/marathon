@@ -11,7 +11,9 @@ config_version=5
 [application]
 
 config/name="marathon_task_runner"
+run/main_scene="uid://c2sk65yfam5b0"
 config/features=PackedStringArray("4.7", "GL Compatibility")
+config/icon="uid://bogkcdp677xc7"
 
 [display]
 
@@ -33,7 +35,8 @@ enabled=PackedStringArray("res://addons/marathon_task_runner/fatlas/plugin.cfg",
 
 folder_colors={
 "res://addons/marathon_task_runner/fatlas/icons/": "yellow",
-"res://addons/marathon_task_runner/fatlas/shaders/": "purple",
+"res://addons/marathon_task_runner/fatlas/sunkist/materials/": "pink",
+"res://addons/marathon_task_runner/fatlas/sunkist/shaders/": "purple",
 "res://addons/marathon_task_runner/task_runner/icons/": "yellow"
 }
 
@@ -44,5 +47,4 @@ folder_colors={
 [rendering]
 
 rendering_device/driver.windows="d3d12"
-renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"

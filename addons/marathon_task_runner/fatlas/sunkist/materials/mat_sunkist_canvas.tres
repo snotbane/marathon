@@ -1,0 +1,15 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://lsyhc6gtkcdk"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_vur1x"]
+
+[resource]
+render_priority = -128
+transparency = 1
+blend_mode = 4
+cull_mode = 2
+depth_draw_mode = 2
+no_depth_test = true
+shading_mode = 0
+albedo_color = Color(1, 1, 1, 0.5019608)
+albedo_texture = SubResource("PlaceholderTexture2D_vur1x")
+texture_filter = 2

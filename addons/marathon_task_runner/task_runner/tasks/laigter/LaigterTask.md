@@ -1,5 +1,5 @@
 # `LaigterTask`
-This task generates extra image files (e.g. normal map, height map, occlusion, etc.) in bulk, using [Laigter](https://azagaya.itch.io/laigter). Laigter has its own queueing system, but the GUI can slow down with more images and larger images.
+This task generates extra image files (e.g. normal map, height map, occlusion, etc.) in bulk, using [Laigter](https://azagaya.itch.io/laigter). Laigter has its own queueing system, but the GUI can slow down with more images and larger images. Additionally, this will preserve transparent pixels in normal maps, which Laigter does not do.
 
 
 #### `laigter_path`

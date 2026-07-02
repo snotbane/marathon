@@ -1,0 +1,12 @@
+[gd_resource type="AtlasTexture" script_class="OffsetAtlasTexture" format=3 uid="uid://nsnys64rwsav"]
+
+[ext_resource type="Texture2D" uid="uid://dgfb2frt3nrgt" path="res://testing/rubin/textures/rubin-n.png" id="1_vvc3b"]
+[ext_resource type="Script" uid="uid://cph77ddb31six" path="res://addons/marathon_task_runner/fatlas/resources/OffsetAtlasTexture.gd" id="2_ftp3v"]
+
+[resource]
+atlas = ExtResource("1_vvc3b")
+region = Rect2(425, 100, 72, 96)
+filter_clip = true
+script = ExtResource("2_ftp3v")
+offset = Vector2i(907, 159)
+name = "rubin-eyes-neutral-02-r-n"

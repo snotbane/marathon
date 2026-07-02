@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://c2sk65yfam5b0"]
+
+[ext_resource type="PackedScene" uid="uid://5onuk48mls6u" path="res://testing/scenes/rubin.tscn" id="1_exhpc"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ai7r2"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_c3lu1"]
+sky_material = SubResource("ProceduralSkyMaterial_ai7r2")
+
+[sub_resource type="Environment" id="Environment_6ylie"]
+background_mode = 2
+sky = SubResource("Sky_c3lu1")
+ambient_light_source = 2
+ambient_light_color = Color(0.53, 0.7023334, 1, 1)
+ambient_light_energy = 0.8
+tonemap_mode = 4
+sdfgi_y_scale = 0
+glow_enabled = true
+glow_intensity = 2.0
+glow_strength = 1.13
+glow_bloom = 0.02
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_r05q7"]
+size = Vector2(2, 8)
+
+[node name="world" type="Node3D" unique_id=230535697]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=824884887]
+environment = SubResource("Environment_6ylie")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1707349186]
+transform = Transform3D(-0.3336891, -0.7345782, 0.59080195, 0.8448897, 0.044920117, 0.53305125, -0.4181068, 0.67703587, 0.6056481, 0, 0, 0)
+light_color = Color(1, 0.94366664, 0.74, 1)
+light_energy = 1.5
+shadow_enabled = true
+
+[node name="mesh_instance_3d" type="MeshInstance3D" parent="." unique_id=1086314163]
+mesh = SubResource("PlaneMesh_r05q7")
+
+[node name="camera_3d" type="Camera3D" parent="." unique_id=497133210]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 1, 4)
+current = true
+fov = 30.0
+
+[node name="rubin" parent="." unique_id=1889282295 instance=ExtResource("1_exhpc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)

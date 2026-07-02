@@ -1,0 +1,20 @@
+[gd_resource type="Texture2D" script_class="CompositeTexture2D" format=3 uid="uid://cp6kwgw63fla1"]
+
+[ext_resource type="Texture2D" uid="uid://b0p015t0uxa1t" path="res://testing/rubin/atlas/rubin-head-smile-00-r-a.tres" id="1_6axs8"]
+[ext_resource type="Texture2D" uid="uid://c0o8yd0c8ir3g" path="res://testing/rubin/atlas/rubin-head-smile-00-r-m.tres" id="2_ywk8a"]
+[ext_resource type="Texture2D" uid="uid://dtwrk733lp8rs" path="res://testing/rubin/atlas/rubin-head-smile-00-r-n.tres" id="3_0tvvq"]
+[ext_resource type="Texture2D" uid="uid://bdgv5suchfftw" path="res://testing/rubin/atlas/rubin-head-smile-00-l-a.tres" id="4_60lid"]
+[ext_resource type="Script" uid="uid://dc3mpgrc3nb2a" path="res://addons/marathon_task_runner/fatlas/sunkist/SunkistTexture.gd" id="5_wx1u5"]
+
+[resource]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("5_wx1u5")
+maps = Dictionary[StringName, Texture2D]({
+&"-l-a": ExtResource("4_60lid"),
+&"-l-m": ExtResource("2_ywk8a"),
+&"-l-n": ExtResource("3_0tvvq"),
+&"-r-a": ExtResource("1_6axs8"),
+&"-r-m": ExtResource("2_ywk8a"),
+&"-r-n": ExtResource("3_0tvvq")
+})

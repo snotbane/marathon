@@ -1,0 +1,337 @@
+[gd_scene format=3 uid="uid://5onuk48mls6u"]
+
+[ext_resource type="Script" uid="uid://d15t6b4b2daf5" path="res://addons/marathon_task_runner/fatlas/sunkist/SunkistContainer3D.gd" id="1_wqw3n"]
+[ext_resource type="Script" uid="uid://b8j3gwojs87by" path="res://addons/marathon_task_runner/fatlas/sunkist/SunkistMaterial.gd" id="2_r46hx"]
+[ext_resource type="Shader" uid="uid://cdufaegr5ju4f" path="res://addons/marathon_task_runner/fatlas/sunkist/shaders/Sunkist3D_Scissor.gdshader" id="3_ut4on"]
+[ext_resource type="Texture2D" uid="uid://foffqfvho7ja" path="res://testing/rubin/atlas/rubin-tail-neutral-r-a.tres" id="4_xlxkg"]
+[ext_resource type="Texture2D" uid="uid://d07keht14eocf" path="res://testing/rubin/atlas/rubin-tail-neutral-r-m.tres" id="5_hunun"]
+[ext_resource type="Texture2D" uid="uid://bwqvit3ncgoa3" path="res://testing/rubin/atlas/rubin-tail-neutral-r-n.tres" id="6_ojjk2"]
+[ext_resource type="Texture2D" uid="uid://daya8a6wtgmcs" path="res://testing/rubin/compo/rubin-tail-neutral.tres" id="7_poq1n"]
+[ext_resource type="Script" uid="uid://l0wan4x4mtiy" path="res://addons/marathon_task_runner/fatlas/sunkist/AnimatedSunkist3D.gd" id="8_ymyt7"]
+[ext_resource type="Texture2D" uid="uid://bjcy3dc1to4uo" path="res://testing/rubin/atlas/rubin-head-smile-01-l-a.tres" id="9_mu6j2"]
+[ext_resource type="Texture2D" uid="uid://b3ak0daeefbol" path="res://testing/rubin/atlas/rubin-head-smile-01-r-m.tres" id="10_747wi"]
+[ext_resource type="Texture2D" uid="uid://t2uawru0s541" path="res://testing/rubin/atlas/rubin-head-smile-01-r-n.tres" id="11_e8xte"]
+[ext_resource type="Texture2D" uid="uid://52hwtnm5i7gv" path="res://testing/rubin/atlas/rubin-head-smile-01-r-a.tres" id="12_gi482"]
+[ext_resource type="Texture2D" uid="uid://cp6kwgw63fla1" path="res://testing/rubin/compo/rubin-head-smile-00.tres" id="13_5200q"]
+[ext_resource type="Texture2D" uid="uid://wh3jvl7veri5" path="res://testing/rubin/compo/rubin-head-smile-01.tres" id="14_2gda6"]
+[ext_resource type="Texture2D" uid="uid://vpx8d8crkhp4" path="res://testing/rubin/compo/rubin-head-smile-02.tres" id="15_ftnjl"]
+[ext_resource type="Texture2D" uid="uid://dqnk757isk4w5" path="res://testing/rubin/compo/rubin-head-smile-03.tres" id="16_2nukf"]
+[ext_resource type="Texture2D" uid="uid://bdd6apblhavvu" path="res://testing/rubin/compo/rubin-head-smile-04.tres" id="17_8n3u6"]
+[ext_resource type="Texture2D" uid="uid://d4l2cj77ce873" path="res://testing/rubin/compo/rubin-head-smile-05.tres" id="18_076bx"]
+[ext_resource type="Texture2D" uid="uid://c8q3h73hht702" path="res://testing/rubin/compo/rubin-head-smile-06.tres" id="19_8o1gu"]
+[ext_resource type="Texture2D" uid="uid://clc1usna0mgq6" path="res://testing/rubin/atlas/rubin-eyes-neutral-00-r-a.tres" id="20_bxk0c"]
+[ext_resource type="Texture2D" uid="uid://dib0qapdjj1gh" path="res://testing/rubin/atlas/rubin-eyes-neutral-00-r-m.tres" id="21_bpt0l"]
+[ext_resource type="Texture2D" uid="uid://g28823mal6o1" path="res://testing/rubin/atlas/rubin-eyes-neutral-00-r-n.tres" id="22_hontr"]
+[ext_resource type="Texture2D" uid="uid://b4p5ih4ix7rwu" path="res://testing/rubin/compo/rubin-eyes-neutral-01.tres" id="23_yilq3"]
+[ext_resource type="Texture2D" uid="uid://2gsjyluw0ydi" path="res://testing/rubin/compo/rubin-eyes-neutral-03.tres" id="24_pf58p"]
+[ext_resource type="Texture2D" uid="uid://c2egid2o7vdf5" path="res://testing/rubin/compo/rubin-eyes-neutral-04.tres" id="25_iib5g"]
+[ext_resource type="Texture2D" uid="uid://cx70xt65s0cnw" path="res://testing/rubin/compo/rubin-eyes-neutral-02.tres" id="26_sdp8a"]
+[ext_resource type="Texture2D" uid="uid://fou7qee407hm" path="res://testing/rubin/compo/rubin-eyes-neutral-00.tres" id="27_nlp2b"]
+[ext_resource type="Texture2D" uid="uid://i6e0qonuj7dc" path="res://testing/rubin/atlas/rubin-body-casual-pockets-r-a.tres" id="28_hbcth"]
+[ext_resource type="Texture2D" uid="uid://dtepiy1uw0pxt" path="res://testing/rubin/atlas/rubin-body-casual-pockets-r-m.tres" id="29_j64op"]
+[ext_resource type="Texture2D" uid="uid://1j2tksvxydg1" path="res://testing/rubin/atlas/rubin-body-casual-pockets-r-n.tres" id="30_erfbp"]
+[ext_resource type="Texture2D" uid="uid://bs5878xc4ifvo" path="res://testing/rubin/compo/rubin-body-casual-pockets.tres" id="31_jchgo"]
+
+[sub_resource type="GDScript" id="GDScript_pp6u5"]
+script/source = "extends Node3D
+
+@export var speed : float = 1.0
+
+func _process(delta: float) -> void:
+	rotation_degrees.y += speed * delta
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b2vig"]
+render_priority = 0
+shader = ExtResource("3_ut4on")
+shader_parameter/unique_backface = true
+shader_parameter/emission_color = Color(1, 1, 1, 1)
+shader_parameter/ao_shadow_power = 4.0
+shader_parameter/ao_light_scale = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/specular = 1.0
+shader_parameter/metallic = 1.0
+shader_parameter/normal_scale = 0.5
+shader_parameter/_r_a_rect = Vector4(0, 0, 0, 0)
+shader_parameter/_l_a_rect = Vector4(0, 0, 0, 0)
+shader_parameter/_r_e_rect = Vector4(0, 0, 0, 0)
+shader_parameter/_l_e_rect = Vector4(0, 0, 0, 0)
+shader_parameter/_r_m_rect = Vector4(0, 0, 0, 0)
+shader_parameter/_l_m_rect = Vector4(0, 0, 0, 0)
+shader_parameter/_r_n_rect = Vector4(0, 0, 0, 0)
+shader_parameter/_l_n_rect = Vector4(0, 0, 0, 0)
+script = ExtResource("2_r46hx")
+unique_backface = true
+metadata/_custom_type_script = "uid://b8j3gwojs87by"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pb4sq"]
+render_priority = 0
+shader = ExtResource("3_ut4on")
+shader_parameter/unique_backface = true
+shader_parameter/emission_color = Color(1, 1, 1, 1)
+shader_parameter/ao_shadow_power = 4.0
+shader_parameter/ao_light_scale = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/specular = 1.0
+shader_parameter/metallic = 1.0
+shader_parameter/normal_scale = 0.5
+shader_parameter/_r_a = ExtResource("4_xlxkg")
+shader_parameter/_r_a_rect = Vector4(1788, 391, 923, 793)
+shader_parameter/_l_a = ExtResource("4_xlxkg")
+shader_parameter/_l_a_rect = Vector4(1788, 391, 923, 793)
+shader_parameter/_r_e_rect = Vector4(0, 0, 0, 0)
+shader_parameter/_l_e_rect = Vector4(0, 0, 0, 0)
+shader_parameter/_r_m = ExtResource("5_hunun")
+shader_parameter/_r_m_rect = Vector4(76, 391, 923, 793)
+shader_parameter/_l_m = ExtResource("5_hunun")
+shader_parameter/_l_m_rect = Vector4(76, 391, 923, 793)
+shader_parameter/_r_n = ExtResource("6_ojjk2")
+shader_parameter/_r_n_rect = Vector4(519, 391, 923, 793)
+shader_parameter/_l_n = ExtResource("6_ojjk2")
+shader_parameter/_l_n_rect = Vector4(519, 391, 923, 793)
+script = ExtResource("2_r46hx")
+unique_backface = true
+metadata/_custom_type_script = "uid://b8j3gwojs87by"
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fywpp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_poq1n")
+}],
+"loop": 0,
+"name": &"neutral",
+"speed": 0.0
+}]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ledni"]
+render_priority = 0
+shader = ExtResource("3_ut4on")
+shader_parameter/unique_backface = true
+shader_parameter/emission_color = Color(1, 1, 1, 1)
+shader_parameter/ao_shadow_power = 4.0
+shader_parameter/ao_light_scale = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/specular = 1.0
+shader_parameter/metallic = 1.0
+shader_parameter/normal_scale = 0.5
+shader_parameter/_r_a = ExtResource("12_gi482")
+shader_parameter/_r_a_rect = Vector4(1788, 1186, 421, 387)
+shader_parameter/_l_a = ExtResource("9_mu6j2")
+shader_parameter/_l_a_rect = Vector4(848, 391, 421, 387)
+shader_parameter/_r_e_rect = Vector4(0, 0, 0, 0)
+shader_parameter/_l_e_rect = Vector4(0, 0, 0, 0)
+shader_parameter/_r_m = ExtResource("10_747wi")
+shader_parameter/_r_m_rect = Vector4(76, 2, 421, 387)
+shader_parameter/_l_m = ExtResource("10_747wi")
+shader_parameter/_l_m_rect = Vector4(76, 2, 421, 387)
+shader_parameter/_r_n = ExtResource("11_e8xte")
+shader_parameter/_r_n_rect = Vector4(2, 2, 421, 387)
+shader_parameter/_l_n = ExtResource("11_e8xte")
+shader_parameter/_l_n_rect = Vector4(2, 2, 421, 387)
+script = ExtResource("2_r46hx")
+unique_backface = true
+metadata/_custom_type_script = "uid://b8j3gwojs87by"
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pp6u5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("13_5200q")
+}],
+"loop": 0,
+"name": &"smile",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("14_2gda6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_ftnjl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_2nukf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_8n3u6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_076bx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_8o1gu")
+}],
+"loop": 1,
+"name": &"smile-talk",
+"speed": 5.0
+}]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i33di"]
+render_priority = 0
+shader = ExtResource("3_ut4on")
+shader_parameter/unique_backface = true
+shader_parameter/emission_color = Color(1, 1, 1, 1)
+shader_parameter/ao_shadow_power = 4.0
+shader_parameter/ao_light_scale = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/specular = 1.0
+shader_parameter/metallic = 1.0
+shader_parameter/normal_scale = 0.5
+shader_parameter/_r_a = ExtResource("20_bxk0c")
+shader_parameter/_r_a_rect = Vector4(848, 100, 72, 96)
+shader_parameter/_l_a = ExtResource("20_bxk0c")
+shader_parameter/_l_a_rect = Vector4(848, 100, 72, 96)
+shader_parameter/_r_e_rect = Vector4(0, 0, 0, 0)
+shader_parameter/_l_e_rect = Vector4(0, 0, 0, 0)
+shader_parameter/_r_m = ExtResource("21_bpt0l")
+shader_parameter/_r_m_rect = Vector4(76, 1186, 72, 96)
+shader_parameter/_l_m = ExtResource("21_bpt0l")
+shader_parameter/_l_m_rect = Vector4(76, 1186, 72, 96)
+shader_parameter/_r_n = ExtResource("22_hontr")
+shader_parameter/_r_n_rect = Vector4(425, 198, 72, 96)
+shader_parameter/_l_n = ExtResource("22_hontr")
+shader_parameter/_l_n_rect = Vector4(425, 198, 72, 96)
+script = ExtResource("2_r46hx")
+unique_backface = true
+metadata/_custom_type_script = "uid://b8j3gwojs87by"
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4ps11"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("23_yilq3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_pf58p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_iib5g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_pf58p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_sdp8a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_nlp2b")
+}],
+"loop": 0,
+"name": &"blink",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("27_nlp2b")
+}],
+"loop": 1,
+"name": &"neutral",
+"speed": 5.0
+}]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qtlg1"]
+render_priority = 0
+shader = ExtResource("3_ut4on")
+shader_parameter/unique_backface = true
+shader_parameter/emission_color = Color(1, 1, 1, 1)
+shader_parameter/ao_shadow_power = 4.0
+shader_parameter/ao_light_scale = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/specular = 1.0
+shader_parameter/metallic = 1.0
+shader_parameter/normal_scale = 0.5
+shader_parameter/_r_a = ExtResource("28_hbcth")
+shader_parameter/_r_a_rect = Vector4(1271, 391, 515, 1520)
+shader_parameter/_l_a = ExtResource("28_hbcth")
+shader_parameter/_l_a_rect = Vector4(1271, 391, 515, 1520)
+shader_parameter/_r_e_rect = Vector4(0, 0, 0, 0)
+shader_parameter/_l_e_rect = Vector4(0, 0, 0, 0)
+shader_parameter/_r_m = ExtResource("29_j64op")
+shader_parameter/_r_m_rect = Vector4(1001, 391, 515, 1520)
+shader_parameter/_l_m = ExtResource("29_j64op")
+shader_parameter/_l_m_rect = Vector4(1001, 391, 515, 1520)
+shader_parameter/_r_n = ExtResource("30_erfbp")
+shader_parameter/_r_n_rect = Vector4(2, 391, 515, 1520)
+shader_parameter/_l_n = ExtResource("30_erfbp")
+shader_parameter/_l_n_rect = Vector4(2, 391, 515, 1520)
+script = ExtResource("2_r46hx")
+unique_backface = true
+metadata/_custom_type_script = "uid://b8j3gwojs87by"
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yxqvn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("31_jchgo")
+}],
+"loop": 0,
+"name": &"casual-pockets",
+"speed": 0.0
+}]
+
+[node name="rubin" type="Node3D" unique_id=1889282295]
+script = SubResource("GDScript_pp6u5")
+speed = 45.0
+
+[node name="sunkist_3d" type="Node3D" parent="." unique_id=970774522]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75000006, 0.95000005, 0)
+script = ExtResource("1_wqw3n")
+size = Vector2(1500, 1900)
+material_template = SubResource("ShaderMaterial_b2vig")
+metadata/_custom_type_script = "uid://d15t6b4b2daf5"
+
+[node name="tail" type="AnimatedSprite3D" parent="sunkist_3d" unique_id=1551001919]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.001)
+material_override = SubResource("ShaderMaterial_pb4sq")
+centered = false
+offset = Vector2(18, -1614)
+pixel_size = 0.001
+sprite_frames = SubResource("SpriteFrames_fywpp")
+animation = &"neutral"
+script = ExtResource("8_ymyt7")
+keep_camera_depth = true
+metadata/_custom_type_script = "uid://l0wan4x4mtiy"
+
+[node name="head" type="AnimatedSprite3D" parent="sunkist_3d" unique_id=1467631333]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.001)
+material_override = SubResource("ShaderMaterial_ledni")
+cast_shadow = 2
+centered = false
+offset = Vector2(724, -434)
+pixel_size = 0.001
+alpha_cut = 1
+sprite_frames = SubResource("SpriteFrames_pp6u5")
+animation = &"smile-talk"
+frame_progress = 0.38706818
+script = ExtResource("8_ymyt7")
+keep_camera_depth = true
+metadata/_custom_type_script = "uid://l0wan4x4mtiy"
+
+[node name="eyes" type="AnimatedSprite3D" parent="sunkist_3d" unique_id=1325317078]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.001)
+material_override = SubResource("ShaderMaterial_i33di")
+cast_shadow = 2
+centered = false
+offset = Vector2(907, -255)
+pixel_size = 0.001
+sprite_frames = SubResource("SpriteFrames_4ps11")
+animation = &"blink"
+frame = 5
+frame_progress = 1.0
+script = ExtResource("8_ymyt7")
+keep_camera_depth = true
+metadata/_custom_type_script = "uid://l0wan4x4mtiy"
+
+[node name="body" type="AnimatedSprite3D" parent="sunkist_3d" unique_id=1159674399]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.001)
+material_override = SubResource("ShaderMaterial_qtlg1")
+cast_shadow = 2
+centered = false
+offset = Vector2(688, -1847)
+pixel_size = 0.001
+sprite_frames = SubResource("SpriteFrames_yxqvn")
+animation = &"casual-pockets"
+script = ExtResource("8_ymyt7")
+keep_camera_depth = true
+metadata/_custom_type_script = "uid://l0wan4x4mtiy"

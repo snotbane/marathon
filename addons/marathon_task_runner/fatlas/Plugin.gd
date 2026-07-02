@@ -1,7 +1,7 @@
 @tool
 extends EditorPlugin
 
-var PREVIEW_GENERATOR_SCRIPT := preload("res://addons/marathon_task_runner/fatlas/resources/CompositeTexture2D_PreviewGenerator.gd")
+var PREVIEW_GENERATOR_SCRIPT := preload("res://addons/marathon_task_runner/fatlas/sunkist/SunkistTexture_PreviewGenerator.gd")
 var preview_generator: EditorResourcePreviewGenerator
 
 
