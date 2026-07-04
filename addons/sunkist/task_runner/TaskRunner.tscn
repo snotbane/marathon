@@ -1,24 +1,24 @@
 [gd_scene format=3 uid="uid://ef5hvftp4smh"]
 
-[ext_resource type="Script" uid="uid://chfpoyapyy2r5" path="res://addons/sunkist/task_runner/ManagerButtons.gd" id="1_dkkd1"]
-[ext_resource type="Texture2D" uid="uid://cgt6ejtfsi5x8" path="res://addons/sunkist/ui/icons/Tools.svg" id="2_rangv"]
-[ext_resource type="Script" uid="uid://doilwux674cck" path="res://addons/sunkist/task_runner/TaskRunner.gd" id="3_6cm3p"]
-[ext_resource type="Texture2D" uid="uid://c01kr02aa053q" path="res://addons/sunkist/ui/icons/New.svg" id="4_qtrbu"]
-[ext_resource type="Texture2D" uid="uid://5v03m2veuxsh" path="res://addons/sunkist/ui/icons/Save.svg" id="4_s6s3o"]
-[ext_resource type="Texture2D" uid="uid://bvtbuh7sbludu" path="res://addons/sunkist/ui/icons/FileBrowse.svg" id="5_6cm3p"]
-[ext_resource type="Texture2D" uid="uid://clac2ow8ahs4r" path="res://addons/sunkist/ui/icons/Play.svg" id="5_qtrbu"]
-[ext_resource type="Texture2D" uid="uid://dcacnkbcou6rn" path="res://addons/sunkist/ui/icons/Load.svg" id="7_f2ono"]
-[ext_resource type="Texture2D" uid="uid://ct7p1qh0ybn05" path="res://addons/sunkist/ui/icons/Reload.svg" id="8_iuqo7"]
-[ext_resource type="Texture2D" uid="uid://bcd3eg8vjlgin" path="res://addons/sunkist/ui/icons/Add.svg" id="9_s6s3o"]
-[ext_resource type="Script" uid="uid://clwedgk260yyt" path="res://addons/sunkist/task_runner/tasks/TaskTree.gd" id="10_y17js"]
-[ext_resource type="Script" uid="uid://rgm460q6oiyv" path="res://addons/sunkist/task_runner/CreateTaskList.gd" id="11_br3bt"]
-[ext_resource type="Script" uid="uid://bpeqonbriegt2" path="res://addons/sunkist/task_runner/CurrentProject.gd" id="11_s6s3o"]
-[ext_resource type="Script" uid="uid://cl81t2vbdaklc" path="res://addons/sunkist/task_runner/tasks/TaskTemplate.gd" id="12_wroo2"]
-[ext_resource type="Resource" uid="uid://dfcdu1wmnihl2" path="res://addons/sunkist/task_runner/tasks/spruce/spruce.tres" id="14_0ugl0"]
-[ext_resource type="Resource" uid="uid://b8o7rpmif1hy8" path="res://addons/sunkist/task_runner/tasks/laigter/laigter.tres" id="15_eolsp"]
-[ext_resource type="Resource" uid="uid://f2w8bttuc4oc" path="res://addons/sunkist/task_runner/tasks/sunkist/sunkist_assembly_task.tres" id="16_n85t4"]
-[ext_resource type="Resource" uid="uid://bdrvf6blp42h2" path="res://addons/sunkist/task_runner/tasks/optipng/optipng.tres" id="17_af51x"]
-[ext_resource type="Script" uid="uid://6eldrawh61aa" path="res://addons/sunkist/task_runner/TaskContainer.gd" id="18_3u6c7"]
+[ext_resource type="Script" uid="uid://bpeqonbriegt2" path="res://addons/sunkist/task_runner/CurrentProject.gd" id="1_j465y"]
+[ext_resource type="Script" uid="uid://chfpoyapyy2r5" path="res://addons/sunkist/task_runner/ManagerButtons.gd" id="2_dda8a"]
+[ext_resource type="Texture2D" uid="uid://c01kr02aa053q" path="res://addons/sunkist/ui/icons/New.svg" id="3_fiahh"]
+[ext_resource type="Texture2D" uid="uid://5v03m2veuxsh" path="res://addons/sunkist/ui/icons/Save.svg" id="4_fwp3f"]
+[ext_resource type="Texture2D" uid="uid://bvtbuh7sbludu" path="res://addons/sunkist/ui/icons/FileBrowse.svg" id="5_ug6gf"]
+[ext_resource type="Texture2D" uid="uid://dcacnkbcou6rn" path="res://addons/sunkist/ui/icons/Load.svg" id="6_t80lc"]
+[ext_resource type="Texture2D" uid="uid://bcd3eg8vjlgin" path="res://addons/sunkist/ui/icons/Add.svg" id="7_kuq7v"]
+[ext_resource type="Texture2D" uid="uid://cgt6ejtfsi5x8" path="res://addons/sunkist/ui/icons/Tools.svg" id="8_y587w"]
+[ext_resource type="Script" uid="uid://doilwux674cck" path="res://addons/sunkist/task_runner/TaskRunner.gd" id="9_xft1o"]
+[ext_resource type="Texture2D" uid="uid://clac2ow8ahs4r" path="res://addons/sunkist/ui/icons/Play.svg" id="10_njcoc"]
+[ext_resource type="Texture2D" uid="uid://ct7p1qh0ybn05" path="res://addons/sunkist/ui/icons/Reload.svg" id="11_gt30g"]
+[ext_resource type="Script" uid="uid://clwedgk260yyt" path="res://addons/sunkist/task_runner/tasks/TaskTree.gd" id="12_fdhiv"]
+[ext_resource type="Script" uid="uid://rgm460q6oiyv" path="res://addons/sunkist/task_runner/CreateTaskList.gd" id="13_8pjc0"]
+[ext_resource type="Script" uid="uid://cl81t2vbdaklc" path="res://addons/sunkist/task_runner/tasks/TaskTemplate.gd" id="14_ufycr"]
+[ext_resource type="Resource" uid="uid://dfcdu1wmnihl2" path="res://addons/sunkist/task_runner/tasks/spruce/spruce.tres" id="15_a4t1i"]
+[ext_resource type="Resource" uid="uid://b8o7rpmif1hy8" path="res://addons/sunkist/task_runner/tasks/laigter/laigter.tres" id="16_qv03b"]
+[ext_resource type="Resource" uid="uid://f2w8bttuc4oc" path="res://addons/sunkist/task_runner/tasks/sunkist/sunkist_assembly_task.tres" id="17_qjehu"]
+[ext_resource type="Resource" uid="uid://bdrvf6blp42h2" path="res://addons/sunkist/task_runner/tasks/optipng/optipng.tres" id="18_m20k4"]
+[ext_resource type="Script" uid="uid://6eldrawh61aa" path="res://addons/sunkist/task_runner/TaskContainer.gd" id="19_g0as0"]
 
 [sub_resource type="InputEventKey" id="InputEventKey_xs2sm"]
 device = -1
@@ -153,12 +153,12 @@ mouse_filter = 0
 mouse_default_cursor_shape = 2
 horizontal_alignment = 1
 text_overrun_behavior = 1
-script = ExtResource("11_s6s3o")
+script = ExtResource("1_j465y")
 
 [node name="manager_buttons" type="GridContainer" parent="tab_container/main_split/task_manager/vbox" unique_id=273076860 node_paths=PackedStringArray("buttons_disabled_while_running")]
 layout_mode = 2
 columns = 2
-script = ExtResource("1_dkkd1")
+script = ExtResource("2_dda8a")
 buttons_disabled_while_running = [NodePath("settings"), NodePath("save/new"), NodePath("load/overwrite"), NodePath("load/append"), NodePath("run/reset_all")]
 
 [node name="save" type="HBoxContainer" parent="tab_container/main_split/task_manager/vbox/manager_buttons" unique_id=875485774]
@@ -169,7 +169,7 @@ size_flags_horizontal = 3
 layout_mode = 2
 tooltip_text = "Create a new queue."
 shortcut = SubResource("Shortcut_y17js")
-icon = ExtResource("4_qtrbu")
+icon = ExtResource("3_fiahh")
 
 [node name="confirmation_dialog" type="ConfirmationDialog" parent="tab_container/main_split/task_manager/vbox/manager_buttons/save/new" unique_id=1420907613]
 oversampling_override = 1.0
@@ -184,13 +184,13 @@ size_flags_horizontal = 3
 tooltip_text = "Save the current configuration and overwrite."
 shortcut = SubResource("Shortcut_tthtu")
 text = "Save"
-icon = ExtResource("4_s6s3o")
+icon = ExtResource("4_fwp3f")
 
 [node name="as_new" type="Button" parent="tab_container/main_split/task_manager/vbox/manager_buttons/save" unique_id=1711521401]
 layout_mode = 2
 tooltip_text = "Save the current configuration as a new JSON file."
 shortcut = SubResource("Shortcut_qtrbu")
-icon = ExtResource("5_6cm3p")
+icon = ExtResource("5_ug6gf")
 
 [node name="file_dialog" type="FileDialog" parent="tab_container/main_split/task_manager/vbox/manager_buttons/save" unique_id=1169001965]
 oversampling_override = 1.0
@@ -208,7 +208,7 @@ size_flags_horizontal = 3
 tooltip_text = "Load a JSON file into the queue."
 shortcut = SubResource("Shortcut_f2ono")
 text = "Load"
-icon = ExtResource("7_f2ono")
+icon = ExtResource("6_t80lc")
 
 [node name="file_dialog" type="FileDialog" parent="tab_container/main_split/task_manager/vbox/manager_buttons/load/overwrite" unique_id=581640602]
 title = "Open a File"
@@ -221,7 +221,7 @@ use_native_dialog = true
 layout_mode = 2
 tooltip_text = "Load a JSON file and add it to the existing queue."
 shortcut = SubResource("Shortcut_xs2sm")
-icon = ExtResource("9_s6s3o")
+icon = ExtResource("7_kuq7v")
 
 [node name="file_dialog" type="FileDialog" parent="tab_container/main_split/task_manager/vbox/manager_buttons/load/append" unique_id=851303745]
 title = "Open a File"
@@ -234,11 +234,11 @@ use_native_dialog = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Settings"
-icon = ExtResource("2_rangv")
+icon = ExtResource("8_y587w")
 script = SubResource("GDScript_lpup6")
 
 [node name="access" type="Node" parent="tab_container/main_split/task_manager/vbox/manager_buttons/settings" unique_id=47666053]
-script = ExtResource("3_6cm3p")
+script = ExtResource("9_xft1o")
 metadata/python_venv_path = "res://addons/sunkist/.venv"
 
 [node name="run" type="HBoxContainer" parent="tab_container/main_split/task_manager/vbox/manager_buttons" unique_id=2069630577]
@@ -251,13 +251,13 @@ size_flags_horizontal = 3
 toggle_mode = true
 shortcut = SubResource("Shortcut_iuqo7")
 text = "Run Queue"
-icon = ExtResource("5_qtrbu")
+icon = ExtResource("10_njcoc")
 script = SubResource("GDScript_a2pxq")
 
 [node name="reset_all" type="Button" parent="tab_container/main_split/task_manager/vbox/manager_buttons/run" unique_id=480898074]
 layout_mode = 2
 tooltip_text = "Reset any/all Tasks that have completed."
-icon = ExtResource("8_iuqo7")
+icon = ExtResource("11_gt30g")
 
 [node name="task_tree" type="Tree" parent="tab_container/main_split/task_manager/vbox" unique_id=375547485]
 layout_mode = 2
@@ -271,20 +271,20 @@ hide_root = true
 select_mode = 1
 auto_tooltip = false
 scroll_horizontal_enabled = false
-script = ExtResource("10_y17js")
+script = ExtResource("12_fdhiv")
 
 [node name="create_task_list" type="HFlowContainer" parent="tab_container/main_split/task_manager/vbox" unique_id=2008870705]
 layout_mode = 2
 alignment = 1
-script = ExtResource("11_br3bt")
-templates = Array[ExtResource("12_wroo2")]([ExtResource("14_0ugl0"), ExtResource("15_eolsp"), ExtResource("16_n85t4"), ExtResource("17_af51x")])
+script = ExtResource("13_8pjc0")
+templates = Array[ExtResource("14_ufycr")]([ExtResource("15_a4t1i"), ExtResource("16_qv03b"), ExtResource("17_qjehu"), ExtResource("18_m20k4")])
 
 [node name="task_container" type="TabContainer" parent="tab_container/main_split" unique_id=1975157183]
 layout_mode = 2
 tabs_visible = false
 tab_focus_mode = 0
 deselect_enabled = true
-script = ExtResource("18_3u6c7")
+script = ExtResource("19_g0as0")
 
 [connection signal="current_save_requested" from="tab_container/main_split/task_manager/vbox/current_project" to="tab_container/main_split/task_manager/vbox/task_tree" method="save_json"]
 [connection signal="gui_input" from="tab_container/main_split/task_manager/vbox/current_project" to="tab_container/main_split/task_manager/vbox/current_project" method="_on_gui_input"]
