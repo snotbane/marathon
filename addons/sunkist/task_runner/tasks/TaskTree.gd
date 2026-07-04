@@ -16,7 +16,7 @@ enum {
 }
 
 
-const JSON_IDENTIFIER := "Marathon"
+const JSON_IDENTIFIER := "Sunkist"
 
 const TEMP_JSON_PATH := "user://temp_queue.json"
 
@@ -375,7 +375,7 @@ func load_json(path: String = TEMP_JSON_PATH, append: bool = false) -> void:
 	var json: Dictionary = JSON.parse_string(json_file.get_as_text())
 
 	if json.get(&"type") != JSON_IDENTIFIER:
-		printerr("File at path '%s' cannot be loaded because it is not a Marathon task list.")
+		printerr("File at path '%s' cannot be loaded because it is not a Sunkist task list.")
 		return
 
 	for data in json[&"data"]:

@@ -1,16 +1,74 @@
-# `FatsheetTask`
-This task compiles many images into fewer or one [spritesheet](https://en.wikipedia.org/wiki/Texture_atlas), to assist with resource management. This operation has a complex setup but is extremely powerful, especially when used with the Fatsheet Importer plugin (the plugin is NOT required to use this `Task`).
-
-> [!CAUTION]
-> Do NOT move any individual files that the task generates. It is OK to move the entire folder if needed, but also make sure to change the [`target_dir`](#target_dir) inside the task parameters.
-
-
-> [!IMPORTANT]
-> You may need to refresh the FileSystem and open any created `.fat` files in order for all resources to appear properly. This is a known issue.
+# `SunkistAssemblyTask`
+This task compiles many images into fewer or one [spritesheet](https://en.wikipedia.org/wiki/Texture_atlas), to assist with resource management.
 
 
 > [!TIP]
-> The positions of each image in the spritesheet(s) will be completely disorganized and are assigned randomly. It is highly recommended that you have an organized naming scheme for each individual file, so that accessing the resulting images from the FileSystem will be more straightforward. For more information about how `.fat` files are used, consult the [Fatsheet Importer](/addons/sunkist/fatsheet/FatsheetImporter.md) documentation.
+> The positions of each image in the spritesheet(s) will be completely disorganized and are assigned randomly. It is highly recommended that you have an organized naming scheme for each individual file, so that accessing the resulting images from the FileSystem will be more straightforward. For more information about how `.sun` files are used, consult the main [Sunkist Plugin](/addons/sunkist/README.md#sunkist-plugin) documentation.
+
+## How to Use
+
+This guide will show you how to get from loose files to a fully rendered 3D sprite.
+
+### 1. Setting Up the Task
+
+Setting up files for the Sunkist Assembly Task relies heavily on the naming scheme of the files to be processed. This tutorial assumes you already have a series of images in which:
+
+- All are `.png` files
+- All are located inside of a single directory tree, the root of which will be your __*Source Folder*__.
+- All are [cleaned up](/addons/sunkist/task_runner/tasks/spruce/SpruceTask.md) and ready to be packed
+- Each __*image canvas*__ has identical dimensions
+- Each __*sprite bounding box*__ for separate material components (same name, different suffix) has identical dimensions
+- Have a file name that ends with any of the following suffixes:
+	- `-r-a` — Albedo __[ REQUIRED ]__
+	- `-l-a` — Albedo (Backface)
+	- `-r-e` — Emission
+	- `-l-e` — Emission (Backface)
+	- `-r-n` — Normal
+	- `-l-n` — Normal (Backface)
+	- `-r-m` — Custom
+	- `-l-m` — Custom (Backface)
+
+Create a new Assembly task and select it so it shows up in the Inspector, then set your source and target folders.
+
+> [!NOTE]
+>
+> In this example, we are using source files which are already located the Godot project, for simplicity. However in practice, it's ideal to keep the __*Source Folder*__ outside the project entirely, since the source images won't be used again.
+>
+> If you run the task again later in the same location and it will overwrite the previous results.)This is often desired, but may not be in some cases.
+
+![Tutorial00](/addons/sunkist/.readme/sunkist_tutorial_00.png)
+
+### 2. Running the Task
+
+Click the run button on the task to start assembling `SunkistSheet`s. You should see each image display in the preview window briefly as it is processed. If you have lots of files, it will start fast and become slower.
+
+After running the Task, you should see a grid displaying each of the __*Result Images*__. In the __*Target Folder*__, you should now see the following:
+
+- A folder `sheets`, which contains the raw `.png` files which were assembled.
+- A folder `sprites`, which contains a copy of each image in the __*Source Folder*__, as an `AtlasTexture` belonging to one of the images in `sheets`.
+- A folder `sunkist`, which contains `SunkistTexture`s based on the source images. These are the textures you will want to use when creating Scenes or any `SpriteFrames` Resources.
+- A file with the extension `.sun`, which contains all of the data to assemble and manage the above.
+
+> [!IMPORTANT]
+> You may need to refresh the FileSystem and open any created `.sun` files in order for all resources to appear properly. This is a known issue.
+
+![Tutorial01](/addons/sunkist/.readme/sunkist_tutorial_01.png)
+
+
+
+### 3. Previewing a `SunkistTexture`
+
+To preview a `SunkistTexture`, simply open it in the FileSystem. (Make sure the Sunkist plugin is enabled.)
+- The left panel (green) will display the `AtlasTexture`s which compose the `SunkistTexture`.
+- The right panel (blue) will display a 3D render of this `SunkistTexture`.
+
+![Tutorial02](/addons/sunkist/.readme/sunkist_tutorial_02.png)
+
+### 4. Creating a scene using `Sunkist3D`
+
+See [Sunkist Nodes](/addons/sunkist/README.md#nodes) on how to structure a scene using Sunkist resources.
+
+![Tutorial03](/addons/sunkist/.readme/sunkist_tutorial_03.png)
 
 ## Parameters
 
@@ -56,45 +114,3 @@ If disabled, include the entire source image.
 
 #### `island_margin`
 The space between sprites and image bounds in the final spritesheet(s).
-
-
-## Using the Main Screen
-
-![Fatsheet Layout](/addons/sunkist/readme/fatsheet_layout.png)
-
-### AtlasTextures
-This folder, called `atlas`, contains the individual [`OffsetAtlasTexture`]()s for each sprite in the spritesheet(s), and each image is cropped to the exact bounding box which its pixels inhabit, not including the [`island_margin`](#island_margin). These images depend on the raw textures located in the [`textures`](#spritesheets) folder.
-
-
-### CompositeTextures
-This folder, called `compo`, contains the individual [`CompositeTexture`]()s for each sprite set, which may belong to multiple spritesheets. These depend on, and are comprised of, several images located in the [`atlas`](#atlastextures) folder.
-
-> [!IMPORTANT]
-> These are the textures you will actually want to use in your project, in [`Sprite2D`](https://docs.godotengine.org/en/stable/classes/class_sprite2d.html), [`SpriteFrames`](https://docs.godotengine.org/en/stable/classes/class_spriteframes.html), etc.
-
-
-### Fatsheet Data File
-This is the data file generated by this task, and it is named by the [`project_name`](#project_name) parameter. It contains data for the files in the other folders, and manages them. When opened in Godot, it will refresh the items in the other three folders.
-
-> [!NOTE]
-> This is actually just a `.json` file with a different extension, so that it can be recognized by Godot.
-
-
-### Spritesheets
-This folder, called `textures`, contains the raw texture files generated by this Task.
-
-
-### Spritesheet Previews
-This area will display all spritesheets that were generated by the task. In this example, there are two: a __*Normal*__ spritesheet, and an __*Albedo*__ spritesheet.
-
-
-### Parameters
-This area displays the parameters. In this example, it shows which parameters were used to achieve this result. (Take note of [`filter_separate`](#filter_separate) in particular.)
-
-
-In the destination folder, this Task will create:
-
-- A `textures` folder consisting of spritesheets.
-- An `atlas` folder consisting of [`AtlasTexture`](https://docs.godotengine.org/en/stable/classes/class_atlastexture.html)s based on all source images. Use these for simple sprite sheets.
-- A `compo` folder consisting of [`CompositeTexture2D`]()s. Use these for complex spritesheets.
-- A `.fat` file which contains metadata for each [`CompositeTexture2D`]().

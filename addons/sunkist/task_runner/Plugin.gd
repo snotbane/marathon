@@ -12,7 +12,7 @@ func _get_plugin_name() -> String:
 
 
 func _get_plugin_icon() -> Texture2D:
-	return preload("res://addons/sunkist/ui/icons/marathon_small.svg")
+	return preload("res://addons/sunkist/ui/icons/Stiletto.svg")
 
 
 func _has_main_screen() -> bool:

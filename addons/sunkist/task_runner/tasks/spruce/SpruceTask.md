@@ -1,5 +1,5 @@
 # `SpruceTask`
-This task is used to clean up images that may have stray marks or pixels on them, typically, before compiling them using [`FatsheetTask`](/addons/sunkist/task_runner/tasks/fatsheet/FatsheetTask.md).
+This task is used to clean up images that may have stray marks or pixels on them, typically, before compiling them using [`SunkistAssemblyTask`](/addons/sunkist/task_runner/tasks/sunkist/SunkistAssemblyTask.md).
 
 ## Parameters
 

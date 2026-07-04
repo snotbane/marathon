@@ -115,7 +115,7 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
 
-[node name="Marathon" type="Control" unique_id=1160569330]
+[node name="TaskRunner" type="Control" unique_id=1160569330]
 clip_contents = true
 layout_mode = 3
 anchors_preset = 15

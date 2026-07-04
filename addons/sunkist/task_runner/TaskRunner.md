@@ -1,7 +1,7 @@
 # Task Runner
-The Marathon Task Runner creates a plugin window called `Tasks`. This window can be used to run tasks on any files, in bulk.
+The Sunkist Task Runner creates a plugin window called `Tasks`. This window can be used to run tasks on any files, in bulk. This plugin is NOT required to create or use `SunkistTexture`s.
 
-![Task Runner Layout](/assets/readme/task_runner_layout.png)
+![Task Runner Layout](/addons/sunkist/.readme/task_runner_layout.png)
 
 The left wing of the screen displays the __*Task Queue*__ and can be resized. The main area of the screen displays the __*Selected Task*__.
 
@@ -15,7 +15,7 @@ These buttons are used to modify and run `Task`s in the Task Queue. In order fro
 |__*Save As*__|This will save the current queue as a new file.|
 |__*Load*__|This will load a queue of tasks from an existing `.json` file, which has been created with __*Save*__, and __*replace the existing*__ queue.|
 |__*Append*__|This will load a queue of tasks in an existing `.json` file, and __*append it to the current*__ queue.|
-|__*Settings*__|This will open the `MarathonGlobalSettings` in the Inspector.|
+|__*Settings*__|This will open the `TaskRunner` in the Inspector.|
 |__*Run/Stop Queue*__|This will run all `Ready` Tasks in order from start to finish, or it will attempt to stop any running Tasks (if started). It will NOT run any `Completed` tasks.|
 |__*Reload Queue*__|This will reset all `Completed` or `Failed` tasks so they may be run again.|
 

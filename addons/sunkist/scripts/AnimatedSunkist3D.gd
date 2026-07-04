@@ -41,7 +41,6 @@ func _ready() -> void:
 	if sunkist_parent:
 		sunkist_parent.material_changed.connect(_refresh_material)
 		sunkist_parent.size_changed.connect(_size_changed)
-		centered = false
 
 	if Engine.is_editor_hint() and material_override == null:
 		material_override = SunkistMaterial.new()
@@ -95,5 +94,21 @@ func _size_changed() -> void:
 	if sunkist_parent:
 		pixel_size = sunkist_parent.pixel_size
 
-	if not centered:
-		offset = Sunkist3D.get_sprite_offset(material_override.texture)
+	set_position_to_texture_offset(material_override.texture)
+
+
+func set_position_to_texture_offset(texture: SunkistTexture) -> void:
+	if texture == null: return
+
+	var texture_size := texture.get_size()
+	var flat := texture.offset_default * Sunkist3D.OFFSET_FLIP - Vector2(0.0, texture_size.y)
+
+	if centered: flat += texture_size * 0.5
+
+	flat *= pixel_size
+
+	position = Vector3(
+		flat.x,
+		flat.y,
+		position.z
+	)

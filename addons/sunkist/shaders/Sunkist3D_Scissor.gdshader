@@ -20,6 +20,7 @@ uniform float normal_scale : hint_range(0.0, 1.0) = 0.5;
 
 uniform sampler2D _r_a : source_color;
 uniform vec4 _r_a_rect;
+uniform vec2 _r_a_offset;
 
 uniform sampler2D _l_a : source_color;
 uniform vec4 _l_a_rect;
@@ -43,8 +44,9 @@ uniform sampler2D _l_n : hint_normal;
 uniform vec4 _l_n_rect;
 
 
-vec4 atlas(vec2 uv, sampler2D tex, vec4 rect) {
+vec4 atlas(vec2 uv, sampler2D tex, vec4 rect, vec2 offset) {
 	vec2 size = vec2(textureSize(tex, 0));
+	rect.xy += offset;
 	rect = rect / vec4(size, size);
 	return texture(tex, uv * rect.zw + rect.xy);
 }
@@ -56,22 +58,22 @@ vec4 paper_swap(vec4 a, vec4 b, bool front_facing) {
 
 
 void fragment() {
-	vec4 paper_color = paper_swap(atlas(UV, _r_a, _r_a_rect), atlas(UV, _l_a, _l_a_rect), FRONT_FACING);
+	vec4 paper_color = paper_swap(atlas(UV, _r_a, _r_a_rect, _r_a_offset), atlas(UV, _l_a, _l_a_rect, vec2(0)), FRONT_FACING);
 	ALBEDO = paper_color.rgb * modulate.rgb;
 	ALPHA = paper_color.a * modulate.a;
 	ALPHA_SCISSOR_THRESHOLD = 0.5;
 
-	vec4 paper_emission = paper_swap(atlas(UV, _r_e, _r_e_rect), atlas(UV, _l_e, _l_e_rect), FRONT_FACING);
+	vec4 paper_emission = paper_swap(atlas(UV, _r_e, _r_e_rect, vec2(0)), atlas(UV, _l_e, _l_e_rect, vec2(0)), FRONT_FACING);
 	EMISSION = paper_emission.rgb * paper_emission.a * emission_color.rgb * emission_strength;
 
-	vec4 paper_custom = paper_swap(atlas(UV, _r_m, _r_m_rect), atlas(UV, _l_m, _l_m_rect), FRONT_FACING);
+	vec4 paper_custom = paper_swap(atlas(UV, _r_m, _r_m_rect, vec2(0)), atlas(UV, _l_m, _l_m_rect, vec2(0)), FRONT_FACING);
 	ROUGHNESS = paper_custom.r * roughness;
 	METALLIC = paper_custom.b * metallic;
 
 	AO = pow(1.0 - paper_custom.g, ao_shadow_power);
 	AO_LIGHT_AFFECT = ao_light_scale;
 
-	vec4 paper_normal = paper_swap(atlas(UV, _r_n, _r_n_rect), atlas(UV, _l_n, _l_n_rect), FRONT_FACING);
+	vec4 paper_normal = paper_swap(atlas(UV, _r_n, _r_n_rect, vec2(0)), atlas(UV, _l_n, _l_n_rect, vec2(0)), FRONT_FACING);
 	NORMAL_MAP = paper_normal.rgb;
 	NORMAL_MAP_DEPTH = normal_scale;
 }

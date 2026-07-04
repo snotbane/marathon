@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="marathon_task_runner"
+config/name="Sunkist Tools"
 run/main_scene="uid://c2sk65yfam5b0"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="uid://bogkcdp677xc7"
