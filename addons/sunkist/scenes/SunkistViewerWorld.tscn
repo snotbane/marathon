@@ -70,8 +70,6 @@ shader_parameter/_l_n_rect = Vector4(499, 2, 421, 387)
 script = ExtResource("2_8fsea")
 unique_backface = true
 
-[sub_resource type="QuadMesh" id="QuadMesh_xqkeo"]
-
 [node name="sunkist_viewer_world" type="Node3D" unique_id=811248028]
 script = ExtResource("1_xvvjg")
 
@@ -84,6 +82,7 @@ environment = SubResource("Environment_ffm6p")
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
 fov = 30.0
+far = 10.0
 
 [node name="directional_light_3d" type="DirectionalLight3D" parent="camera_controller" unique_id=1918329377]
 transform = Transform3D(0.6643573, -0.4597668, 0.589274, 0.07138719, 0.8238449, 0.56230193, -0.7439981, -0.33150274, 0.5801488, 0, 0, 0)
@@ -102,7 +101,3 @@ material_override = SubResource("ShaderMaterial_i3v8w")
 pixel_size = 0.002375297
 script = ExtResource("5_cfds6")
 metadata/_custom_type_script = "uid://4pvyu6khy3e1"
-
-[node name="mesh_instance_3d" type="MeshInstance3D" parent="." unique_id=1302558225]
-visible = false
-mesh = SubResource("QuadMesh_xqkeo")

@@ -36,6 +36,7 @@ enabled=PackedStringArray("res://addons/sunkist/base/plugin.cfg", "res://addons/
 folder_colors={
 "res://addons/sunkist/_readme/": "gray",
 "res://addons/sunkist/materials/": "pink",
+"res://addons/sunkist/scenes/": "green",
 "res://addons/sunkist/scripts/": "blue",
 "res://addons/sunkist/shaders/": "purple",
 "res://addons/sunkist/task_runner/tasks/": "teal",
