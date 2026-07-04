@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://dqpguervbrvmn"]
+
+[ext_resource type="Texture2D" uid="uid://7qb11yob10tf" path="res://addons/sunkist/ui/icons/GuiVisibilityVisible.svg" id="1_vb1fa"]
+[ext_resource type="Texture2D" uid="uid://d8h61gsjldes" path="res://addons/sunkist/ui/icons/GuiVisibilityHidden.svg" id="2_tlgtx"]
+[ext_resource type="Script" uid="uid://inmff3wsjdgp" path="res://addons/sunkist/scenes/VisibilityToggle.gd" id="3_yu0me"]
+
+[node name="visibility" type="CheckBox" unique_id=648365518]
+offset_right = 24.0
+offset_bottom = 24.0
+focus_mode = 0
+theme_override_icons/checked = ExtResource("1_vb1fa")
+theme_override_icons/unchecked = ExtResource("2_tlgtx")
+button_pressed = true
+flat = true
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("3_yu0me")

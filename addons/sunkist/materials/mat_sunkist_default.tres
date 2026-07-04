@@ -1,0 +1,18 @@
+[gd_resource type="ShaderMaterial" script_class="SunkistMaterial" format=3 uid="uid://bjunddtgwubec"]
+
+[ext_resource type="Script" uid="uid://b8j3gwojs87by" path="res://addons/sunkist/scripts/SunkistMaterial.gd" id="1_per0c"]
+[ext_resource type="Shader" uid="uid://cdufaegr5ju4f" path="res://addons/sunkist/shaders/Sunkist3D_Scissor.gdshader" id="2_my67m"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("2_my67m")
+shader_parameter/unique_backface = false
+shader_parameter/emission_color = Color(1, 1, 1, 1)
+shader_parameter/ao_shadow_power = 4.0
+shader_parameter/ao_light_scale = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/specular = 1.0
+shader_parameter/metallic = 1.0
+shader_parameter/normal_scale = 0.5
+script = ExtResource("1_per0c")
+metadata/_custom_type_script = "uid://b8j3gwojs87by"

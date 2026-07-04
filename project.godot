@@ -29,15 +29,17 @@ naming/script_name_casing=1
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/marathon_task_runner/fatsheet/plugin.cfg", "res://addons/marathon_task_runner/task_runner/plugin.cfg")
+enabled=PackedStringArray("res://addons/sunkist/base/plugin.cfg", "res://addons/sunkist/task_runner/plugin.cfg")
 
 [file_customization]
 
 folder_colors={
-"res://addons/marathon_task_runner/fatsheet/icons/": "yellow",
-"res://addons/marathon_task_runner/sunkist/materials/": "pink",
-"res://addons/marathon_task_runner/sunkist/shaders/": "purple",
-"res://addons/marathon_task_runner/task_runner/icons/": "yellow"
+"res://addons/sunkist/_readme/": "gray",
+"res://addons/sunkist/materials/": "pink",
+"res://addons/sunkist/scripts/": "blue",
+"res://addons/sunkist/shaders/": "purple",
+"res://addons/sunkist/task_runner/tasks/": "teal",
+"res://addons/sunkist/ui/": "red"
 }
 
 [physics]

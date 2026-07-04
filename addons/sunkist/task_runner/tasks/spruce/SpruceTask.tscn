@@ -1,0 +1,155 @@
+[gd_scene format=3 uid="uid://cjg2ttmre2ljd"]
+
+[ext_resource type="PackedScene" uid="uid://cpw2roduamin5" path="res://addons/sunkist/task_runner/tasks/Task.tscn" id="1_2jeqr"]
+[ext_resource type="Script" uid="uid://dkoi6thcesu63" path="res://addons/sunkist/task_runner/tasks/spruce/SpruceTask.gd" id="2_1tbij"]
+[ext_resource type="PackedScene" uid="uid://3djnsrgpqbb1" path="res://addons/sunkist/scenes/ImagePreview.tscn" id="2_fa1rg"]
+[ext_resource type="StyleBox" uid="uid://bc6sl7ke3y6yi" path="res://addons/sunkist/ui/panel.tres" id="3_e0mk8"]
+[ext_resource type="Texture2D" uid="uid://c53my30h15c2e" path="res://addons/sunkist/ui/icons/ImportCheck.svg" id="4_848fo"]
+[ext_resource type="Script" uid="uid://b0dg087awsnro" path="res://addons/sunkist/task_runner/tasks/spruce/ReviewTree.gd" id="4_cqrby"]
+[ext_resource type="Texture2D" uid="uid://cx8x3diddw5ud" path="res://addons/sunkist/ui/icons/ImportFail.svg" id="5_cqrby"]
+[ext_resource type="PackedScene" uid="uid://dqpguervbrvmn" path="res://addons/sunkist/scenes/VisibilityToggle.tscn" id="6_wov3m"]
+
+[node name="SpruceTask" unique_id=1404109605 instance=ExtResource("1_2jeqr")]
+script = ExtResource("2_1tbij")
+review_changes = true
+source_dir = ""
+target_dir = ""
+filter_include = ""
+filter_exclude = ""
+island_opacity = 0
+island_size = 256
+python_venv_path = "res://addons/marathon_task_runner/.venv"
+
+[node name="split" type="HSplitContainer" parent="v_box_container/content" parent_id_path=PackedInt32Array(1147619570) index="0" unique_id=102537551]
+layout_mode = 2
+drag_nested_intersections = true
+
+[node name="images" type="VSplitContainer" parent="v_box_container/content/split" index="0" unique_id=1381185027]
+layout_mode = 2
+size_flags_horizontal = 3
+drag_nested_intersections = true
+
+[node name="source" type="PanelContainer" parent="v_box_container/content/split/images" index="0" unique_id=1005252166]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("3_e0mk8")
+
+[node name="v_box_container" type="VBoxContainer" parent="v_box_container/content/split/images/source" index="0" unique_id=910999748]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 2
+
+[node name="source_preview" parent="v_box_container/content/split/images/source/v_box_container" index="0" unique_id=238514107 instance=ExtResource("2_fa1rg")]
+unique_name_in_owner = true
+layout_mode = 2
+label = "Original"
+
+[node name="source_label" type="Label" parent="v_box_container/content/split/images/source/v_box_container" index="1" unique_id=472566983]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Original"
+horizontal_alignment = 1
+
+[node name="target" type="PanelContainer" parent="v_box_container/content/split/images" index="1" unique_id=922453574]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("3_e0mk8")
+
+[node name="v_box_container" type="VBoxContainer" parent="v_box_container/content/split/images/target" index="0" unique_id=956330387]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 2
+
+[node name="target_preview" parent="v_box_container/content/split/images/target/v_box_container" index="0" unique_id=1180556810 instance=ExtResource("2_fa1rg")]
+unique_name_in_owner = true
+layout_mode = 2
+label = "Modified"
+
+[node name="target_label" type="Label" parent="v_box_container/content/split/images/target/v_box_container" index="1" unique_id=1257424743]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Modified"
+horizontal_alignment = 1
+
+[node name="review" type="VSplitContainer" parent="v_box_container/content/split" index="1" unique_id=1528079157]
+layout_mode = 2
+size_flags_horizontal = 3
+drag_nested_intersections = true
+
+[node name="diff" type="PanelContainer" parent="v_box_container/content/split/review" index="0" unique_id=865714160]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("3_e0mk8")
+
+[node name="v_box_container" type="VBoxContainer" parent="v_box_container/content/split/review/diff" index="0" unique_id=1200883662]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 2
+
+[node name="diff_preview" parent="v_box_container/content/split/review/diff/v_box_container" index="0" unique_id=882975488 instance=ExtResource("2_fa1rg")]
+unique_name_in_owner = true
+layout_mode = 2
+label = "Diff Bitmap"
+
+[node name="diff_label" type="Label" parent="v_box_container/content/split/review/diff/v_box_container" index="1" unique_id=1811444890]
+layout_mode = 2
+text = "Diffmap"
+horizontal_alignment = 1
+
+[node name="changes" type="PanelContainer" parent="v_box_container/content/split/review" index="1" unique_id=265513234]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("3_e0mk8")
+
+[node name="v_box_container" type="VBoxContainer" parent="v_box_container/content/split/review/changes" index="0" unique_id=696417759]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="list" type="Tree" parent="v_box_container/content/split/review/changes/v_box_container" index="0" unique_id=1104621745 node_paths=PackedStringArray("task", "old_preview", "new_preview", "diff_bitmap")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 2
+hide_folding = true
+hide_root = true
+select_mode = 1
+scroll_horizontal_enabled = false
+script = ExtResource("4_cqrby")
+task = NodePath("../../../../../../..")
+old_preview = NodePath("../../../../images/source/v_box_container/source_preview")
+new_preview = NodePath("../../../../images/target/v_box_container/target_preview")
+diff_bitmap = NodePath("../../../diff/v_box_container/diff_preview")
+
+[node name="actions" type="HBoxContainer" parent="v_box_container/content/split/review/changes/v_box_container" index="1" unique_id=1398094770]
+layout_mode = 2
+
+[node name="accept_all" type="Button" parent="v_box_container/content/split/review/changes/v_box_container/actions" index="0" unique_id=579707951]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Accept All"
+icon = ExtResource("4_848fo")
+
+[node name="confirmation_dialog" type="ConfirmationDialog" parent="v_box_container/content/split/review/changes/v_box_container/actions/accept_all" index="0" unique_id=2006566978]
+dialog_text = "This will replace all files listed here with their modified versions and cannot be undone!"
+
+[node name="reject_all" type="Button" parent="v_box_container/content/split/review/changes/v_box_container/actions" index="1" unique_id=63000186]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Reject All"
+icon = ExtResource("5_cqrby")
+
+[node name="visibility" parent="v_box_container/content/split/review/changes/v_box_container/actions" index="2" unique_id=1040778549 node_paths=PackedStringArray("link") instance=ExtResource("6_wov3m")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+link = NodePath("../../../../diff")
+
+[node name="controls_label" type="Label" parent="v_box_container/content/split/review/changes/v_box_container" index="2" unique_id=1643102572]
+layout_mode = 2
+text = "Changes"
+horizontal_alignment = 1
+
+[connection signal="finished" from="." to="v_box_container/content/split/review/changes/v_box_container/list" method="refresh_files" unbinds=1]
+[connection signal="pressed" from="v_box_container/content/split/review/changes/v_box_container/actions/accept_all" to="v_box_container/content/split/review/changes/v_box_container/actions/accept_all/confirmation_dialog" method="popup_centered"]
+[connection signal="confirmed" from="v_box_container/content/split/review/changes/v_box_container/actions/accept_all/confirmation_dialog" to="v_box_container/content/split/review/changes/v_box_container/list" method="accept_all"]
+[connection signal="pressed" from="v_box_container/content/split/review/changes/v_box_container/actions/reject_all" to="v_box_container/content/split/review/changes/v_box_container/list" method="reject_all"]
