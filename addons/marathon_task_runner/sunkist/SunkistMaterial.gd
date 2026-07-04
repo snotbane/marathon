@@ -5,6 +5,18 @@ extends ShaderMaterial
 const SHADER: Shader = preload("res://addons/marathon_task_runner/sunkist/shaders/Sunkist3D_Scissor.gdshader")
 
 
+static var MATERIAL_SUFFIX_REMAP_DEFAULT: PackedStringArray = [
+	&"_r_a",
+	&"_l_a",
+	&"_r_e",
+	&"_l_e",
+	&"_r_m",
+	&"_l_m",
+	&"_r_n",
+	&"_l_n",
+]
+
+
 @export var unique_backface: bool = false:
 	get: return get_shader_parameter(&"unique_backface")
 	set(value):
@@ -64,29 +76,20 @@ const SHADER: Shader = preload("res://addons/marathon_task_runner/sunkist/shader
 var texture: SunkistTexture:
 	set(value):
 		texture = value
+		if texture == null: return
 
-		set_shader_component(&"_r_a")
-		set_shader_component(&"_l_a")
-		set_shader_component(&"_r_e")
-		set_shader_component(&"_l_e")
-		set_shader_component(&"_r_n")
-		set_shader_component(&"_l_n")
-		set_shader_component(&"_r_m")
-		set_shader_component(&"_l_m")
+		for i in texture.texture_slots:
+			var tex := texture.textures[i]
+			set_shader_parameter(MATERIAL_SUFFIX_REMAP_DEFAULT[i], tex)
 
+			if tex is not AtlasTexture: continue
 
-func set_shader_component(key: StringName) -> void:
-	var tex: Texture2D = texture.get(&"map" + key) if texture else null
-	set_shader_parameter(key, tex)
-
-	if tex is not AtlasTexture: return
-
-	set_shader_parameter(key + &"_rect", Vector4(
-		tex.region.position.x,
-		tex.region.position.y,
-		tex.region.size.x,
-		tex.region.size.y
-	))
+			set_shader_parameter(MATERIAL_SUFFIX_REMAP_DEFAULT[i] + &"_rect", Vector4(
+				tex.region.position.x,
+				tex.region.position.y,
+				tex.region.size.x,
+				tex.region.size.y
+			))
 
 
 func _init() -> void:

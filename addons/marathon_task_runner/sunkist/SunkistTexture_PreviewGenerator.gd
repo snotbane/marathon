@@ -15,7 +15,7 @@ func _handles(type: String) -> bool:
 
 
 func _generate(resource: Resource, size: Vector2i, metadata: Dictionary) -> Texture2D:
-	var image := (resource as SunkistTexture).map_default.get_image()
+	var image := (resource as SunkistTexture).texture_default.get_image()
 	image.resize(size.x, size.y, Image.Interpolation.INTERPOLATE_NEAREST)
 	print("Generated a preview for SunkistTexture!")
 	return ImageTexture.create_from_image(image)

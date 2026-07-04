@@ -55,6 +55,24 @@ var _label: String
 
 		refresh()
 
+
+@export_subgroup("Slot Label", "slot_")
+
+@export_custom(PROPERTY_HINT_GROUP_ENABLE, "") var slot_enabled: bool = false:
+	set(value):
+		slot_enabled = value
+		if not is_node_ready():
+			await ready
+
+		%slot_label.visible = slot_enabled
+
+
+@export var slot_index: int = 0:
+	set(value):
+		slot_index = value
+		%slot_label.text = ("L" if slot_index & 1 else "R") + str(slot_index / 2)
+
+
 func set_value(val: String) -> void:
 	value = val
 
@@ -79,11 +97,7 @@ func refresh() -> void:
 			path_label.focus_mode = Control.FOCUS_NONE
 			path_label.mouse_default_cursor_shape = Control.CURSOR_ARROW
 
-	if not file_exists: texture = null; return
-
-	var image := Image.new()
-	var error := image.load(value)
-	texture = ImageTexture.create_from_image(image) if error == OK else null
+	texture = load(value) if file_exists else null
 
 
 func clear() -> void:
@@ -97,4 +111,4 @@ func _ready() -> void:
 func _on_path_label_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
-			OS.shell_open(ProjectSettings.globalize_path(value))
+			EditorInterface.get_file_system_dock().navigate_to_path(value)

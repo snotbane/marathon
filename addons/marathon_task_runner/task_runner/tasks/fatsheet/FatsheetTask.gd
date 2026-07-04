@@ -233,6 +233,8 @@ func _finish(code: int) -> void:
 	$v_box_container/content/previews/targets.columns = ceili(sqrt(target_paths.size()))
 	$v_box_container/content/previews/targets.visible = true
 
+	## TODO: refresh Fatsheet resource
+
 
 func _reset() -> void:
 	$v_box_container/content/previews/source.clear()

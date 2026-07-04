@@ -4,30 +4,44 @@ class_name Fatsheet
 extends Resource
 
 const SHEET_DIR := "sheet"
-
-const ATLAS_DIR := "sprite"
-
+const SPRITE_DIR := "sprite"
 const SUNKIST_DIR := "sunkist"
 
 
+static var FATSHEET_REMAP_DEFAULT: PackedStringArray = [
+	&"-r-a",
+	&"-l-a",
+	&"-r-e",
+	&"-l-e",
+	&"-r-m",
+	&"-l-m",
+	&"-r-n",
+	&"-l-n",
+]
+
+
 @export_storage var json_path: String
+
+
+func _get_remap_index(key: StringName) -> int:
+	return FATSHEET_REMAP_DEFAULT.find(key)
 
 
 func refresh_resources() -> void:
 	var base_folder := json_path.get_base_dir()
 	var sheet_dir := base_folder.path_join(SHEET_DIR)
 	var sunkist_dir := base_folder.path_join(SUNKIST_DIR)
-	var atlas_dir := base_folder.path_join(ATLAS_DIR)
+	var sprite_dir := base_folder.path_join(SPRITE_DIR)
 
 	if not DirAccess.dir_exists_absolute(sheet_dir):
 		DirAccess.make_dir_recursive_absolute(sheet_dir)
-	if not DirAccess.dir_exists_absolute(atlas_dir):
-		DirAccess.make_dir_recursive_absolute(atlas_dir)
+	if not DirAccess.dir_exists_absolute(sprite_dir):
+		DirAccess.make_dir_recursive_absolute(sprite_dir)
 	if not DirAccess.dir_exists_absolute(sunkist_dir):
 		DirAccess.make_dir_recursive_absolute(sunkist_dir)
 
-	var existing_atlases := MarathonUtils.get_paths_in_folder(atlas_dir)
-	var existing_compos := MarathonUtils.get_paths_in_folder(sunkist_dir)
+	var existing_sprites := MarathonUtils.get_paths_in_folder(sprite_dir)
+	var existing_sunkists := MarathonUtils.get_paths_in_folder(sunkist_dir)
 
 	var images: Array[Texture2D]
 	for i in MarathonUtils.get_paths_in_folder(sheet_dir, RegEx.create_from_string(".png$")):
@@ -43,58 +57,57 @@ func refresh_resources() -> void:
 
 	var data: Dictionary = JSON.parse_string(file.get_as_text())
 
-	var texture: Dictionary = data[ATLAS_DIR]
-	for k in texture.keys():
-		var mega_texture: Texture2D = load(sheet_dir.path_join(k))
-		for subimage_name in texture[k].keys():
-			var coord: Array = texture[k][subimage_name]
+	var sheet: Dictionary = data[SHEET_DIR]
+	for k in sheet.keys():
+		var sheet_texture: Texture2D = load(sheet_dir.path_join(k))
+		for sprite_name in sheet[k].keys():
+			var coord: Array = sheet[k][sprite_name]
 			var source_offset := Vector2i(coord[2], coord[3])
 			var target_region := Rect2i(coord[0], coord[1], coord[4], coord[5])
 
-			var atlas_path: String = atlas_dir.path_join(subimage_name + ".tres")
-			var atlas: OffsetAtlasTexture
-			if FileAccess.file_exists(atlas_path):
-				atlas = load(atlas_path)
+			var sprite_path: String = sprite_dir.path_join(sprite_name + ".res")
+			var sprite: OffsetAtlasTexture
+			if FileAccess.file_exists(sprite_path):
+				sprite = load(sprite_path)
 			else:
-				atlas = OffsetAtlasTexture.new()
+				sprite = OffsetAtlasTexture.new()
 
-			atlas.name = subimage_name
-			atlas.atlas = mega_texture
-			atlas.offset = Vector2i(source_offset)
-			atlas.region = Rect2(target_region)
-			atlas.filter_clip = true
+			sprite.name = sprite_name
+			sprite.atlas = sheet_texture
+			sprite.offset = Vector2i(source_offset)
+			sprite.region = Rect2(target_region)
+			sprite.filter_clip = true
 
-			ResourceSaver.save(atlas, atlas_path)
-			created_paths[atlas.name] = atlas_path
+			ResourceSaver.save(sprite, sprite_path)
+			created_paths[sprite.name] = sprite_path
 
 	fresh_paths.append_array(created_paths.values())
 
-	var compo: Dictionary = data[SUNKIST_DIR]
-	for base_name in compo.keys():
-		var base: Dictionary = compo[base_name]
+	var sunkist_data: Dictionary = data[SUNKIST_DIR]
+	for base_name in sunkist_data.keys():
+		var base: Dictionary = sunkist_data[base_name]
 
-		var compo_path: String = sunkist_dir.path_join(base_name + ".tres")
-		var composite: SunkistTexture
-		if FileAccess.file_exists(compo_path):
-			composite = load(compo_path)
-			composite.maps.clear()
+		var sunkist_path: String = sunkist_dir.path_join(base_name + ".res")
+		var sunkist: SunkistTexture
+		if FileAccess.file_exists(sunkist_path):
+			sunkist = load(sunkist_path)
+			sunkist.textures.clear()
 		else:
-			composite = SunkistTexture.new()
+			sunkist = SunkistTexture.new()
 
-		for suffix in base.keys():
-			var link: String = base[suffix]
-			composite.maps[suffix] = load(created_paths[link])
+		for k in base.keys():
+			sunkist.textures[_get_remap_index(k)] = load(created_paths[base[k]])
 
-		ResourceSaver.save(composite, compo_path)
-		fresh_paths.append(compo_path)
+		ResourceSaver.save(sunkist, sunkist_path)
+		fresh_paths.append(sunkist_path)
 
 		# EditorInterface.get_resource_previewer().queue_edited_resource_preview(composite, composite, "bar", null)
 		# EditorInterface.get_resource_previewer().queue_resource_preview(composite_path, composite, "bar", null)
 		# EditorInterface.get_resource_previewer().queue_resource_preview(composite_path, composite, "bar", null)
 
-	var dir := DirAccess.open(atlas_dir)
-	for path in existing_atlases: if path not in fresh_paths:
+	var dir := DirAccess.open(sprite_dir)
+	for path in existing_sprites: if path not in fresh_paths:
 		dir.remove(path)
 	dir = DirAccess.open(sunkist_dir)
-	for path in existing_compos: if path not in fresh_paths:
+	for path in existing_sunkists: if path not in fresh_paths:
 		dir.remove(path)

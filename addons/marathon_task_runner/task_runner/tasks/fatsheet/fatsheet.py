@@ -310,7 +310,7 @@ def assign_image_targets(sources):
 		match_string = re.search(pattern, source.name).group()
 		if targets_dict.get(match_string) == None:
 			path = f"{args.project_name}{match_string}.png"
-			targets_dict[match_string] = TargetImage(os.path.join(args.target, "textures"), path, args.target_format, args.island_margin)
+			targets_dict[match_string] = TargetImage(os.path.join(args.target, "sheet"), path, args.target_format, args.island_margin)
 		source.target_match = match_string
 	return (sources, targets_dict)
 
@@ -419,7 +419,7 @@ def main():
 		progress += 1
 		bus_set("output", "progress", progress)
 
-	json_data = {"atlas": atlas_data, "compo": assign_compo_data(atlas_data)}
+	json_data = {"sheet": atlas_data, "sunkist": assign_compo_data(atlas_data)}
 
 	os.makedirs(os.path.dirname(project_json_path), exist_ok=True)
 	with open(project_json_path, "w") as file:
