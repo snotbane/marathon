@@ -1,5 +1,5 @@
 @tool
-class_name MarathonUtils
+class_name SunkistUtils
 
 static func get_paths_in_folder(root := "res://", include := RegEx.create_from_string(".*")) -> PackedStringArray:
 	var dir := DirAccess.open(root)

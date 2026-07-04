@@ -1,6 +1,6 @@
 ## Simple stopwatch keeps track of the amount of time that has passed since it has started. Use [member start] and [member stop] to make it work!
 @tool
-class_name MarathonStopwatch
+class_name SunkistStopwatch
 extends RefCounted
 
 static var NOW: int:

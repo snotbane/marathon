@@ -20,19 +20,19 @@ static func value_as_python_argument(value: Variant) -> String:
 
 
 @export_global_dir var python_venv_path: String:
-	get: return MarathonGlobalSettings.inst.python_venv_path
+	get: return TaskRunner.inst.python_venv_path
 	set(value):
 		if not is_node_ready():
 			await ready
 
-		MarathonGlobalSettings.inst.python_venv_path = value
+		TaskRunner.inst.python_venv_path = value
 
 
-# @export_tool_button("Install Python Venv") var install_venv_button := MarathonGlobalSettings.inst.install_venv_button
+# @export_tool_button("Install Python Venv") var install_venv_button := TaskRunner.inst.install_venv_button
 
 
 var python_exe_path: String:
-	get: return MarathonGlobalSettings.inst.python_exe_path
+	get: return TaskRunner.inst.python_exe_path
 
 
 var python_script_path: String:

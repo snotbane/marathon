@@ -1,11 +1,11 @@
 @tool
-class_name MarathonGlobalSettings
+class_name TaskRunner
 extends Node
 
 const CONFIG_PATH := "user://settings.cfg"
 
 
-static var inst: MarathonGlobalSettings
+static var inst: TaskRunner
 
 static var config: ConfigFile
 
@@ -13,7 +13,7 @@ static var config: ConfigFile
 var install_venv_dialog: ConfirmationDialog
 
 
-@export_global_dir var python_venv_path: String = "res://addons/marathon_task_runner/.venv":
+@export_global_dir var python_venv_path: String = "res://addons/sunkist/.venv":
 	get: return get_meta(&"python_venv_path", "")
 	set(value):
 		if python_venv_path == value: return
@@ -23,7 +23,7 @@ var python_exe_path: String:
 	get: return ProjectSettings.globalize_path(python_venv_path.path_join("bin").path_join("python3"))
 
 @export_tool_button("Install Python Venv") var install_venv_button := func() -> void:
-	install_venv_dialog.dialog_text = "This will install a python virtual environment at:\n%s" % MarathonUtils.get_project_preferred_path(python_venv_path)
+	install_venv_dialog.dialog_text = "This will install a python virtual environment at:\n%s" % SunkistUtils.get_project_preferred_path(python_venv_path)
 	if not python_venv_path.ends_with(".venv"): install_venv_dialog.dialog_text += "\nWarning! It is recommended that the destination folder is called \".venv\" !"
 	install_venv_dialog.popup_centered()
 func install_venv() -> void:
@@ -39,7 +39,7 @@ func install_venv() -> void:
 
 
 func _ready() -> void:
-	if MarathonUtils.is_node_in_editor(self): return
+	if SunkistUtils.is_node_in_editor(self): return
 
 	inst = self
 

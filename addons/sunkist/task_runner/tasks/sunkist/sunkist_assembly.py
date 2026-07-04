@@ -396,8 +396,7 @@ def main():
 	sources, targets = assign_image_targets(sources)
 	bus_set("output", "progress_max", len(sources))
 
-	project_json_ext = ".json" if args.data_format == 0 else ".fat"
-	project_json_path = os.path.join(args.target, args.project_name + project_json_ext)
+	project_json_path = os.path.join(args.target, args.project_name + ".sun")
 
 	atlas_data = dict()
 
@@ -437,7 +436,6 @@ if __name__ == "__main__":
 	parser.add_argument("target", type=str)
 	parser.add_argument("target_size_limit", type=int) ## TODO: implement
 	parser.add_argument("target_format", type=str)
-	parser.add_argument("data_format", type=int)
 	parser.add_argument("filter_include", type=str)
 	parser.add_argument("filter_exclude", type=str)
 	parser.add_argument("filter_separate", type=str)

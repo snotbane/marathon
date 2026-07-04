@@ -16,7 +16,13 @@ extends AnimatedSprite3D
 
 
 ## If enabled, this Node's [member position.z] will be updated each frame to ensure it always remains in front/behind other [Node3D]s. In other words, [member position.z] becomes the layer depth of this sprite.
-@export var keep_camera_depth: bool = false
+@export var keep_camera_depth: bool = false:
+	set(value):
+		if keep_camera_depth == value: return
+
+		keep_camera_depth = value
+		if keep_camera_depth:
+			_camera_depth = position.z
 
 
 @onready var _camera_depth: float = position.z

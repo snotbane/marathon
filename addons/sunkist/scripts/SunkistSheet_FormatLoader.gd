@@ -1,16 +1,13 @@
 @tool
-class_name FatsheetFormatLoader
+class_name SunkistSheet_FormatLoader
 extends ResourceFormatLoader
-
-const RECOGNIZED_EXTENSIONS: PackedStringArray = ["fat"]
-
 
 func _handles_type(type: StringName) -> bool:
 	return type == &"Resource"
 
 
 func _get_recognized_extensions() -> PackedStringArray:
-	return RECOGNIZED_EXTENSIONS
+	return SunkistSheet.VALID_EXTENSIONS
 
 
 func _get_resource_script_class(path: String) -> String:

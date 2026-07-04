@@ -8,7 +8,7 @@
 [sub_resource type="World3D" id="World3D_jpl1i"]
 environment = SubResource("Environment_ldu7x")
 
-[node name="FatsheetViewer" type="Control" unique_id=160417580]
+[node name="SunkistSheetViewer" type="Control" unique_id=160417580]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

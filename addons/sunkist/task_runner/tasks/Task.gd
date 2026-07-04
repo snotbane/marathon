@@ -70,7 +70,7 @@ signal finished(code: int)
 @export_storage var template: TaskTemplate
 
 
-@onready var stopwatch := MarathonStopwatch.new()
+@onready var stopwatch := SunkistStopwatch.new()
 
 @onready var progress_bar: ProgressBar = $v_box_container/results/progress_bar
 
@@ -145,7 +145,7 @@ var progress: float:
 
 
 func _ready() -> void:
-	if MarathonUtils.is_node_in_editor(self): return
+	if SunkistUtils.is_node_in_editor(self): return
 
 	comment = _get_default_comment()
 
@@ -259,7 +259,7 @@ func validate_non_empty_string(s: String, var_name: String) -> void:
 
 
 func validate_dir_contains(dir: String, path: String, require_inside: bool) -> void:
-	if MarathonUtils.is_folder_inside_other(dir, path) != require_inside:
+	if SunkistUtils.is_folder_inside_other(dir, path) != require_inside:
 		_errors.push_back("The file or folder '%s' must %sbe contained inside directory '%s'." % [path, "" if require_inside else "NOT ", dir])
 
 

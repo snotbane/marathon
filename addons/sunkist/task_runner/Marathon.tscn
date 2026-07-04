@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://chfpoyapyy2r5" path="res://addons/sunkist/task_runner/ManagerButtons.gd" id="1_dkkd1"]
 [ext_resource type="Texture2D" uid="uid://cgt6ejtfsi5x8" path="res://addons/sunkist/ui/icons/Tools.svg" id="2_rangv"]
-[ext_resource type="Script" uid="uid://doilwux674cck" path="res://addons/sunkist/task_runner/MarathonGlobalSettings.gd" id="3_6cm3p"]
+[ext_resource type="Script" uid="uid://doilwux674cck" path="res://addons/sunkist/task_runner/TaskRunner.gd" id="3_6cm3p"]
 [ext_resource type="Texture2D" uid="uid://c01kr02aa053q" path="res://addons/sunkist/ui/icons/New.svg" id="4_qtrbu"]
 [ext_resource type="Texture2D" uid="uid://5v03m2veuxsh" path="res://addons/sunkist/ui/icons/Save.svg" id="4_s6s3o"]
 [ext_resource type="Texture2D" uid="uid://bvtbuh7sbludu" path="res://addons/sunkist/ui/icons/FileBrowse.svg" id="5_6cm3p"]
@@ -239,7 +239,7 @@ script = SubResource("GDScript_lpup6")
 
 [node name="access" type="Node" parent="tab_container/main_split/task_manager/vbox/manager_buttons/settings" unique_id=47666053]
 script = ExtResource("3_6cm3p")
-metadata/python_venv_path = "res://addons/marathon_task_runner/.venv"
+metadata/python_venv_path = "res://addons/sunkist/.venv"
 
 [node name="run" type="HBoxContainer" parent="tab_container/main_split/task_manager/vbox/manager_buttons" unique_id=2069630577]
 layout_mode = 2

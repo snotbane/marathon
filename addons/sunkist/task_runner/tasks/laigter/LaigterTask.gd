@@ -4,12 +4,12 @@ extends PythonTask
 ## Path of the Laigter executable. See the Laigter documentation on how to install or where to find.
 @export_global_file var laigter_path: String:
 	get:
-		if not MarathonGlobalSettings.inst: return ""
-		return MarathonGlobalSettings.inst.get_meta(&"laigter_path", "")
+		if not TaskRunner.inst: return ""
+		return TaskRunner.inst.get_meta(&"laigter_path", "")
 	set(value):
 		if is_node_ready():
-			MarathonGlobalSettings.inst.set_meta(&"laigter_path", value)
-			MarathonGlobalSettings.inst.save_settings()
+			TaskRunner.inst.set_meta(&"laigter_path", value)
+			TaskRunner.inst.save_settings()
 
 		validate_args()
 
@@ -100,7 +100,7 @@ var _overwrite: bool = true
 
 
 func _get_python_script_path() -> String:
-	return "res://addons/marathon_task_runner/task_runner/tasks/laigter/laigter.py"
+	return "res://addons/sunkist/task_runner/tasks/laigter/laigter.py"
 
 
 func _get_default_comment() -> String:

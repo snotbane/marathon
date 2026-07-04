@@ -1,6 +1,6 @@
 ## Generates a [MeshInstance3D] that combines [Sunkist2D]s from a specified scene and combines them into a single rendered 3D sprite. Sunkist!
 @tool
-@icon("res://addons/marathon_task_runner/ui/icons/layers_3d.svg")
+@icon("res://addons/sunkist/ui/icons/layers_3d.svg")
 class_name SunkistContainer3D
 extends Node3D
 

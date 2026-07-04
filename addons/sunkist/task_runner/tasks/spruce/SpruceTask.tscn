@@ -18,7 +18,7 @@ filter_include = ""
 filter_exclude = ""
 island_opacity = 0
 island_size = 256
-python_venv_path = "res://addons/marathon_task_runner/.venv"
+python_venv_path = "res://addons/sunkist/.venv"
 
 [node name="split" type="HSplitContainer" parent="v_box_container/content" parent_id_path=PackedInt32Array(1147619570) index="0" unique_id=102537551]
 layout_mode = 2

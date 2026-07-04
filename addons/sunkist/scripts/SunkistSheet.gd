@@ -4,8 +4,8 @@ class_name SunkistSheet
 extends Resource
 
 const VALID_EXTENSIONS: PackedStringArray = [
-	".sun",
-	".sunkist",
+	"sun",
+	"sunkist",
 ]
 
 const SHEET_DIR := "sheet"
@@ -13,7 +13,7 @@ const SPRITE_DIR := "sprite"
 const SUNKIST_DIR := "sunkist"
 
 
-static var FATSHEET_REMAP_DEFAULT: PackedStringArray = [
+static var REMAP_ARRAY_DEFAULT: PackedStringArray = [
 	&"-r-a",
 	&"-l-a",
 	&"-r-e",
@@ -29,7 +29,7 @@ static var FATSHEET_REMAP_DEFAULT: PackedStringArray = [
 
 
 func _get_remap_index(key: StringName) -> int:
-	return FATSHEET_REMAP_DEFAULT.find(key)
+	return REMAP_ARRAY_DEFAULT.find(key)
 
 
 func refresh_resources() -> void:
@@ -45,11 +45,11 @@ func refresh_resources() -> void:
 	if not DirAccess.dir_exists_absolute(sunkist_dir):
 		DirAccess.make_dir_recursive_absolute(sunkist_dir)
 
-	var existing_sprites := MarathonUtils.get_paths_in_folder(sprite_dir)
-	var existing_sunkists := MarathonUtils.get_paths_in_folder(sunkist_dir)
+	var existing_sprites := SunkistUtils.get_paths_in_folder(sprite_dir)
+	var existing_sunkists := SunkistUtils.get_paths_in_folder(sunkist_dir)
 
 	var images: Array[Texture2D]
-	for i in MarathonUtils.get_paths_in_folder(sheet_dir, RegEx.create_from_string(".png$")):
+	for i in SunkistUtils.get_paths_in_folder(sheet_dir, RegEx.create_from_string(".png$")):
 		images.push_back(load(i))
 
 	var fresh_paths: PackedStringArray = []

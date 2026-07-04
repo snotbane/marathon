@@ -1,5 +1,5 @@
 @tool
-class_name FatsheetViewer
+class_name SunkistSheetViewer
 extends Control
 
 const IMAGE_PREVIEW_SCENE: PackedScene = preload("uid://3djnsrgpqbb1")

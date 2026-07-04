@@ -1,23 +1,6 @@
 @tool
 extends PythonTask
 
-var _data_format: int = 1
-## File extension to write the data file to. This does not change the data itself; only the file extension. The result file can still be read as a .json file.
-@export_storage var data_format: int = 1:
-	get: return _data_format
-	set(value):
-		if _data_format == value: return
-
-		refresh_comment_if_default()
-		_data_format = value
-		validate_args()
-var data_format_ext: String:
-	get:
-		match data_format:
-			0: return ".json"
-			_: return ".fat"
-
-
 var _project_name: String
 ## Project name and also the name of the resulting image file(s) and data file.
 @export var project_name: String:
@@ -152,13 +135,13 @@ var _island_margin: int = 2
 
 
 func _get_python_script_path() -> String:
-	return "res://addons/marathon_task_runner/task_runner/tasks/fatsheet/fatsheet.py"
+	return "res://addons/sunkist/task_runner/tasks/sunkist/sunkist_assembly.py"
 
 
 func _get_default_comment() -> String:
-	return "%s%s : %s >> %s" % [
+	return "%s.%s : %s >> %s" % [
 		project_name,
-		data_format_ext,
+		SunkistSheet.VALID_EXTENSIONS[0],
 		source_dir.get_file(),
 		target_dir.get_file(),
 	]
@@ -181,7 +164,6 @@ func _get_python_arguments() -> Array:
 		target_dir,
 		target_size_limit,
 		"RGBA",
-		data_format,
 		"/%s/" % filter_include,
 		"/%s/" % filter_exclude,
 		"/%s/" % filter_separate,
@@ -198,7 +180,6 @@ func _save_args(result: Dictionary) -> void:
 		&"target_dir": target_dir,
 		&"target_size_limit": target_size_limit,
 		&"target_format": target_format,
-		&"data_format": data_format,
 		&"filter_include": filter_include,
 		&"filter_exclude": filter_exclude,
 		&"filter_separate": filter_separate,
@@ -214,7 +195,6 @@ func _load_args(data: Dictionary) -> void:
 	target_dir = data[&"target_dir"]
 	target_size_limit = data[&"target_size_limit"]
 	target_format = data[&"target_format"]
-	data_format = data[&"data_format"]
 	filter_include = data[&"filter_include"]
 	filter_exclude = data[&"filter_exclude"]
 	filter_separate = data[&"filter_separate"]

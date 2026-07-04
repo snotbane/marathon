@@ -10,7 +10,7 @@ This task compiles many images into fewer or one [spritesheet](https://en.wikipe
 
 
 > [!TIP]
-> The positions of each image in the spritesheet(s) will be completely disorganized and are assigned randomly. It is highly recommended that you have an organized naming scheme for each individual file, so that accessing the resulting images from the FileSystem will be more straightforward. For more information about how `.fat` files are used, consult the [Fatsheet Importer](/addons/marathon_task_runner/fatsheet/FatsheetImporter.md) documentation.
+> The positions of each image in the spritesheet(s) will be completely disorganized and are assigned randomly. It is highly recommended that you have an organized naming scheme for each individual file, so that accessing the resulting images from the FileSystem will be more straightforward. For more information about how `.fat` files are used, consult the [Fatsheet Importer](/addons/sunkist/fatsheet/FatsheetImporter.md) documentation.
 
 ## Parameters
 
@@ -51,7 +51,7 @@ If enabled, only the bounding box containing all visible pixels will be included
 If disabled, include the entire source image.
 
 > [!TIP]
-> If you are noticing huge portions of empty space in your resulting spritesheets, it is likely that there are stray pixels that are extending the bounding box of the sprite. Consider using [Spruce](/addons/marathon_task_runner/task_runner/tasks/spruce/SpruceTask.md) to remove these.
+> If you are noticing huge portions of empty space in your resulting spritesheets, it is likely that there are stray pixels that are extending the bounding box of the sprite. Consider using [Spruce](/addons/sunkist/task_runner/tasks/spruce/SpruceTask.md) to remove these.
 
 
 #### `island_margin`
@@ -60,7 +60,7 @@ The space between sprites and image bounds in the final spritesheet(s).
 
 ## Using the Main Screen
 
-![Fatsheet Layout](/addons/marathon_task_runner/readme/fatsheet_layout.png)
+![Fatsheet Layout](/addons/sunkist/readme/fatsheet_layout.png)
 
 ### AtlasTextures
 This folder, called `atlas`, contains the individual [`OffsetAtlasTexture`]()s for each sprite in the spritesheet(s), and each image is cropped to the exact bounding box which its pixels inhabit, not including the [`island_margin`](#island_margin). These images depend on the raw textures located in the [`textures`](#spritesheets) folder.

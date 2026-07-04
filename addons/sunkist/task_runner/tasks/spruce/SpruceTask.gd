@@ -75,7 +75,7 @@ var target_dir_safe: String:
 
 
 func _get_python_script_path() -> String:
-	return "res://addons/marathon_task_runner/task_runner/tasks/spruce/spruce.py"
+	return "res://addons/sunkist/task_runner/tasks/spruce/spruce.py"
 
 
 func _get_default_comment() -> String:

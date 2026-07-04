@@ -46,7 +46,7 @@ var item_target_paths: Dictionary
 
 
 func _ready() -> void:
-	if MarathonUtils.is_node_in_editor(self): return
+	if SunkistUtils.is_node_in_editor(self): return
 
 	item_selected.connect(_on_item_selected)
 	button_clicked.connect(_on_button_clicked)

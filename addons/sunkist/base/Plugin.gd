@@ -6,7 +6,7 @@ var preview_generator: EditorResourcePreviewGenerator
 
 
 var MAIN_SCENE := preload("res://addons/sunkist/scenes/SunkistViewer.tscn")
-var main: FatsheetViewer
+var main: SunkistSheetViewer
 
 
 func _get_plugin_name() -> String:
@@ -69,9 +69,9 @@ func _exit_tree() -> void:
 
 func _resources_reimported(resources: PackedStringArray) -> void:
 	for path in resources:
-		if path.ends_with(".fat"):
-			_fatsheet_resource_reimported(path)
+		if path.get_extension() in SunkistSheet.VALID_EXTENSIONS:
+			_sunkist_sheet_resource_reimported(path)
 
 
-func _fatsheet_resource_reimported(path: String) -> void:
+func _sunkist_sheet_resource_reimported(path: String) -> void:
 	ResourceLoader.load(path, "", ResourceLoader.CacheMode.CACHE_MODE_IGNORE)

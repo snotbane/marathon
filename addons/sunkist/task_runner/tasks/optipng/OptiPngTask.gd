@@ -20,12 +20,12 @@ static func bytes_to_string(bytes: int) -> String:
 
 @export var optipng_path: String:
 	get:
-		if not MarathonGlobalSettings.inst: return ""
-		return MarathonGlobalSettings.inst.get_meta(&"optipng_path", "")
+		if not TaskRunner.inst: return ""
+		return TaskRunner.inst.get_meta(&"optipng_path", "")
 	set(value):
 		if is_node_ready():
-			MarathonGlobalSettings.inst.set_meta(&"optipng_path", value)
-			MarathonGlobalSettings.inst.save_settings()
+			TaskRunner.inst.set_meta(&"optipng_path", value)
+			TaskRunner.inst.save_settings()
 
 		validate_args()
 
@@ -52,11 +52,11 @@ var bytes_reduced: int:
 
 
 func _get_python_script_path() -> String:
-	return "res://addons/marathon_task_runner/task_runner/tasks/optipng/optipng.py"
+	return "res://addons/sunkist/task_runner/tasks/optipng/optipng.py"
 
 
 func _get_default_comment() -> String:
-	return MarathonUtils.get_project_preferred_path(target_dir)
+	return SunkistUtils.get_project_preferred_path(target_dir)
 
 
 func _validate_args() -> void:
