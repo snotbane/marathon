@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://by1mq7b3i7m7f"
-path="res://.godot/imported/sunkist_3d.svg-0c30ae81bfc952d46f6c62a11e1dba13.ctex"
+uid="uid://bc5gfapq7oh4q"
+path="res://.godot/imported/layers_3d.svg-b5ec22fe04f8a7ad4e8177902630d765.ctex"
 metadata={
 "has_editor_variant": true,
 "vram_texture": false
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://addons/marathon_task_runner/ui/icons/sunkist_3d.svg"
-dest_files=["res://.godot/imported/sunkist_3d.svg-0c30ae81bfc952d46f6c62a11e1dba13.ctex"]
+source_file="res://addons/marathon_task_runner/ui/icons/layers_3d.svg"
+dest_files=["res://.godot/imported/layers_3d.svg-b5ec22fe04f8a7ad4e8177902630d765.ctex"]
 
 [params]
 

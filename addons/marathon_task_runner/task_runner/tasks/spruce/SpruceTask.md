@@ -1,5 +1,5 @@
 # `SpruceTask`
-This task is used to clean up images that may have stray marks or pixels on them, typically, before compiling them using [`FatlasTask`](/addons/marathon_task_runner/task_runner/tasks/fatlas/FatlasTask.md).
+This task is used to clean up images that may have stray marks or pixels on them, typically, before compiling them using [`FatsheetTask`](/addons/marathon_task_runner/task_runner/tasks/fatsheet/FatsheetTask.md).
 
 ## Parameters
 

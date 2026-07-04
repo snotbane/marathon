@@ -1,0 +1,12 @@
+[gd_resource type="AtlasTexture" script_class="OffsetAtlasTexture" format=3 uid="uid://dtx2n6u5kdusc"]
+
+[ext_resource type="Texture2D" uid="uid://btqyrw4x77343" path="res://testing/rubin/sheet/rubin-a.png" id="1_642lj"]
+[ext_resource type="Script" uid="uid://cph77ddb31six" path="res://addons/marathon_task_runner/fatsheet/OffsetAtlasTexture.gd" id="2_rbsmv"]
+
+[resource]
+atlas = ExtResource("1_642lj")
+region = Rect2(425, 1169, 421, 387)
+filter_clip = true
+script = ExtResource("2_rbsmv")
+offset = Vector2i(724, 47)
+name = "rubin-head-smile-02-r-a"

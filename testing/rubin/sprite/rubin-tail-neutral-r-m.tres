@@ -1,0 +1,12 @@
+[gd_resource type="AtlasTexture" script_class="OffsetAtlasTexture" format=3 uid="uid://d07keht14eocf"]
+
+[ext_resource type="Texture2D" uid="uid://dy0fm81r8opey" path="res://testing/rubin/sheet/rubin-m.png" id="1_gekhr"]
+[ext_resource type="Script" uid="uid://cph77ddb31six" path="res://addons/marathon_task_runner/fatsheet/OffsetAtlasTexture.gd" id="2_itpf6"]
+
+[resource]
+atlas = ExtResource("1_gekhr")
+region = Rect2(76, 391, 923, 793)
+filter_clip = true
+script = ExtResource("2_itpf6")
+offset = Vector2i(18, 821)
+name = "rubin-tail-neutral-r-m"

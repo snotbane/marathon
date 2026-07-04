@@ -1,0 +1,108 @@
+[gd_scene format=3 uid="uid://c5fib1mm65yc2"]
+
+[ext_resource type="Script" uid="uid://bevk26ire5nxc" path="res://addons/marathon_task_runner/sunkist/scenes/SunkistViewerWorld.gd" id="1_xvvjg"]
+[ext_resource type="Script" uid="uid://b8j3gwojs87by" path="res://addons/marathon_task_runner/sunkist/SunkistMaterial.gd" id="2_8fsea"]
+[ext_resource type="Shader" uid="uid://cdufaegr5ju4f" path="res://addons/marathon_task_runner/sunkist/shaders/Sunkist3D_Scissor.gdshader" id="3_wd3j0"]
+[ext_resource type="Texture2D" uid="uid://bdgv5suchfftw" path="res://testing/rubin/sprite/rubin-head-smile-00-l-a.tres" id="4_ey7h6"]
+[ext_resource type="Texture2D" uid="uid://c0o8yd0c8ir3g" path="res://testing/rubin/sprite/rubin-head-smile-00-r-m.tres" id="5_8fsea"]
+[ext_resource type="Script" uid="uid://4pvyu6khy3e1" path="res://addons/marathon_task_runner/sunkist/Sunkist3D.gd" id="5_cfds6"]
+[ext_resource type="Texture2D" uid="uid://dtwrk733lp8rs" path="res://testing/rubin/sprite/rubin-head-smile-00-r-n.tres" id="6_wd3j0"]
+[ext_resource type="Texture2D" uid="uid://b0p015t0uxa1t" path="res://testing/rubin/sprite/rubin-head-smile-00-r-a.tres" id="7_q1im5"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ldu7x"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_jpl1i"]
+sky_material = SubResource("ProceduralSkyMaterial_ldu7x")
+
+[sub_resource type="Environment" id="Environment_ffm6p"]
+sky = SubResource("Sky_jpl1i")
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.2
+glow_enabled = true
+
+[sub_resource type="GDScript" id="GDScript_5g44h"]
+script/source = "@tool
+extends Node3D
+
+@export var spin_speed: float = 1.0
+@export var oscillation_amplitude: float = 1.0
+@export var oscillation_speed: float = 1.0
+
+
+@onready var in_edited_scene: bool = get_tree().edited_scene_root == owner
+
+
+func _process(delta: float) -> void:
+	#if in_edited_scene: return
+	
+	rotation_degrees.x = cos(Time.get_ticks_msec() * 0.001 * oscillation_speed) * oscillation_amplitude
+	rotation_degrees.y = wrapf(rotation_degrees.y + delta * spin_speed, 0.0, 360.0)
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i3v8w"]
+render_priority = 0
+shader = ExtResource("3_wd3j0")
+shader_parameter/unique_backface = true
+shader_parameter/emission_color = Color(1, 1, 1, 1)
+shader_parameter/ao_shadow_power = 4.0
+shader_parameter/ao_light_scale = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/specular = 1.0
+shader_parameter/metallic = 1.0
+shader_parameter/normal_scale = 0.5
+shader_parameter/_r_a = ExtResource("7_q1im5")
+shader_parameter/_r_a_rect = Vector4(848, 1267, 421, 387)
+shader_parameter/_l_a = ExtResource("4_ey7h6")
+shader_parameter/_l_a_rect = Vector4(2, 1169, 421, 387)
+shader_parameter/_r_e_rect = Vector4(0, 0, 0, 0)
+shader_parameter/_l_e_rect = Vector4(0, 0, 0, 0)
+shader_parameter/_r_m = ExtResource("5_8fsea")
+shader_parameter/_r_m_rect = Vector4(499, 2, 421, 387)
+shader_parameter/_l_m = ExtResource("5_8fsea")
+shader_parameter/_l_m_rect = Vector4(499, 2, 421, 387)
+shader_parameter/_r_n = ExtResource("6_wd3j0")
+shader_parameter/_r_n_rect = Vector4(499, 2, 421, 387)
+shader_parameter/_l_n = ExtResource("6_wd3j0")
+shader_parameter/_l_n_rect = Vector4(499, 2, 421, 387)
+script = ExtResource("2_8fsea")
+unique_backface = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_xqkeo"]
+
+[node name="sunkist_viewer_world" type="Node3D" unique_id=811248028]
+script = ExtResource("1_xvvjg")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=610051353]
+environment = SubResource("Environment_ffm6p")
+
+[node name="camera_controller" type="Node3D" parent="." unique_id=482770903]
+
+[node name="camera" type="Camera3D" parent="camera_controller" unique_id=1692947017]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+fov = 30.0
+
+[node name="directional_light_3d" type="DirectionalLight3D" parent="camera_controller" unique_id=1918329377]
+transform = Transform3D(0.6643573, -0.4597668, 0.589274, 0.07138719, 0.8238449, 0.56230193, -0.7439981, -0.33150274, 0.5801488, 0, 0, 0)
+
+[node name="root" type="Node3D" parent="." unique_id=468357226]
+transform = Transform3D(-0.79935503, 0.07726299, 0.59587044, 0, 0.991698, -0.12858757, -0.6008587, -0.10278716, -0.79271895, 0, 0, 0)
+script = SubResource("GDScript_5g44h")
+spin_speed = 40.0
+oscillation_amplitude = 10.0
+oscillation_speed = 3.0
+
+[node name="sunkist" type="Sprite3D" parent="root" unique_id=1878202278]
+unique_name_in_owner = true
+transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_i3v8w")
+pixel_size = 0.010416667
+script = ExtResource("5_cfds6")
+metadata/_custom_type_script = "uid://4pvyu6khy3e1"
+
+[node name="mesh_instance_3d" type="MeshInstance3D" parent="." unique_id=1302558225]
+visible = false
+mesh = SubResource("QuadMesh_xqkeo")

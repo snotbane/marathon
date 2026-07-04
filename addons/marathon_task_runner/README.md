@@ -6,13 +6,13 @@ Use this table of contents to navigate to different sections of the documentatio
 ## Plugins
 
 - [Task Runner](/addons/marathon_task_runner/task_runner/TaskRunner.md)
-- [Fatlas Importer](/addons/marathon_task_runner/fatlas_importer/FatlasImporter.md)
+- [Fatsheet Importer](/addons/marathon_task_runner/fatsheet_importer/FatsheetImporter.md)
 
 ## Tasks
 
 - [Spruce](/addons/marathon_task_runner/task_runner/tasks/spruce/SpruceTask.md)
 - [Laigter](/addons/marathon_task_runner/task_runner/tasks/laigter/LaigterTask.md)
-- [Fatlas](/addons/marathon_task_runner/task_runner/tasks/fatlas/FatlasTask.md)
+- [Fatsheet](/addons/marathon_task_runner/task_runner/tasks/fatsheet/FatsheetTask.md)
 - [OptiPNG](/addons/marathon_task_runner/task_runner/tasks/optipng/OptiPngTask.md)
 
 
@@ -22,7 +22,7 @@ Use this table of contents to navigate to different sections of the documentatio
 
 2. Enable the plugins in __Project Settings__:
 	- `Marathon :: Task Runner`
-	- `Marathon :: Fatlas Importer`
+	- `Marathon :: Fatsheet Importer`
 
 3. Open the new `Tasks` plugin window (in the header bar).
 

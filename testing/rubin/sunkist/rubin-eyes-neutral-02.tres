@@ -1,0 +1,19 @@
+[gd_resource type="Texture2D" script_class="SunkistTexture" format=3 uid="uid://cx70xt65s0cnw"]
+
+[ext_resource type="Texture2D" uid="uid://dv3chmhvqakaq" path="res://testing/rubin/sprite/rubin-eyes-neutral-02-r-a.tres" id="1_dka6l"]
+[ext_resource type="Texture2D" uid="uid://ci20k5hho38jn" path="res://testing/rubin/sprite/rubin-eyes-neutral-02-r-m.tres" id="2_0cm47"]
+[ext_resource type="Texture2D" uid="uid://nsnys64rwsav" path="res://testing/rubin/sprite/rubin-eyes-neutral-02-r-n.tres" id="3_30c7l"]
+[ext_resource type="Script" uid="uid://dc3mpgrc3nb2a" path="res://addons/marathon_task_runner/sunkist/SunkistTexture.gd" id="4_w73aq"]
+
+[resource]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("4_w73aq")
+maps = Dictionary[StringName, Texture2D]({
+&"-l-a": ExtResource("1_dka6l"),
+&"-l-m": ExtResource("2_0cm47"),
+&"-l-n": ExtResource("3_30c7l"),
+&"-r-a": ExtResource("1_dka6l"),
+&"-r-m": ExtResource("2_0cm47"),
+&"-r-n": ExtResource("3_30c7l")
+})

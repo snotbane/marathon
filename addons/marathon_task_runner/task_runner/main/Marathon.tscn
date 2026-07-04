@@ -16,7 +16,7 @@
 [ext_resource type="Script" uid="uid://cl81t2vbdaklc" path="res://addons/marathon_task_runner/task_runner/tasks/TaskTemplate.gd" id="12_wroo2"]
 [ext_resource type="Resource" uid="uid://dfcdu1wmnihl2" path="res://addons/marathon_task_runner/task_runner/tasks/spruce/spruce.tres" id="14_0ugl0"]
 [ext_resource type="Resource" uid="uid://b8o7rpmif1hy8" path="res://addons/marathon_task_runner/task_runner/tasks/laigter/laigter.tres" id="15_eolsp"]
-[ext_resource type="Resource" uid="uid://f2w8bttuc4oc" path="res://addons/marathon_task_runner/task_runner/tasks/fatlas/fatlas.tres" id="16_n85t4"]
+[ext_resource type="Resource" uid="uid://f2w8bttuc4oc" path="res://addons/marathon_task_runner/task_runner/tasks/fatsheet/fatsheet.tres" id="16_n85t4"]
 [ext_resource type="Resource" uid="uid://bdrvf6blp42h2" path="res://addons/marathon_task_runner/task_runner/tasks/optipng/optipng.tres" id="17_af51x"]
 [ext_resource type="Script" uid="uid://6eldrawh61aa" path="res://addons/marathon_task_runner/task_runner/main/TaskContainer.gd" id="18_3u6c7"]
 

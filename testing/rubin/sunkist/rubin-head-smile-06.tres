@@ -1,0 +1,20 @@
+[gd_resource type="Texture2D" script_class="SunkistTexture" format=3 uid="uid://c8q3h73hht702"]
+
+[ext_resource type="Texture2D" uid="uid://bnubou1t2rl6m" path="res://testing/rubin/sprite/rubin-head-smile-06-r-a.tres" id="1_o3fye"]
+[ext_resource type="Texture2D" uid="uid://xkr15lokjgk6" path="res://testing/rubin/sprite/rubin-head-smile-06-r-m.tres" id="2_8fr2p"]
+[ext_resource type="Texture2D" uid="uid://bukvrv025bu0f" path="res://testing/rubin/sprite/rubin-head-smile-06-r-n.tres" id="3_h21ij"]
+[ext_resource type="Texture2D" uid="uid://d364sx4o2c1e1" path="res://testing/rubin/sprite/rubin-head-smile-06-l-a.tres" id="4_1a417"]
+[ext_resource type="Script" uid="uid://dc3mpgrc3nb2a" path="res://addons/marathon_task_runner/sunkist/SunkistTexture.gd" id="5_4mbr0"]
+
+[resource]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("5_4mbr0")
+maps = Dictionary[StringName, Texture2D]({
+&"-l-a": ExtResource("4_1a417"),
+&"-l-m": ExtResource("2_8fr2p"),
+&"-l-n": ExtResource("3_h21ij"),
+&"-r-a": ExtResource("1_o3fye"),
+&"-r-m": ExtResource("2_8fr2p"),
+&"-r-n": ExtResource("3_h21ij")
+})
