@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("2_byayu")
-name = "Sunkist"
+name = "Assembler"
 description = "Assembles many textures into a Sunkist sheet."
 icon = ExtResource("1_0vthu")
 _scene_uid = "uid://d11essky3hr68"

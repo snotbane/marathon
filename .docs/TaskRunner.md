@@ -1,7 +1,7 @@
 # Task Runner
 The Sunkist Task Runner creates a plugin window called `Tasks`. This window can be used to run tasks on any files, in bulk. This plugin is NOT required to create or use `SunkistTexture`s.
 
-![Task Runner Layout](/addons/sunkist/.readme/task_runner_layout.png)
+![Task Runner Layout](/.docs/task_runner_layout.png)
 
 The left wing of the screen displays the __*Task Queue*__ and can be resized. The main area of the screen displays the __*Selected Task*__.
 

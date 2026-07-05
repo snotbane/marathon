@@ -1,9 +1,9 @@
 # `SunkistAssemblyTask`
-This task compiles many images into fewer or one [spritesheet](https://en.wikipedia.org/wiki/Texture_atlas), to assist with resource management.
+This task compiles many images into fewer or one [spritesheet](/.docs/Texture_atlas), to assist with resource management.
 
 
 > [!TIP]
-> The positions of each image in the spritesheet(s) will be completely disorganized and are assigned randomly. It is highly recommended that you have an organized naming scheme for each individual file, so that accessing the resulting images from the FileSystem will be more straightforward. For more information about how `.sun` files are used, consult the main [Sunkist Plugin](/addons/sunkist/README.md#sunkist-plugin) documentation.
+> The positions of each image in the spritesheet(/.docs/README.md#sunkist-plugin) documentation.
 
 ## How to Use
 
@@ -15,7 +15,7 @@ Setting up files for the Sunkist Assembly Task relies heavily on the naming sche
 
 - All are `.png` files
 - All are located inside of a single directory tree, the root of which will be your __*Source Folder*__.
-- All are [cleaned up](/addons/sunkist/task_runner/tasks/spruce/SpruceTask.md) and ready to be packed
+- All are [cleaned up](/.docs/SpruceTask.md) and ready to be packed
 - Each __*image canvas*__ has identical dimensions
 - Each __*sprite bounding box*__ for separate material components (same name, different suffix) has identical dimensions
 - Have a file name that ends with any of the following suffixes:
@@ -36,7 +36,7 @@ Create a new Assembly task and select it so it shows up in the Inspector, then s
 >
 > If you run the task again later in the same location and it will overwrite the previous results.)This is often desired, but may not be in some cases.
 
-![Tutorial00](/addons/sunkist/.readme/sunkist_tutorial_00.png)
+![Tutorial00](/.docs/sunkist_tutorial_00.png)
 
 ### 2. Running the Task
 
@@ -52,7 +52,7 @@ After running the Task, you should see a grid displaying each of the __*Result I
 > [!IMPORTANT]
 > You may need to refresh the FileSystem and open any created `.sun` files in order for all resources to appear properly. This is a known issue.
 
-![Tutorial01](/addons/sunkist/.readme/sunkist_tutorial_01.png)
+![Tutorial01](/.docs/sunkist_tutorial_01.png)
 
 
 
@@ -62,13 +62,13 @@ To preview a `SunkistTexture`, simply open it in the FileSystem. (Make sure the 
 - The left panel (green) will display the `AtlasTexture`s which compose the `SunkistTexture`.
 - The right panel (blue) will display a 3D render of this `SunkistTexture`.
 
-![Tutorial02](/addons/sunkist/.readme/sunkist_tutorial_02.png)
+![Tutorial02](/.docs/sunkist_tutorial_02.png)
 
 ### 4. Creating a scene using `Sunkist3D`
 
-See [Sunkist Nodes](/addons/sunkist/README.md#nodes) on how to structure a scene using Sunkist resources.
+See [Sunkist Nodes](/.docs/README.md#nodes) on how to structure a scene using Sunkist resources.
 
-![Tutorial03](/addons/sunkist/.readme/sunkist_tutorial_03.png)
+![Tutorial03](/.docs/sunkist_tutorial_03.png)
 
 ## Parameters
 
@@ -109,7 +109,7 @@ If enabled, only the bounding box containing all visible pixels will be included
 If disabled, include the entire source image.
 
 > [!TIP]
-> If you are noticing huge portions of empty space in your resulting spritesheets, it is likely that there are stray pixels that are extending the bounding box of the sprite. Consider using [Spruce](/addons/sunkist/task_runner/tasks/spruce/SpruceTask.md) to remove these.
+> If you are noticing huge portions of empty space in your resulting spritesheets, it is likely that there are stray pixels that are extending the bounding box of the sprite. Consider using [Spruce](/.docs/SpruceTask.md) to remove these.
 
 
 #### `island_margin`

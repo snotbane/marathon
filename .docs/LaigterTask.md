@@ -1,13 +1,13 @@
 # `LaigterTask`
-This task generates extra image files (e.g. normal map, height map, occlusion, etc.) in bulk, using [Laigter](https://azagaya.itch.io/laigter). Laigter has its own queueing system, but the GUI can slow down with more images and larger images. Additionally, this will preserve transparent pixels in normal maps, which Laigter does not do.
+This task generates extra image files (/.docs/laigter). Laigter has its own queueing system, but the GUI can slow down with more images and larger images. Additionally, this will preserve transparent pixels in normal maps, which Laigter does not do.
 
 
 #### `laigter_path`
-This parameter must be set to the location of [Laigter](https://azagaya.itch.io/laigter)'s command line path on this local machine. This is a static variable, so it only needs to be set once and it will not change for all instances of this task.
+This parameter must be set to the location of [Laigter](/.docs/laigter)'s command line path on this local machine. This is a static variable, so it only needs to be set once and it will not change for all instances of this task.
 
 
 #### `preset_path`
-This parameter must be set to a valid preset file. This file can be created within the [Laigter](https://azagaya.itch.io/laigter) GUI application.
+This parameter must be set to a valid preset file. This file can be created within the [Laigter](/.docs/laigter) GUI application.
 
 
 #### `source_dir`

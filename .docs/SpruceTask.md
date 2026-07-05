@@ -1,5 +1,5 @@
 # `SpruceTask`
-This task is used to clean up images that may have stray marks or pixels on them, typically, before compiling them using [`SunkistAssemblyTask`](/addons/sunkist/task_runner/tasks/sunkist/SunkistAssemblyTask.md).
+This task is used to clean up images that may have stray marks or pixels on them, typically, before compiling them using [`SunkistAssemblyTask`](/.docs/SunkistAssemblyTask.md).
 
 ## Parameters
 
@@ -37,7 +37,7 @@ Pixel islands with a larger rectangular area than this will be included in the f
 
 This will show you how to use each element of the Spruce main screen. Each image can be zoomed to 100% zoom by hovering over it, and you can click the file path to open the image in your system image viewer.
 
-![Spruce Layout](/assets/readme/spruce_layout.png)
+![Spruce Layout](/.docs/spruce_layout.png)
 
 ### Original Image
 This displays the original, unedited image.
