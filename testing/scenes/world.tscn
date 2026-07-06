@@ -72,6 +72,7 @@ spot_angle = 30.0
 
 [node name="area_light_3d" type="AreaLight3D" parent="lights" unique_id=919501873]
 transform = Transform3D(0.98377603, -0.006409837, 0.17928632, 0.027730953, 0.9927835, -0.11667073, -0.17724465, 0.11974966, 0.97685426, 1.404, 1.308, 1.53)
+visible = false
 light_color = Color(1, 0.94166666, 0.75, 1)
 light_energy = 1.07
 area_size = Vector2(0.8, 0.8)

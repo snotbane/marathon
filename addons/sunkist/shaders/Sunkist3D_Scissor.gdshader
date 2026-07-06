@@ -57,14 +57,18 @@ vec4 paper_swap(vec4 a, vec4 b, bool front_facing) {
 	return (!front_facing && unique_backface) ? b : a;
 }
 
-
 void vertex() {
-	vec3 NORMAL_WORLD = (MODEL_MATRIX * vec4(NORMAL, 1.0)).xyz;
-	VERTEX += NORMAL_WORLD * vec3(0,0, dot(CAMERA_DIRECTION_WORLD, NORMAL) * _popout_depth);
+	vec3 NORMAL_WORLD = (MODEL_MATRIX * vec4(NORMAL, 0.0)).xyz;
+	vec3 VERTEX_WORLD = (MODEL_MATRIX * vec4(VERTEX, 0.0)).xyz;
+	vec3 view_direction = normalize(CAMERA_POSITION_WORLD - VERTEX_WORLD);
+	bool is_front_face = dot(NORMAL_WORLD, view_direction) > 0.0;
+	float front_face_scalar = (is_front_face ? 1.0 : -1.0);
+	//NORMAL *= front_face_scalar;
+	VERTEX += NORMAL * front_face_scalar * _popout_depth;
 }
 
 
-void fragment() {
+void fragment() {	
 	vec4 paper_color = paper_swap(atlas(UV, _r_a, _r_a_rect, _r_a_offset), atlas(UV, _l_a, _l_a_rect, vec2(0)), FRONT_FACING);
 	ALBEDO = paper_color.rgb * modulate.rgb;
 	ALPHA = paper_color.a * modulate.a;

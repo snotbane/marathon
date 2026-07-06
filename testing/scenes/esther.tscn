@@ -230,28 +230,26 @@ material_template = SubResource("ShaderMaterial_srxts")
 metadata/_custom_type_script = "uid://d15t6b4b2daf5"
 
 [node name="tail" type="Sprite3D" parent="SunkistContainer3D" unique_id=1129804555]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.52000004, -2.21, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0425, -1.6835, 0)
 material_override = SubResource("ShaderMaterial_32kn4")
-centered = false
+instance_shader_parameters/_popout_depth = 0.0
 pixel_size = 0.001
 texture = ExtResource("7_32kn4")
 script = ExtResource("4_uu5uo")
 metadata/_custom_type_script = "uid://4pvyu6khy3e1"
 
 [node name="head" type="AnimatedSprite3D" parent="SunkistContainer3D" unique_id=1272472369]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.419, -0.86200005, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6270001, -0.546, 0)
 material_override = SubResource("ShaderMaterial_ypcxm")
-centered = false
 pixel_size = 0.001
 sprite_frames = SubResource("SpriteFrames_bmxy2")
 script = ExtResource("4_icsrh")
 metadata/_custom_type_script = "uid://l0wan4x4mtiy"
 
 [node name="eyes" type="AnimatedSprite3D" parent="SunkistContainer3D" unique_id=794526853]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6100001, -0.446, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6585001, -0.4065, 0)
 material_override = SubResource("ShaderMaterial_wy465")
 instance_shader_parameters/_popout_depth = 0.0001
-centered = false
 pixel_size = 0.001
 sprite_frames = SubResource("SpriteFrames_xqkeo")
 script = ExtResource("4_icsrh")
