@@ -25,17 +25,11 @@ static func get_sunkist_ancestor(node: Node) -> SunkistContainer3D:
 				sunkist_parent.material_changed.disconnect(_refresh_material)
 
 
-## If enabled, this Node's [member position.z] will be updated each frame to ensure it always remains in front/behind other [Node3D]s. In other words, [member position.z] becomes the layer depth of this sprite.
-@export var keep_camera_depth: bool = false:
-	set(value):
-		if keep_camera_depth == value: return
+## This will set an instance shader parameter which ensures the sprite will stay in its proper depth and helps prevent texture fighting, even when facing the opposite direction. Represented as an [int] value for simplicity, but actually translates to a [float] value. Elements which share the same [member popout_layer] are prone to texture fighting.
+@export_range(-128, 128, 1, "or_greater", "or_less") var popout_layer: int = 0:
+	get: return get_instance_shader_parameter(&"_popout_depth") * 10_000
+	set(value): set_instance_shader_parameter(&"_popout_depth", 0.00_01 * value)
 
-		keep_camera_depth = value
-		if keep_camera_depth:
-			_camera_depth = position.z
-
-
-@onready var _camera_depth: float = position.z
 
 @onready var sunkist_parent: SunkistContainer3D = Sunkist3D.get_sunkist_ancestor(self)
 
@@ -55,28 +49,6 @@ func _ready() -> void:
 	texture_changed.connect(_texture_changed)
 
 	_refresh_material()
-
-
-func _process(delta: float) -> void:
-	if not keep_camera_depth: return
-
-	var camera: Camera3D
-
-	if Engine.is_editor_hint():
-		if owner == get_tree().edited_scene_root or get_tree().edited_scene_root.is_editable_instance(owner):
-			if _was_editable:
-				position.z = _camera_depth
-				_was_editable = false
-			return
-		else:
-			_was_editable = true
-
-		camera = EditorInterface.get_editor_viewport_3d().get_camera_3d()
-
-	else:
-		camera = get_viewport().get_camera_3d()
-
-	position.z = camera.global_basis.z.dot(global_basis.z) * _camera_depth
 
 
 func _refresh_material() -> void:

@@ -2,6 +2,7 @@ shader_type spatial;
 render_mode cull_disabled, depth_prepass_alpha;
 
 instance uniform vec4 modulate : source_color = vec4(1.0);
+instance uniform float _popout_depth;
 
 uniform bool unique_backface = false;
 
@@ -54,6 +55,12 @@ vec4 atlas(vec2 uv, sampler2D tex, vec4 rect, vec2 offset) {
 
 vec4 paper_swap(vec4 a, vec4 b, bool front_facing) {
 	return (!front_facing && unique_backface) ? b : a;
+}
+
+
+void vertex() {
+	vec3 NORMAL_WORLD = (MODEL_MATRIX * vec4(NORMAL, 1.0)).xyz;
+	VERTEX += NORMAL_WORLD * vec3(0,0, dot(CAMERA_DIRECTION_WORLD, NORMAL) * _popout_depth);
 }
 
 
