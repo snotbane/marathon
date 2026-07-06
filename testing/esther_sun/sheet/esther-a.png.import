@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://c56geehtv12pi"
 path.s3tc="res://.godot/imported/esther-a.png-f6080767b1dbd54d6eede9a2faa6d47b.s3tc.ctex"
+path.etc2="res://.godot/imported/esther-a.png-f6080767b1dbd54d6eede9a2faa6d47b.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://testing/esther_sun/sheet/esther-a.png"
-dest_files=["res://.godot/imported/esther-a.png-f6080767b1dbd54d6eede9a2faa6d47b.s3tc.ctex"]
+dest_files=["res://.godot/imported/esther-a.png-f6080767b1dbd54d6eede9a2faa6d47b.s3tc.ctex", "res://.godot/imported/esther-a.png-f6080767b1dbd54d6eede9a2faa6d47b.etc2.ctex"]
 
 [params]
 

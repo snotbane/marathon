@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://btqyrw4x77343"
 path.s3tc="res://.godot/imported/rubin-a.png-5f33fbe21ceb42b67229b4e6c880aebe.s3tc.ctex"
+path.etc2="res://.godot/imported/rubin-a.png-5f33fbe21ceb42b67229b4e6c880aebe.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://testing/rubin/sheet/rubin-a.png"
-dest_files=["res://.godot/imported/rubin-a.png-5f33fbe21ceb42b67229b4e6c880aebe.s3tc.ctex"]
+dest_files=["res://.godot/imported/rubin-a.png-5f33fbe21ceb42b67229b4e6c880aebe.s3tc.ctex", "res://.godot/imported/rubin-a.png-5f33fbe21ceb42b67229b4e6c880aebe.etc2.ctex"]
 
 [params]
 
