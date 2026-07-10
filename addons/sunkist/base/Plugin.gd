@@ -36,23 +36,12 @@ func _edit(object: Object) -> void:
 	main.edit(object)
 
 
-func _enable_plugin() -> void:
+func _enter_tree() -> void:
 	preview_generator = PREVIEW_GENERATOR_SCRIPT.new()
 	# print(preview_generator)
 	EditorInterface.get_resource_previewer().add_preview_generator(preview_generator)
 	EditorInterface.get_resource_filesystem().resources_reimported.connect(_resources_reimported)
 
-	_enter_tree()
-
-
-func _disable_plugin() -> void:
-	EditorInterface.get_resource_previewer().remove_preview_generator(preview_generator)
-	EditorInterface.get_resource_filesystem().resources_reimported.disconnect(_resources_reimported)
-
-	_exit_tree()
-
-
-func _enter_tree() -> void:
 	if main != null: return
 
 	main = MAIN_SCENE.instantiate()
@@ -61,6 +50,9 @@ func _enter_tree() -> void:
 
 
 func _exit_tree() -> void:
+	EditorInterface.get_resource_previewer().remove_preview_generator(preview_generator)
+	EditorInterface.get_resource_filesystem().resources_reimported.disconnect(_resources_reimported)
+
 	if main == null: return
 
 	main.queue_free()

@@ -39,5 +39,5 @@ render_target_update_mode = 4
 
 [node name="node" type="Node" parent="sub_viewport_container/sub_viewport" unique_id=1305087337]
 script = SubResource("GDScript_xqkeo")
-dir = "/Users/snotbane/Downloads"
+dir = "/home/snotbane/Downloads"
 file_name = "render"
